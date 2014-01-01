@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;ribbon_menu.xml&apos; to &apos;menu&apos;&#x0D;&#x0A;- Original project: &apos;ribbonsample&apos;&#x0D;&#x0A;- Destination element: &apos;menu&apos;&#x0D;&#x0A;- Original element: &apos;ribbon_menu.xml&apos;" description="Copy file" element1="res/menu/ribbon_menu.xml" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1388605387701" target="/MIA/menu" units="0" version="1.0"/>
+</session>
