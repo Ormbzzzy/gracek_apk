@@ -20,7 +20,7 @@ public class RibbonsampleActivity extends Activity implements iRibbonMenuCallbac
 	        setContentView(R.layout.main);
 	        
 	        
-	        rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView1);
+	        rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 	        rbmView.setMenuClickCallback(this);
 	        rbmView.setMenuItems(R.menu.ribbon_menu);
 	        
