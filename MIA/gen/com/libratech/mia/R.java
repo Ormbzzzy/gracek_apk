@@ -39,6 +39,7 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
+<<<<<<< HEAD
         public static final int Category=0x7f0a001e;
         public static final int ScanProgressText=0x7f0a0008;
         public static final int backArrow=0x7f0a0013;
@@ -84,6 +85,18 @@ public final class R {
         public static final int row=0x7f030006;
         public static final int store_review=0x7f030007;
         public static final int store_review_list=0x7f030008;
+=======
+        public static final int ScanProgressText=0x7f080003;
+        public static final int action_settings=0x7f080006;
+        public static final int mainlistview=0x7f080004;
+        public static final int ribbonMenuView=0x7f080005;
+        public static final int scanProgressBar=0x7f080000;
+        public static final int scannedButton=0x7f080001;
+        public static final int unScannedButton=0x7f080002;
+    }
+    public static final class layout {
+        public static final int activity_home=0x7f030000;
+>>>>>>> a5f2c97381f6c69eacf0572b14a4b16d7994f4b7
     }
     public static final class menu {
         public static final int home=0x7f090000;
