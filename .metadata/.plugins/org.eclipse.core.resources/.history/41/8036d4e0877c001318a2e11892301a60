@@ -1,0 +1,31 @@
+package com.libratech.mia;
+
+import com.darvds.ribbonmenu.RibbonMenuView;
+import com.darvds.ribbonmenu.iRibbonMenuCallback;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.Menu;
+
+public class HomeActivity extends Activity {
+
+	private RibbonMenuView rbmView;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.home_activity);
+		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
+        rbmView.setMenuClickCallback((iRibbonMenuCallback) this);
+        rbmView.setMenuItems(R.menu.home);
+        
+         getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.home, menu);
+		return true;
+	}
+
+}

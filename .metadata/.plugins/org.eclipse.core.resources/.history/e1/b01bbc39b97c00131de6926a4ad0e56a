@@ -1,0 +1,18 @@
+package com.libratech.mia;
+
+import com.darvds.ribbonmenu.RibbonMenuView;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.ListView;
+
+public class ItemScanActivity extends Activity {
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.item_scan);
+	}
+
+	
+}
