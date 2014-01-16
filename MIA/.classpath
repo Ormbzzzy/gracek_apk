@@ -6,5 +6,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="Models"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="C:/Users/Randy/Documents/LTS/Projects/gracek_apk/MIA/libs/mysql-connector-java-5.1.6.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-public class homeAdapter extends BaseAdapter {
+public class HomeAdapter extends BaseAdapter {
 
 	Context context;
 	String[] data;

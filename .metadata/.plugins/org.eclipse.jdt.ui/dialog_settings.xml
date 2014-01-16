@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<item value="C:\Users\Randy\Documents\LTS\Projects\gracek_apk\MIA\libs" key="org.eclipse.jdt.ui.lastextjar"/>
 	<section name="DialogBounds_OverrideMethodDialog">
 		<item value="659" key="DIALOG_WIDTH"/>
 		<item value="120" key="DIALOG_Y_ORIGIN"/>
@@ -12,6 +13,9 @@
 	</section>
 	<section name="OverrideMethodDialog">
 		<item value="true" key="showtypes"/>
+	</section>
+	<section name="BuildPathsPropertyPage">
+		<item value="2" key="pageIndex"/>
 	</section>
 	<section name="RefactoringWizard.preview">
 		<item value="400" key="height"/>
