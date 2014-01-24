@@ -33,7 +33,7 @@ int id Category 0x7f0a0047
 int id Feedback 0x7f0a0051
 int id HomeActiviy 0x7f0a004f
 int id ScanItemActivity 0x7f0a0050
-int id ScanProgressText 0x7f0a0026
+int id ScanProgressText 0x7f0a0024
 int id backArrow 0x7f0a0032
 int id back_button 0x7f0a001f
 int id barcodeText 0x7f0a0028
@@ -95,7 +95,7 @@ int id return_scan_result 0x7f0a0006
 int id ribbonMenuView 0x7f0a001d
 int id scanButton 0x7f0a0029
 int id scanProgressBar 0x7f0a0023
-int id scannedButton 0x7f0a0024
+int id scannedButton 0x7f0a0025
 int id share_app_button 0x7f0a0041
 int id share_bookmark_button 0x7f0a0042
 int id share_clipboard_button 0x7f0a0044
@@ -109,7 +109,7 @@ int id submitFeedback 0x7f0a001c
 int id time_text_view 0x7f0a000f
 int id topic 0x7f0a001a
 int id type_text_view 0x7f0a000e
-int id unScannedButton 0x7f0a0025
+int id unScannedButton 0x7f0a0026
 int id viewfinder_view 0x7f0a000a
 int layout bookmark_picker_list_item 0x7f030000
 int layout capture 0x7f030001
@@ -134,6 +134,7 @@ int menu encode 0x7f0d0001
 int menu history 0x7f0d0002
 int menu home 0x7f0d0003
 int raw beep 0x7f060000
+int string ScanProgressText 0x7f0b007d
 int string action_settings 0x7f0b0079
 int string app_name 0x7f0b0000
 int string app_picker_name 0x7f0b0001
@@ -170,7 +171,6 @@ int string contents_location 0x7f0b001f
 int string contents_phone 0x7f0b0020
 int string contents_sms 0x7f0b0021
 int string contents_text 0x7f0b0022
-int string hello_world 0x7f0b007a
 int string history_clear_one_history_text 0x7f0b0024
 int string history_clear_text 0x7f0b0023
 int string history_email_title 0x7f0b0025
@@ -178,6 +178,8 @@ int string history_empty 0x7f0b0026
 int string history_empty_detail 0x7f0b0027
 int string history_send 0x7f0b0028
 int string history_title 0x7f0b0029
+int string homeScreenName 0x7f0b007e
+int string hometext 0x7f0b007c
 int string menu_encode_mecard 0x7f0b002a
 int string menu_encode_vcard 0x7f0b002b
 int string menu_help 0x7f0b002c
@@ -253,7 +255,9 @@ int string result_text 0x7f0b0071
 int string result_uri 0x7f0b0072
 int string result_wifi 0x7f0b0073
 int string sbc_name 0x7f0b0074
+int string scannedButton 0x7f0b007a
 int string share_name 0x7f0b0075
+int string unScannedButton 0x7f0b007b
 int string wifi_changing_network 0x7f0b0076
 int string wifi_ssid_label 0x7f0b0077
 int string wifi_type_label 0x7f0b0078

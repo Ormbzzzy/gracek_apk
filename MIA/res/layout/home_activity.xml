@@ -9,51 +9,58 @@
         android:layout_height="match_parent"
         android:orientation="vertical" 
         android:paddingLeft= "5dp"
-        android:paddingTop="5dp">
+        android:paddingTop="5dp"
+        android:paddingRight="5dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Home"
+            android:text= "@string/hometext"
             android:gravity="center" />
 
         <ProgressBar
             android:id="@+id/scanProgressBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="10dp" />
+        
+         <TextView
+            android:id="@+id/ScanProgressText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ScanProgressText"
+            android:gravity="center" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="match_parent"            
             android:orientation="horizontal"
             android:weightSum="100" 
-            android:gravity="center">"
+            android:gravity="center">
 
             <Button
                 android:id="@+id/scannedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Scanned" />
+                android:text="@string/scannedButton" />
             
 
             <Button
                 android:id="@+id/unScannedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Unscanned" />
+                android:text="@string/unScannedButton" />
+            
+            
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/ScanProgressText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <ListView
+        
+		<ListView
             android:id="@+id/mainlistview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbarFadeDuration="3" />
+            android:scrollbarFadeDuration="3" />            
+           
+                
     </LinearLayout>
 
     <com.darvds.ribbonmenu.RibbonMenuView

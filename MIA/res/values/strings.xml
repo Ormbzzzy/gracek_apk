@@ -3,6 +3,10 @@
 
     <string name="app_name">MIA</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name ="scannedButton">Scanned</string>
+    <string name ="unScannedButton">Unscanned</string>
+    <string name ="hometext">Home</string>
+    <string name ="ScanProgressText">24/60 Items Scanned at **Store Location**</string>
+    <string name ="homeScreenName">Home</string>
 
 </resources>

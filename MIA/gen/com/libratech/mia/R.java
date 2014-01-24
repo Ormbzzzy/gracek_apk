@@ -68,7 +68,7 @@ public final class R {
         public static final int Feedback=0x7f0a0051;
         public static final int HomeActiviy=0x7f0a004f;
         public static final int ScanItemActivity=0x7f0a0050;
-        public static final int ScanProgressText=0x7f0a0026;
+        public static final int ScanProgressText=0x7f0a0024;
         public static final int backArrow=0x7f0a0032;
         public static final int back_button=0x7f0a001f;
         public static final int barcodeText=0x7f0a0028;
@@ -130,7 +130,7 @@ public final class R {
         public static final int ribbonMenuView=0x7f0a001d;
         public static final int scanButton=0x7f0a0029;
         public static final int scanProgressBar=0x7f0a0023;
-        public static final int scannedButton=0x7f0a0024;
+        public static final int scannedButton=0x7f0a0025;
         public static final int share_app_button=0x7f0a0041;
         public static final int share_bookmark_button=0x7f0a0042;
         public static final int share_clipboard_button=0x7f0a0044;
@@ -144,7 +144,7 @@ public final class R {
         public static final int time_text_view=0x7f0a000f;
         public static final int topic=0x7f0a001a;
         public static final int type_text_view=0x7f0a000e;
-        public static final int unScannedButton=0x7f0a0025;
+        public static final int unScannedButton=0x7f0a0026;
         public static final int viewfinder_view=0x7f0a000a;
     }
     public static final class layout {
@@ -177,6 +177,7 @@ public final class R {
         public static final int beep=0x7f060000;
     }
     public static final class string {
+        public static final int ScanProgressText=0x7f0b007d;
         public static final int action_settings=0x7f0b0079;
         public static final int app_name=0x7f0b0000;
         public static final int app_picker_name=0x7f0b0001;
@@ -213,7 +214,6 @@ public final class R {
         public static final int contents_phone=0x7f0b0020;
         public static final int contents_sms=0x7f0b0021;
         public static final int contents_text=0x7f0b0022;
-        public static final int hello_world=0x7f0b007a;
         public static final int history_clear_one_history_text=0x7f0b0024;
         public static final int history_clear_text=0x7f0b0023;
         public static final int history_email_title=0x7f0b0025;
@@ -221,6 +221,8 @@ public final class R {
         public static final int history_empty_detail=0x7f0b0027;
         public static final int history_send=0x7f0b0028;
         public static final int history_title=0x7f0b0029;
+        public static final int homeScreenName=0x7f0b007e;
+        public static final int hometext=0x7f0b007c;
         public static final int menu_encode_mecard=0x7f0b002a;
         public static final int menu_encode_vcard=0x7f0b002b;
         public static final int menu_help=0x7f0b002c;
@@ -296,7 +298,9 @@ public final class R {
         public static final int result_uri=0x7f0b0072;
         public static final int result_wifi=0x7f0b0073;
         public static final int sbc_name=0x7f0b0074;
+        public static final int scannedButton=0x7f0b007a;
         public static final int share_name=0x7f0b0075;
+        public static final int unScannedButton=0x7f0b007b;
         public static final int wifi_changing_network=0x7f0b0076;
         public static final int wifi_ssid_label=0x7f0b0077;
         public static final int wifi_type_label=0x7f0b0078;
