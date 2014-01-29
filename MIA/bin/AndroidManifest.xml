@@ -18,7 +18,11 @@
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <uses-sdk
+<<<<<<< HEAD
         android:minSdkVersion="11"
+=======
+        android:minSdkVersion="14"
+>>>>>>> Linked to db + filter
         android:targetSdkVersion="19" />
 
     <application

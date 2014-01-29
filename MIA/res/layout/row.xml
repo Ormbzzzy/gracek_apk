@@ -3,36 +3,43 @@
     android:id="@+id/listItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:weightSum="100" >
 
-    <TextView
-        android:id="@+id/itemNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ItemNum" />
+<!--     <TextView -->
+<!--         android:id="@+id/itemNum" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_weight="13" -->
+<!--         android:text="Num" /> -->
 
     <TextView
         android:id="@+id/itemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ItemName" />
+        android:layout_weight="60"
+        android:text="Name" />
 
     <TextView
         android:id="@+id/itemBrand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ItemBrand" />
+        android:layout_weight="30"
+        android:text="Brand" />
 
     <TextView
         android:id="@+id/itemPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ItemPrice" />
+        android:layout_weight="10"
+        android:text="Price" />
 
     <CheckBox
         android:id="@+id/itemScanned"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_weight="5"
         android:clickable="false" />
 
 </LinearLayout>

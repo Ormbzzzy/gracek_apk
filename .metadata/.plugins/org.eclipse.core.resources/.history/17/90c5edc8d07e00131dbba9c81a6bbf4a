@@ -1,7 +1,0 @@
-package com.libratech.mia;
-
-import com.google.zxing.client.android.CaptureActivity;
-
-public class ScanActivity extends CaptureActivity {
-
-}
