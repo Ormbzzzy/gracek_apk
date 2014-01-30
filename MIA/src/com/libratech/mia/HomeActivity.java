@@ -7,14 +7,18 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
@@ -46,6 +50,27 @@ public class HomeActivity extends FragmentActivity implements
 		rbmView.setMenuClickCallback(this);
 		rbmView.setMenuItems(R.menu.home);
 		listview = (ListView) findViewById(R.id.mainlistview);
+		listview.setOnItemClickListener(new OnItemClickListener() {
+			// @Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				Bundle b = new Bundle();
+				String name = (String) ((TextView) arg1
+						.findViewById(R.id.itemName)).getText();
+				String brand = (String) ((TextView) arg1
+						.findViewById(R.id.itemBrand)).getText();
+				String price = (String) ((TextView) arg1
+						.findViewById(R.id.itemPrice)).getText();
+				String[] product = { name, brand, price };
+				b.putStringArray("product", product);
+				Log.d("product", product[0]+product[1]+product[2]);
+				Toast.makeText(HomeActivity.this, "checked", Toast.LENGTH_LONG).show();
+				startActivity(new Intent(HomeActivity.this, ScanItemActivity.class)
+						.putExtras(b));
+			}
+
+		});
 		tv = (TextView) findViewById(R.id.ScanProgressText);
 		bA = (Button) findViewById(R.id.allbutton);
 		bS = (Button) findViewById(R.id.scannedbutton);
@@ -57,9 +82,9 @@ public class HomeActivity extends FragmentActivity implements
 				// TODO Auto-generated method stub
 				listview.setAdapter(new HomeAdapter(HomeActivity.this,
 						aProducts));
-				bU.setHovered(false);
-				bS.setHovered(false);
-				bA.setHovered(true);
+				bU.setBackgroundColor(bA.getSolidColor());
+				bS.setBackgroundColor(bA.getSolidColor());
+				bA.setBackgroundColor(bA.getHighlightColor());
 			}
 
 		});
@@ -70,9 +95,9 @@ public class HomeActivity extends FragmentActivity implements
 				// TODO Auto-generated method stub
 				listview.setAdapter(new HomeAdapter(HomeActivity.this,
 						sProducts));
-				bU.setHovered(false);
-				bS.setHovered(true);
-				bA.setHovered(false);
+				bU.setBackgroundColor(bS.getSolidColor());
+				bA.setBackgroundColor(bS.getSolidColor());
+				bS.setBackgroundColor(bS.getHighlightColor());
 			}
 
 		});
@@ -83,29 +108,14 @@ public class HomeActivity extends FragmentActivity implements
 				// TODO Auto-generated method stub
 				listview.setAdapter(new HomeAdapter(HomeActivity.this,
 						uProducts));
-				bU.setHovered(true);
-				bS.setHovered(false);
-				bA.setHovered(false);
+				bS.setBackgroundColor(bU.getSolidColor());
+				bA.setBackgroundColor(bU.getSolidColor());
+				bU.setBackgroundColor(bU.getHighlightColor());
 			}
 		});
 		new getProducts()
 				.execute("http://holycrosschurchjm.com/MIA_mysql.php?comp_id=COMP-00001&rec_date=2013-11-01&scannedproducts=yes");
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		// tabHost = (TabHost) findViewById(R.id.tabhost);
-		// tabHost.setup();
-		// tabHost.addTab(tabHost.newTabSpec("All").setIndicator("all"));
-		// tabHost.addTab(tabHost.newTabSpec("Scanned").setIndicator("scanned"));
-		// tabHost.addTab(tabHost.newTabSpec("Unscanned").setIndicator("unscanned"));
-		//
-		// tabHost.setOnTabChangedListener(new OnTabChangeListener()
-		// {
-		// @Override
-		// public void onTabChanged(String tabId) {
-		// // TODO Auto-generated method stub
-		//
-		// }
-		// });
-
 	}
 
 	@Override

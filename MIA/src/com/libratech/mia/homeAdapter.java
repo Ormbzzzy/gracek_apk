@@ -50,8 +50,8 @@ public class HomeAdapter extends BaseAdapter {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			vi = inflater.inflate(R.layout.row, null);
 		}
-		//TextView itemNum = (TextView) vi.findViewById(R.id.itemNum);
-		//itemNum.setText("" + (position+1));
+		// TextView itemNum = (TextView) vi.findViewById(R.id.itemNum);
+		// itemNum.setText("" + (position+1));
 		TextView itemName = (TextView) vi.findViewById(R.id.itemName);
 		try {
 			itemName.setText(data.getJSONArray(position).getString(0));
@@ -75,8 +75,7 @@ public class HomeAdapter extends BaseAdapter {
 		}
 		CheckBox itemScanned = (CheckBox) vi.findViewById(R.id.itemScanned);
 		try {
-			if (data.getJSONArray(position).getBoolean(6))
-				itemScanned.setChecked(true);
+			itemScanned.setChecked(data.getJSONArray(position).getBoolean(6));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

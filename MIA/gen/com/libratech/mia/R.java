@@ -214,23 +214,22 @@ public final class R {
         public static final int standard_padding=0x7f090000;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
-        public static final int launcher_icon=0x7f020001;
-        public static final int share_via_barcode=0x7f020002;
-        public static final int shopper_icon=0x7f020003;
+        public static final int divider=0x7f020000;
+        public static final int ic_launcher=0x7f020001;
+        public static final int launcher_icon=0x7f020002;
+        public static final int share_via_barcode=0x7f020003;
+        public static final int shopper_icon=0x7f020004;
     }
     public static final class id {
-        public static final int Category=0x7f0a0047;
-        public static final int Feedback=0x7f0a0051;
-        public static final int HomeActiviy=0x7f0a004f;
-        public static final int ScanItemActivity=0x7f0a0050;
+        public static final int Category=0x7f0a0049;
+        public static final int Feedback=0x7f0a0053;
+        public static final int HomeActiviy=0x7f0a0051;
+        public static final int ScanItemActivity=0x7f0a0052;
         public static final int ScanProgressText=0x7f0a0024;
-<<<<<<< HEAD
-        public static final int backArrow=0x7f0a0032;
-=======
+        public static final int ScanitemName=0x7f0a002b;
+        public static final int ScanitemPrice=0x7f0a0030;
         public static final int allbutton=0x7f0a0025;
         public static final int backArrow=0x7f0a0033;
->>>>>>> Linked to db + filter
         public static final int back_button=0x7f0a001f;
         public static final int barcodeText=0x7f0a0029;
         public static final int barcode_image_view=0x7f0a000c;
@@ -250,33 +249,33 @@ public final class R {
         public static final int history_detail=0x7f0a0022;
         public static final int history_title=0x7f0a0021;
         public static final int image_view=0x7f0a0017;
-        public static final int itemBrand=0x7f0a003a;
+        public static final int itemBrand=0x7f0a003b;
         public static final int itemCat=0x7f0a002d;
         public static final int itemDesc=0x7f0a002c;
-        public static final int itemName=0x7f0a002b;
-        public static final int itemPrice=0x7f0a0030;
-        public static final int itemScanned=0x7f0a003b;
+        public static final int itemName=0x7f0a003a;
+        public static final int itemPrice=0x7f0a003c;
+        public static final int itemScanned=0x7f0a003d;
         public static final int itemUnit=0x7f0a002f;
         public static final int itemWeight=0x7f0a002e;
         public static final int launch_product_query=0x7f0a0003;
         public static final int listItem=0x7f0a0039;
         public static final int mainlistview=0x7f0a0028;
-        public static final int menu_encode=0x7f0a004c;
-        public static final int menu_help=0x7f0a004b;
-        public static final int menu_history=0x7f0a0049;
-        public static final int menu_history_clear_text=0x7f0a004e;
-        public static final int menu_history_send=0x7f0a004d;
-        public static final int menu_settings=0x7f0a004a;
-        public static final int menu_share=0x7f0a0048;
+        public static final int menu_encode=0x7f0a004e;
+        public static final int menu_help=0x7f0a004d;
+        public static final int menu_history=0x7f0a004b;
+        public static final int menu_history_clear_text=0x7f0a0050;
+        public static final int menu_history_send=0x7f0a004f;
+        public static final int menu_settings=0x7f0a004c;
+        public static final int menu_share=0x7f0a004a;
         public static final int meta_text_view=0x7f0a0011;
         public static final int meta_text_view_label=0x7f0a0010;
         public static final int newTopic=0x7f0a001b;
         public static final int numresponse=0x7f0a0019;
-        public static final int page_number_view=0x7f0a003f;
+        public static final int page_number_view=0x7f0a0041;
         public static final int preview_view=0x7f0a0009;
         public static final int prodPhoto=0x7f0a0032;
-        public static final int query_button=0x7f0a003d;
-        public static final int query_text_view=0x7f0a003c;
+        public static final int query_button=0x7f0a003f;
+        public static final int query_text_view=0x7f0a003e;
         public static final int quit=0x7f0a0004;
         public static final int rbm_item_icon=0x7f0a0035;
         public static final int rbm_item_text=0x7f0a0036;
@@ -284,35 +283,27 @@ public final class R {
         public static final int rbm_outside_view=0x7f0a0038;
         public static final int restart_preview=0x7f0a0005;
         public static final int result_button_view=0x7f0a0015;
-        public static final int result_list_view=0x7f0a003e;
+        public static final int result_list_view=0x7f0a0040;
         public static final int result_view=0x7f0a000b;
         public static final int return_scan_result=0x7f0a0006;
         public static final int ribbonMenuView=0x7f0a001d;
         public static final int scanButton=0x7f0a002a;
         public static final int scanProgressBar=0x7f0a0023;
-<<<<<<< HEAD
-        public static final int scannedButton=0x7f0a0025;
-=======
         public static final int scannedbutton=0x7f0a0026;
->>>>>>> Linked to db + filter
-        public static final int share_app_button=0x7f0a0041;
-        public static final int share_bookmark_button=0x7f0a0042;
-        public static final int share_clipboard_button=0x7f0a0044;
-        public static final int share_contact_button=0x7f0a0043;
-        public static final int share_text_view=0x7f0a0045;
+        public static final int share_app_button=0x7f0a0043;
+        public static final int share_bookmark_button=0x7f0a0044;
+        public static final int share_clipboard_button=0x7f0a0046;
+        public static final int share_contact_button=0x7f0a0045;
+        public static final int share_text_view=0x7f0a0047;
         public static final int shopper_button=0x7f0a0016;
-        public static final int snippet_view=0x7f0a0040;
+        public static final int snippet_view=0x7f0a0042;
         public static final int status_view=0x7f0a0014;
-        public static final int storelistview=0x7f0a0046;
+        public static final int storelistview=0x7f0a0048;
         public static final int submitFeedback=0x7f0a001c;
         public static final int time_text_view=0x7f0a000f;
         public static final int topic=0x7f0a001a;
         public static final int type_text_view=0x7f0a000e;
-<<<<<<< HEAD
-        public static final int unScannedButton=0x7f0a0026;
-=======
         public static final int unscannedbutton=0x7f0a0027;
->>>>>>> Linked to db + filter
         public static final int viewfinder_view=0x7f0a000a;
     }
     public static final class layout {

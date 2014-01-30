@@ -16,7 +16,7 @@ public class ScanItemActivity extends Activity implements iRibbonMenuCallback {
 
 	RibbonMenuView rbmView;
 	Button scanButton;
-	TextView barcode;
+	TextView barcode, brand, price, name;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -27,11 +27,17 @@ public class ScanItemActivity extends Activity implements iRibbonMenuCallback {
 		rbmView.setMenuItems(R.menu.home);
 		scanButton = (Button) findViewById(R.id.scanButton);
 		barcode = (TextView) findViewById(R.id.barcodeText);
+		brand = (TextView) findViewById(R.id.itemDesc);
+		name = (TextView) findViewById(R.id.ScanitemName);
+		price = (TextView) findViewById(R.id.ScanitemPrice);
+		if (getIntent().hasExtra("product")) {
+			name.setText(getIntent().getStringArrayExtra("product")[0]);
+			brand.setText(getIntent().getStringArrayExtra("product")[1]);
+			price.setText(getIntent().getStringArrayExtra("product")[2]);
+		}
 		if (getIntent().hasExtra("code"))
 			barcode.setText(getIntent().getStringExtra("code"));
-
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-
 		scanButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -78,13 +84,6 @@ public class ScanItemActivity extends Activity implements iRibbonMenuCallback {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		finish();
 	}
 
 }
