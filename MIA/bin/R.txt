@@ -181,11 +181,10 @@ int dimen rbm_item_text_padding_left 0x7f090008
 int dimen rbm_item_text_size 0x7f090007
 int dimen rbm_menu_width 0x7f090002
 int dimen standard_padding 0x7f090000
-int drawable divider 0x7f020000
-int drawable ic_launcher 0x7f020001
-int drawable launcher_icon 0x7f020002
-int drawable share_via_barcode 0x7f020003
-int drawable shopper_icon 0x7f020004
+int drawable ic_launcher 0x7f020000
+int drawable launcher_icon 0x7f020001
+int drawable share_via_barcode 0x7f020002
+int drawable shopper_icon 0x7f020003
 int id Category 0x7f0a0049
 int id Feedback 0x7f0a0053
 int id HomeActiviy 0x7f0a0051

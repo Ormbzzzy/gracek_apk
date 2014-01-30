@@ -68,8 +68,7 @@
         <ListView
             android:id="@+id/mainlistview"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:divider="@drawable/divider" />
+            android:layout_height="fill_parent" />
     </LinearLayout>
 
     <com.darvds.ribbonmenu.RibbonMenuView
