@@ -1,5 +1,7 @@
 package com.libratech.mia;
 
+import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -22,6 +24,7 @@ import android.widget.Toast;
 
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
+import com.libratech.mia.models.Product;
 
 @SuppressWarnings("deprecation")
 public class HomeActivity extends FragmentActivity implements
@@ -40,6 +43,7 @@ public class HomeActivity extends FragmentActivity implements
 	ProgressBar pb;
 	int numScanned, numUnscanned;
 	boolean scanned = true;
+	ArrayList products = new ArrayList<Product>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
