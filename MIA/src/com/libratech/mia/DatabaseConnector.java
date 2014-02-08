@@ -3,12 +3,16 @@ package com.libratech.mia;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -26,7 +30,7 @@ public class DatabaseConnector {
 		jArray = null;
 	}
 
-	public JSONArray DBConnect(String url) {
+	public JSONArray DBPull(String url) {
 
 		// Download JSON data from URL
 		try {
@@ -63,5 +67,30 @@ public class DatabaseConnector {
 		}
 
 		return jArray;
+	}
+
+	public boolean DBPush(String[] fields) {
+
+		DefaultHttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost("holycrosschurchjm.com/MIA_mysql.php");
+		ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		try {
+			nameValuePairs = new ArrayList<NameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("updateScannedProduct",
+					"yes"));
+			nameValuePairs.add(new BasicNameValuePair("upc_code", fields[0]));
+			nameValuePairs.add(new BasicNameValuePair("merch_id", fields[1]));
+			nameValuePairs.add(new BasicNameValuePair("comp_id", fields[2]));
+			nameValuePairs.add(new BasicNameValuePair("rec_date", fields[3]));
+			nameValuePairs.add(new BasicNameValuePair("price", fields[4]));
+			nameValuePairs.add(new BasicNameValuePair("gct", fields[5]));
+
+			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			httpclient.execute(httppost);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

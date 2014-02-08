@@ -37,22 +37,22 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:weightSum="99" >
+            android:weightSum="100" >
 
-            <Button
-                android:id="@+id/allbutton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="33"
-                android:text="All" />
+<!--             <Button -->
+<!--                 android:id="@+id/allbutton" -->
+<!--                 style="?android:attr/buttonBarButtonStyle" -->
+<!--                 android:layout_width="fill_parent" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:layout_weight="33" -->
+<!--                 android:text="All" /> -->
 
             <Button
                 android:id="@+id/scannedbutton"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="33"
+                android:layout_weight="50"
                 android:text="Scanned" />
 
             <Button
@@ -60,7 +60,7 @@
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="33"
+                android:layout_weight="50"
                 android:text="Unscanned" >
             </Button>
         </LinearLayout>

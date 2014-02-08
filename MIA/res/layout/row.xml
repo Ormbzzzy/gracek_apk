@@ -3,17 +3,17 @@
     android:id="@+id/listItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="horizontal" 
     android:weightSum="100"
-    android:gravity="center_vertical" 
+    android:gravity="center_vertical"
     android:minHeight="?android:attr/listPreferredItemHeight">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" 
-        android:gravity="center_vertical" 
-        android:layout_weight="40">
+        android:orientation="horizontal"
+        android:layout_weight="50" 
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/itemName"
@@ -26,19 +26,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical" >
+        android:layout_weight="50" 
+        android:gravity="center_vertical"
+        android:weightSum="100">
 
         <TextView
             android:id="@+id/itemBrand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Brand" />
+            android:text="Brand" 
+            android:layout_weight="45"/>
 
         <TextView
             android:id="@+id/itemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Price" />
+            android:text="Price"
+            android:layout_weight="45" />
 
         <CheckBox
             android:id="@+id/itemScanned"
@@ -46,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:clickable="false"
+            android:layout_weight="10"
             android:focusable="false" />
     </LinearLayout>
 

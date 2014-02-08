@@ -20,7 +20,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
@@ -39,7 +38,7 @@ public class HomeActivity extends FragmentActivity implements
 	ListView listview;
 	TabHost tabHost;
 	TextView tv;
-	Button bA, bS, bU;
+	Button bS, bU;
 	ProgressBar pb;
 	int numScanned, numUnscanned;
 	boolean scanned = true;
@@ -68,30 +67,30 @@ public class HomeActivity extends FragmentActivity implements
 						.findViewById(R.id.itemPrice)).getText();
 				String[] product = { name, brand, price };
 				b.putStringArray("product", product);
+				b.putString("parent", "com.libratech.mia.HomeActivity");
 				Log.d("product", product[0]+product[1]+product[2]);
-				Toast.makeText(HomeActivity.this, "checked", Toast.LENGTH_LONG).show();
-				startActivity(new Intent(HomeActivity.this, ScanItemActivity.class)
+				startActivity(new Intent(HomeActivity.this, ViewProductActivity.class)
 						.putExtras(b));
 			}
 
 		});
 		tv = (TextView) findViewById(R.id.ScanProgressText);
-		bA = (Button) findViewById(R.id.allbutton);
+//		bA = (Button) findViewById(R.id.allbutton);
 		bS = (Button) findViewById(R.id.scannedbutton);
 		bU = (Button) findViewById(R.id.unscannedbutton);
 		pb = (ProgressBar) findViewById(R.id.scanProgressBar);
-		bA.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				listview.setAdapter(new HomeAdapter(HomeActivity.this,
-						aProducts));
-				bU.setBackgroundColor(bA.getSolidColor());
-				bS.setBackgroundColor(bA.getSolidColor());
-				bA.setBackgroundColor(bA.getHighlightColor());
-			}
-
-		});
+//		bA.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View arg0) {
+//				// TODO Auto-generated method stub
+//				listview.setAdapter(new HomeAdapter(HomeActivity.this,
+//						aProducts));
+//				bU.setBackgroundColor(bA.getSolidColor());
+//				bS.setBackgroundColor(bA.getSolidColor());
+//				bA.setBackgroundColor(bA.getHighlightColor());
+//			}
+//
+//		});
 
 		bS.setOnClickListener(new OnClickListener() {
 			@Override
@@ -100,7 +99,7 @@ public class HomeActivity extends FragmentActivity implements
 				listview.setAdapter(new HomeAdapter(HomeActivity.this,
 						sProducts));
 				bU.setBackgroundColor(bS.getSolidColor());
-				bA.setBackgroundColor(bS.getSolidColor());
+			//	bA.setBackgroundColor(bS.getSolidColor());
 				bS.setBackgroundColor(bS.getHighlightColor());
 			}
 
@@ -113,7 +112,7 @@ public class HomeActivity extends FragmentActivity implements
 				listview.setAdapter(new HomeAdapter(HomeActivity.this,
 						uProducts));
 				bS.setBackgroundColor(bU.getSolidColor());
-				bA.setBackgroundColor(bU.getSolidColor());
+				//bA.setBackgroundColor(bU.getSolidColor());
 				bU.setBackgroundColor(bU.getHighlightColor());
 			}
 		});
@@ -135,7 +134,7 @@ public class HomeActivity extends FragmentActivity implements
 	class getProducts extends AsyncTask<String, Void, JSONArray> {
 		protected JSONArray doInBackground(String... url) {
 
-			return db.DBConnect(url[0]);
+			return db.DBPull(url[0]);
 		}
 
 		@Override

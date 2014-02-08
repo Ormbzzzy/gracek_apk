@@ -29,9 +29,13 @@ public class ScanActivity extends CaptureActivity {
 		String scan = rawResult.getText().toString();
 		final Bundle b = new Bundle();
 		b.putString("code", scan);
-		Intent toScan = new Intent(ScanActivity.this, ScanItemActivity.class);
-		toScan.putExtras(b);
-		startActivity(toScan);
+		try {
+			startActivity(new Intent(ScanActivity.this, Class
+					.forName(getIntent().getStringExtra("parent"))).putExtras(b));
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 }
