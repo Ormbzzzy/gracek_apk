@@ -17,7 +17,7 @@ public class DiscountedProduct extends Product
 {
 	private String discValue;
 
-	public DiscountedProduct(int upcCode, int weight, String productName,
+	public DiscountedProduct(String upcCode, String weight, String productName,
 			String description, String brand, String category, String uom,
 			float price, String gct, String photo, String discValue) 
 	{

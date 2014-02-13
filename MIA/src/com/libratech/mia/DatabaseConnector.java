@@ -31,8 +31,7 @@ public class DatabaseConnector {
 	}
 
 	public JSONArray DBPull(String url) {
-
-		// Download JSON data from URL
+		// Download JSON data from URLs
 		try {
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpPost httppost = new HttpPost(url);
@@ -41,7 +40,7 @@ public class DatabaseConnector {
 			is = entity.getContent();
 
 		} catch (Exception e) {
-			Log.e("log_tag", "Error in http connection " + e.toString());
+			Log.e("log_tag", "Error in http connection" + e.toString());
 		}
 
 		// Convert response to string
@@ -69,23 +68,14 @@ public class DatabaseConnector {
 		return jArray;
 	}
 
-	public boolean DBPush(String[] fields) {
+	public boolean DBPush(String fields) {
 
 		DefaultHttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost("holycrosschurchjm.com/MIA_mysql.php");
-		ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		HttpPost httppost = new HttpPost(fields);
+//		HttpPost httppost = new HttpPost(
+//				"http://www.holycrosschurchjm.com/MIA_mysql.php");
 		try {
-			nameValuePairs = new ArrayList<NameValuePair>();
-			nameValuePairs.add(new BasicNameValuePair("updateScannedProduct",
-					"yes"));
-			nameValuePairs.add(new BasicNameValuePair("upc_code", fields[0]));
-			nameValuePairs.add(new BasicNameValuePair("merch_id", fields[1]));
-			nameValuePairs.add(new BasicNameValuePair("comp_id", fields[2]));
-			nameValuePairs.add(new BasicNameValuePair("rec_date", fields[3]));
-			nameValuePairs.add(new BasicNameValuePair("price", fields[4]));
-			nameValuePairs.add(new BasicNameValuePair("gct", fields[5]));
-
-			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			//httppost.setEntity(new UrlEncodedFormEntity(fields));
 			httpclient.execute(httppost);
 			return true;
 		} catch (Exception e) {

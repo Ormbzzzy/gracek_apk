@@ -15,14 +15,25 @@ package com.libratech.mia.models;
 
 public class Scanned extends Product 
 {
-
-	public Scanned(int upcCode, int weight, String productName,
+	boolean scanned;
+	public Scanned(String upcCode, String weight, String productName,
 			String description, String brand, String category, String uom,
-			float price, String gct, String photo)
+			float price, String gct, String photo,boolean scanned)
 	{
 		super(upcCode, weight, productName, description, brand, category, uom, price,
 				gct, photo);
+		this.scanned = scanned;
 		// TODO Auto-generated constructor stub
 	}
-	
+	public Scanned(Product p,boolean scanned)
+	{
+		super(p.getUpcCode(), p.getWeight(), p.getProductName(), p.getDescription(), p.getBrand(), p.getCategory(), p.getUom(), p.getPrice(),
+				p.getGct(), p.getPhoto());
+		this.scanned = scanned;
+		
+	}
+	public boolean getScanned()
+	{
+		return scanned;
+	}
 }

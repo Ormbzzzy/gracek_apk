@@ -45,8 +45,8 @@ public class FeedbackActivity extends Activity implements iRibbonMenuCallback {
 		// TODO Auto-generated method stub
 
 		String classes[] = { "HomeActivity", "ScanItemActivity",
-				"FeedbackActivity" };
-		if (position != 2) {
+				"AllProductsActivity", "FeedbackActivity" };
+		if (position != 0) {
 			try {
 				startActivity(new Intent(FeedbackActivity.this,
 						Class.forName("com.libratech.mia." + classes[position])));

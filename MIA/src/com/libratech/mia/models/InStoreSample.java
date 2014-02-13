@@ -17,7 +17,7 @@ public class InStoreSample extends Product
 {
 	private String comments;
 
-	public InStoreSample(int upcCode, int weight, String productName,
+	public InStoreSample(String upcCode, String weight, String productName,
 			String description, String brand, String category, String uom,
 			float price, String gct, String photo, String comments) 
 	{

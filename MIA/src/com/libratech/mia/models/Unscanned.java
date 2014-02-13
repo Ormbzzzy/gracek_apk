@@ -16,7 +16,7 @@ package com.libratech.mia.models;
 public class Unscanned extends Product 
 {
 
-	public Unscanned(int upcCode, int weight, String productName,
+	public Unscanned(String upcCode, String weight, String productName,
 			String description, String brand, String category, String uom,
 			float price, String gct, String photo)
 	{

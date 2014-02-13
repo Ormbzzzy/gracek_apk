@@ -11,19 +11,19 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.libratech.mia.models.Scanned;
+import com.libratech.mia.models.Product;
 
-public class HomeAdapter extends BaseAdapter {
+public class AllAdapter extends BaseAdapter {
 
 	public Context context;
-	public ArrayList<Scanned> data = new ArrayList<Scanned>();
+	public ArrayList<Product> data = new ArrayList<Product>();
 
-	public HomeAdapter(Context context, ArrayList<Scanned> aProducts) {
+	public AllAdapter(Context context, ArrayList<Product> aProducts) {
 		this.context = context;
 		this.data = aProducts;
-//		for (int i = 0; i < data.size(); i++) {
-//			Log.d("UPC to Adapter", ""+data.get(i).getUpcCode());
-//		}
+		for (int i = 0; i < data.size(); i++) {
+			Log.d("UPC to Adapter", ""+data.get(i).getUpcCode());
+		}
 	}
 
 	@Override
@@ -44,16 +44,12 @@ public class HomeAdapter extends BaseAdapter {
 		if (vi == null) {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			vi = inflater.inflate(R.layout.row, null);
+			vi = inflater.inflate(R.layout.all_row, null);
 		}
-		TextView itemName = (TextView) vi.findViewById(R.id.itemName);
-		itemName.setText(data.get(position).getProductName());
-		TextView itemBrand = (TextView) vi.findViewById(R.id.itemBrand);
-		itemBrand.setText(data.get(position).getBrand());
-		TextView itemPrice = (TextView) vi.findViewById(R.id.itemPrice);
-		itemPrice.setText(String.valueOf(data.get(position).getPrice()));
-		CheckBox itemScanned = (CheckBox) vi.findViewById(R.id.itemScanned);
-		itemScanned.setChecked(data.get(position).getScanned());
+		TextView name = (TextView) vi.findViewById(R.id.allName);
+		TextView brand = (TextView) vi.findViewById(R.id.allBrand);
+		name.setText(data.get(position).getProductName());
+		brand.setText(data.get(position).getBrand());
 		return vi;
 	}
 

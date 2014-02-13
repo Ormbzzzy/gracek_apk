@@ -7,6 +7,7 @@
 <!--         android:title="@string/action_settings"/> -->
     <item android:orderInCategory="0" android:id="@+id/HomeActiviy" android:title="Home" android:icon="@drawable/ic_launcher"></item>
     <item android:orderInCategory="1" android:id="@+id/ScanItemActivity" android:title="Scan Item" android:icon="@drawable/ic_launcher"></item>
-    <item android:orderInCategory="2" android:id="@+id/Feedback" android:title="Feedback" android:icon="@drawable/ic_launcher"></item>
+    <item android:orderInCategory="3" android:id="@+id/AllProducts" android:title="All Products" android:icon="@drawable/ic_launcher"></item>
+    <item android:orderInCategory="3" android:id="@+id/Feedback" android:title="Feedback" android:icon="@drawable/ic_launcher"></item>
 
 </menu>

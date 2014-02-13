@@ -23,13 +23,13 @@ import android.widget.Toast;
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 
-public class ViewProductActivity extends Activity implements
+public class UpdateProductActivity extends Activity implements
 		iRibbonMenuCallback {
 
 	EditText price;
 	TextView brand, name, upc;
 	RibbonMenuView rbmView;
-	Button scan, confirm;
+	Button edit, update;
 	DatabaseConnector db = new DatabaseConnector();
 	String gct;
 	CheckBox gctBox;
@@ -38,14 +38,14 @@ public class ViewProductActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.product);
+		setContentView(R.layout.update);
 		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 		rbmView.setMenuClickCallback(this);
 		rbmView.setMenuItems(R.menu.home);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		scan = (Button) findViewById(R.id.scan);
+		edit = (Button) findViewById(R.id.edit);
 		upc = (TextView) findViewById(R.id.upc);
-		confirm = (Button) findViewById(R.id.confirm);
+		update = (Button) findViewById(R.id.update);
 		brand = (TextView) findViewById(R.id.Brand);
 		name = (TextView) findViewById(R.id.Name);
 		price = (EditText) findViewById(R.id.Price);
@@ -71,7 +71,7 @@ public class ViewProductActivity extends Activity implements
 					gct = "no";
 			}
 		});
-		scan.setOnClickListener(new OnClickListener() {
+		edit.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
@@ -83,7 +83,7 @@ public class ViewProductActivity extends Activity implements
 					// b.putStringArray("product", product);
 					b.putString("parent",
 							"com.libratech.mia.ViewProductActivity");
-					startActivity(new Intent(ViewProductActivity.this, Class
+					startActivity(new Intent(UpdateProductActivity.this, Class
 							.forName("com.libratech.mia.ScanActivity"))
 							.putExtras(b));
 				} catch (ClassNotFoundException e) {
@@ -93,7 +93,7 @@ public class ViewProductActivity extends Activity implements
 			}
 		});
 
-		confirm.setOnClickListener(new OnClickListener() {
+		update.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -107,8 +107,8 @@ public class ViewProductActivity extends Activity implements
 				Log.d("to DB", product[0] + " " + product[1] + " " + product[2]
 						+ " " + product[3] + " " + product[4] + " "
 						+ product[5]);
-				nameValuePairs.add(new BasicNameValuePair("addScannedProduct",
-						"yes"));
+				nameValuePairs.add(new BasicNameValuePair(
+						"updateScannedProduct", "yes"));
 				nameValuePairs.add(new BasicNameValuePair("upc_code", upc
 						.getText().toString()));
 				nameValuePairs.add(new BasicNameValuePair("merch_id",
@@ -122,7 +122,7 @@ public class ViewProductActivity extends Activity implements
 				nameValuePairs.add(new BasicNameValuePair("gct", gct));
 				// "http://holycrosschurchjm.com/MIA_mysql.php?addScannedProduct=yes&upc_code="+upc.getText().toString()+"&merch_id=MER-00001&comp_id=COMP-00001&rec_date=2014-02-09&price=345.00&gct=yes"
 				new pushProduct()
-						.execute("http://holycrosschurchjm.com/MIA_mysql.php?addScannedProduct=yes&upc_code="
+						.execute("http://holycrosschurchjm.com/MIA_mysql.php?updateScannedProduct=yes&upc_code="
 								+ upc.getText()
 								+ "&merch_id=MER-00001&comp_id=COMP-00001&rec_date=2013-11-01&price="
 								+ price.getText() + "&gct=yes");
@@ -144,7 +144,7 @@ public class ViewProductActivity extends Activity implements
 			} else {
 				message = "Error while updating product.";
 			}
-			Toast.makeText(ViewProductActivity.this, message,
+			Toast.makeText(UpdateProductActivity.this, message,
 					Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -156,7 +156,7 @@ public class ViewProductActivity extends Activity implements
 				"FeedbackActivity" };
 		if (position != 0) {
 			try {
-				startActivity(new Intent(ViewProductActivity.this,
+				startActivity(new Intent(UpdateProductActivity.this,
 						Class.forName("com.libratech.mia." + classes[position])));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

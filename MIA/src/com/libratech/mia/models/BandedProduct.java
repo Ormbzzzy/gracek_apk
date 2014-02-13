@@ -13,8 +13,6 @@ import java.util.ArrayList;
 //
 
 
-
-
 public class BandedProduct 
 {
 	private float totalPrice;
@@ -41,8 +39,5 @@ public class BandedProduct
 	public void setProducts(ArrayList<Product> products) {
 		this.products = products;
 	}
-	
-	
-	
-	
+
 }

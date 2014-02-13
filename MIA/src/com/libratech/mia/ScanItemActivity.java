@@ -75,17 +75,18 @@ public class ScanItemActivity extends Activity implements iRibbonMenuCallback {
 		}
 	}
 
-	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 		// TODO Auto-generated method stub
+
 		String classes[] = { "HomeActivity", "ScanItemActivity",
-				"FeedbackActivity" };
-		if (position != 1) {
+				"AllProductsActivity", "FeedbackActivity" };
+		if (position != 0) {
 			try {
 				startActivity(new Intent(ScanItemActivity.this,
 						Class.forName("com.libratech.mia." + classes[position])));
-			} catch (ClassNotFoundException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 		}
