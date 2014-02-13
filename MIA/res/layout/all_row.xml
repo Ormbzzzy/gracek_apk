@@ -10,16 +10,16 @@
 
     <TextView
         android:id="@+id/allName"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="50"
+        android:layout_weight="30"
         android:text="Name" />
 
     <TextView
         android:id="@+id/allBrand"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="50"
+        android:layout_weight="70"
         android:text="Brand" />
 
 </LinearLayout>

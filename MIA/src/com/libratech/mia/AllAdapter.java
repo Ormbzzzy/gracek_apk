@@ -3,12 +3,10 @@ package com.libratech.mia;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.libratech.mia.models.Product;
@@ -21,9 +19,9 @@ public class AllAdapter extends BaseAdapter {
 	public AllAdapter(Context context, ArrayList<Product> aProducts) {
 		this.context = context;
 		this.data = aProducts;
-		for (int i = 0; i < data.size(); i++) {
-			Log.d("UPC to Adapter", ""+data.get(i).getUpcCode());
-		}
+//		for (int i = 0; i < data.size(); i++) {
+//			Log.d("UPC to Adapter", "" + data.get(i).getUpcCode());
+//		}
 	}
 
 	@Override

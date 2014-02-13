@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -14,7 +15,6 @@ import android.widget.ListView;
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import com.libratech.mia.models.Product;
-import com.libratech.mia.models.Scanned;
 
 public class AllProductsActivity extends Activity implements
 		iRibbonMenuCallback {
@@ -52,17 +52,26 @@ public class AllProductsActivity extends Activity implements
 	}
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			rbmView.toggleMenu();
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 		// TODO Auto-generated method stub
 		String classes[] = { "HomeActivity", "ScanItemActivity",
 				"AllProductsActivity", "FeedbackActivity" };
-		if (position != 0) {
+		if (position != 2) {
 			try {
 				startActivity(new Intent(AllProductsActivity.this,
 						Class.forName("com.libratech.mia." + classes[position])));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-
 				e.printStackTrace();
 			}
 		}

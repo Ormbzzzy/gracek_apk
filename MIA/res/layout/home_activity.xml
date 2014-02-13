@@ -12,17 +12,11 @@
         android:paddingRight="5dp"
         android:paddingTop="5dp" >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Home" />
-
         <ProgressBar
             android:id="@+id/scanProgressBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="10dp" />
+            android:layout_height="10dp"/>
 
         <TextView
             android:id="@+id/ScanProgressText"
@@ -45,18 +39,28 @@
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="50"
+                android:layout_weight="49"
                 android:text="Scanned" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:background="#c0c0c0" />
 
             <Button
                 android:id="@+id/unscannedbutton"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="50"
+                android:layout_weight="49"
                 android:text="Unscanned" >
             </Button>
         </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#c0c0c0" />
 
         <ListView
             android:id="@+id/mainlistview"

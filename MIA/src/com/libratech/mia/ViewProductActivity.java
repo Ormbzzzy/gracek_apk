@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
+import com.libratech.mia.models.Product;
 
 public class ViewProductActivity extends Activity implements
 		iRibbonMenuCallback {
@@ -33,6 +34,7 @@ public class ViewProductActivity extends Activity implements
 	DatabaseConnector db = new DatabaseConnector();
 	String gct;
 	CheckBox gctBox;
+	ArrayList<Product> products = HomeActivity.aProducts;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,18 +52,31 @@ public class ViewProductActivity extends Activity implements
 		name = (TextView) findViewById(R.id.Name);
 		price = (EditText) findViewById(R.id.Price);
 		gctBox = (CheckBox) findViewById(R.id.gct);
+		if (getIntent().hasExtra("code")) {
+			for (int i = 0; i < products.size(); i++) {
+				if (products.get(i).getUpcCode()
+						.equals(getIntent().hasExtra("code"))) {
+					upc.setText(products.get(i).getUpcCode());
+					brand.setText(products.get(i).getBrand());
+					name.setText(products.get(i).getProductName());
+					price.setText(String.valueOf(products.get(i).getPrice()));
+					break;
+				}
+			}
+		} else {
+			if (getIntent().hasExtra("product")) {
+				upc.setText(getIntent().getStringArrayExtra("product")[0]);
+				name.setText(getIntent().getStringArrayExtra("product")[1]);
+				brand.setText(getIntent().getStringArrayExtra("product")[2]);
+				price.setText(getIntent().getStringArrayExtra("product")[3]);
+			}
+		}
 		if (gctBox.isChecked())
 			gct = "yes";
 		else
 			gct = "no";
-		if (getIntent().hasExtra("product")) {
-			upc.setText(getIntent().getStringArrayExtra("product")[0]);
-			name.setText(getIntent().getStringArrayExtra("product")[1]);
-			brand.setText(getIntent().getStringArrayExtra("product")[2]);
-			price.setText(getIntent().getStringArrayExtra("product")[3]);
-		}
-		gctBox.setOnClickListener(new OnClickListener() {
 
+		gctBox.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -152,16 +167,14 @@ public class ViewProductActivity extends Activity implements
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 		// TODO Auto-generated method stub
-		String classes[] = { "HomeActivity", "ScanItemActivity",
-				"FeedbackActivity" };
-		if (position != 0) {
-			try {
-				startActivity(new Intent(ViewProductActivity.this,
-						Class.forName("com.libratech.mia." + classes[position])));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		String classes[] = { "HomeActivity", "ScanActivity",
+				"AllProductsActivity", "FeedbackActivity" };
+		try {
+			startActivity(new Intent(ViewProductActivity.this,
+					Class.forName("com.libratech.mia." + classes[position])));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

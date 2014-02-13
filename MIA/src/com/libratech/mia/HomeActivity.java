@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,8 +27,7 @@ import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import com.libratech.mia.models.Product;
 import com.libratech.mia.models.Scanned;
 
-public class HomeActivity extends FragmentActivity implements
-		iRibbonMenuCallback {
+public class HomeActivity extends Activity implements iRibbonMenuCallback {
 
 	private RibbonMenuView rbmView;
 	DatabaseConnector db = new DatabaseConnector();
@@ -115,19 +114,8 @@ public class HomeActivity extends FragmentActivity implements
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == android.R.id.home) {
-			rbmView.toggleMenu();
-			return true;
-		} else {
-			return super.onOptionsItemSelected(item);
-		}
-	}
-
 	class getProducts extends AsyncTask<String, Void, JSONArray> {
 		protected JSONArray doInBackground(String... url) {
-
 			return db.DBPull(url[0]);
 		}
 
@@ -218,7 +206,6 @@ public class HomeActivity extends FragmentActivity implements
 			}
 			Toast.makeText(HomeActivity.this, message + " Loaded.",
 					Toast.LENGTH_SHORT).show();
-
 			if (all) {
 				all = false;
 				scanned = true;
@@ -229,9 +216,7 @@ public class HomeActivity extends FragmentActivity implements
 				unscanned = true;
 				new getProducts()
 						.execute("http://holycrosschurchjm.com/MIA_mysql.php?comp_id=COMP-00001&rec_date=2013-11-01&unscannedproducts=yes");
-
 			} else if (unscanned) {
-
 				numScanned = sProducts.size();
 				listview.setAdapter(new HomeAdapter(HomeActivity.this,
 						sProducts));
@@ -247,8 +232,7 @@ public class HomeActivity extends FragmentActivity implements
 
 	public void RibbonMenuItemClick(int itemId, int position) {
 		// TODO Auto-generated method stub
-
-		String classes[] = { "HomeActivity", "ScanItemActivity",
+		String classes[] = { "HomeActivity", "ScanActivity",
 				"AllProductsActivity", "FeedbackActivity" };
 		if (position != 0) {
 			try {
@@ -256,9 +240,18 @@ public class HomeActivity extends FragmentActivity implements
 						Class.forName("com.libratech.mia." + classes[position])));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-
 				e.printStackTrace();
 			}
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			rbmView.toggleMenu();
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
 	}
 

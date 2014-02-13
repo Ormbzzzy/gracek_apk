@@ -152,7 +152,7 @@ public class UpdateProductActivity extends Activity implements
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 		// TODO Auto-generated method stub
-		String classes[] = { "HomeActivity", "ScanItemActivity",
+		String classes[] = { "HomeActivity", "ScanActivity",
 				"FeedbackActivity" };
 		if (position != 0) {
 			try {

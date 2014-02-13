@@ -44,7 +44,7 @@ public class FeedbackActivity extends Activity implements iRibbonMenuCallback {
 	public void RibbonMenuItemClick(int itemId, int position) {
 		// TODO Auto-generated method stub
 
-		String classes[] = { "HomeActivity", "ScanItemActivity",
+		String classes[] = { "HomeActivity", "ScanActivity",
 				"AllProductsActivity", "FeedbackActivity" };
 		if (position != 0) {
 			try {
