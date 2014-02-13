@@ -12,18 +12,18 @@
         android:paddingRight="5dp"
         android:paddingTop="5dp" >
 
-        <ProgressBar
-            android:id="@+id/scanProgressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="10dp"/>
-
         <TextView
             android:id="@+id/ScanProgressText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/ScanProgressText" />
+
+        <ProgressBar
+            android:id="@+id/scanProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
 
         <LinearLayout
             style="?android:attr/buttonBarButtonStyle"

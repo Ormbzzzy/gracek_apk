@@ -220,15 +220,15 @@ public final class R {
         public static final int shopper_icon=0x7f020003;
     }
     public static final class id {
-        public static final int AllProducts=0x7f0a005f;
+        public static final int AllProducts=0x7f0a0060;
         public static final int Brand=0x7f0a003a;
         public static final int Category=0x7f0a0052;
-        public static final int Feedback=0x7f0a0060;
-        public static final int HomeActiviy=0x7f0a005d;
+        public static final int Feedback=0x7f0a0061;
+        public static final int HomeActiviy=0x7f0a005e;
         public static final int Name=0x7f0a0039;
         public static final int Price=0x7f0a003b;
-        public static final int ScanItemActivity=0x7f0a005e;
-        public static final int ScanProgressText=0x7f0a0028;
+        public static final int ScanItemActivity=0x7f0a005f;
+        public static final int ScanProgressText=0x7f0a0027;
         public static final int ScanitemName=0x7f0a002e;
         public static final int ScanitemPrice=0x7f0a0033;
         public static final int allBrand=0x7f0a000b;
@@ -248,7 +248,7 @@ public final class R {
         public static final int decode_failed=0x7f0a0001;
         public static final int decode_succeeded=0x7f0a0002;
         public static final int done_button=0x7f0a0024;
-        public static final int edit=0x7f0a0054;
+        public static final int edit=0x7f0a0055;
         public static final int format_text_view=0x7f0a0012;
         public static final int forwardArrow=0x7f0a0037;
         public static final int gct=0x7f0a003c;
@@ -268,13 +268,13 @@ public final class R {
         public static final int launch_product_query=0x7f0a0003;
         public static final int listItem=0x7f0a0009;
         public static final int mainlistview=0x7f0a002b;
-        public static final int menu_encode=0x7f0a005a;
-        public static final int menu_help=0x7f0a0059;
-        public static final int menu_history=0x7f0a0057;
-        public static final int menu_history_clear_text=0x7f0a005c;
-        public static final int menu_history_send=0x7f0a005b;
-        public static final int menu_settings=0x7f0a0058;
-        public static final int menu_share=0x7f0a0056;
+        public static final int menu_encode=0x7f0a005b;
+        public static final int menu_help=0x7f0a005a;
+        public static final int menu_history=0x7f0a0058;
+        public static final int menu_history_clear_text=0x7f0a005d;
+        public static final int menu_history_send=0x7f0a005c;
+        public static final int menu_settings=0x7f0a0059;
+        public static final int menu_share=0x7f0a0057;
         public static final int meta_text_view=0x7f0a0016;
         public static final int meta_text_view_label=0x7f0a0015;
         public static final int newTopic=0x7f0a0020;
@@ -297,7 +297,7 @@ public final class R {
         public static final int ribbonMenuView=0x7f0a0008;
         public static final int scan=0x7f0a003d;
         public static final int scanButton=0x7f0a002d;
-        public static final int scanProgressBar=0x7f0a0027;
+        public static final int scanProgressBar=0x7f0a0028;
         public static final int scannedbutton=0x7f0a0029;
         public static final int share_app_button=0x7f0a004c;
         public static final int share_bookmark_button=0x7f0a004d;
@@ -313,8 +313,9 @@ public final class R {
         public static final int topic=0x7f0a001f;
         public static final int type_text_view=0x7f0a0013;
         public static final int unscannedbutton=0x7f0a002a;
+        public static final int uom=0x7f0a0054;
         public static final int upc=0x7f0a0038;
-        public static final int update=0x7f0a0055;
+        public static final int update=0x7f0a0056;
         public static final int viewfinder_view=0x7f0a000f;
         public static final int weight=0x7f0a0053;
     }

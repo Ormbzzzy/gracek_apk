@@ -40,10 +40,10 @@ public class AllProductsActivity extends Activity implements
 				Bundle b = new Bundle();
 				Product p = (Product) arg0.getItemAtPosition(arg2);
 				String[] product = { p.getUpcCode(), p.getProductName(),
-						p.getBrand(), String.valueOf(p.getPrice()) };
+						p.getBrand(), String.valueOf(p.getPrice()),p.getWeight(),p.getUom()};
 				b.putStringArray("product", product);
 				b.putString("parent", "com.libratech.mia.AllProductsActivity");
-				Log.d("product", product[0] + product[1] + product[2]);
+				Log.d("product", product[0] + product[1] + product[2] + product[3] + product[4]);
 				startActivity(new Intent(AllProductsActivity.this,
 						UpdateProductActivity.class).putExtras(b));
 			}

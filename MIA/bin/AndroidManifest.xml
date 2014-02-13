@@ -28,7 +28,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.libratech.mia.HomeActivity"
-            android:label="@string/homeScreenName" >
+            android:label="Home" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -40,20 +40,19 @@
             />
         <activity
             android:name="com.libratech.mia.FeedbackActivity"
-            android:label="@string/app_name" />
+            android:label="Feedback" />
         <activity
             android:name="com.libratech.mia.ViewProductActivity"
-            android:label="@string/app_name" />
+            android:label="View Product" />
         <activity
             android:name="com.libratech.mia.ScanActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape" />
         <activity
             android:name="com.libratech.mia.UpdateProductActivity"
-            android:label="@string/app_name" />
+            android:label="Update Product" />
         <activity
             android:name="com.libratech.mia.AllProductsActivity"
-            android:label="@string/app_name"/>
+            android:label="All Products"/>
     </application>
-
 </manifest>

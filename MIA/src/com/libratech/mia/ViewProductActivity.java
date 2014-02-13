@@ -44,7 +44,7 @@ public class ViewProductActivity extends Activity implements
 		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 		rbmView.setMenuClickCallback(this);
 		rbmView.setMenuItems(R.menu.home);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		//getActionBar().setDisplayHomeAsUpEnabled(true);
 		scan = (Button) findViewById(R.id.scan);
 		upc = (TextView) findViewById(R.id.upc);
 		confirm = (Button) findViewById(R.id.confirm);
@@ -161,6 +161,7 @@ public class ViewProductActivity extends Activity implements
 			}
 			Toast.makeText(ViewProductActivity.this, message,
 					Toast.LENGTH_SHORT).show();
+			finish();
 		}
 	}
 

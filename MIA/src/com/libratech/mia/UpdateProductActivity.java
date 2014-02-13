@@ -26,8 +26,8 @@ import com.darvds.ribbonmenu.iRibbonMenuCallback;
 public class UpdateProductActivity extends Activity implements
 		iRibbonMenuCallback {
 
-	EditText price;
-	TextView brand, name, upc;
+	EditText price, weight;
+	TextView brand, name, upc,uom;
 	RibbonMenuView rbmView;
 	Button edit, update;
 	DatabaseConnector db = new DatabaseConnector();
@@ -42,7 +42,7 @@ public class UpdateProductActivity extends Activity implements
 		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 		rbmView.setMenuClickCallback(this);
 		rbmView.setMenuItems(R.menu.home);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		//getActionBar().setDisplayHomeAsUpEnabled(true);
 		edit = (Button) findViewById(R.id.edit);
 		upc = (TextView) findViewById(R.id.upc);
 		update = (Button) findViewById(R.id.update);
@@ -50,6 +50,8 @@ public class UpdateProductActivity extends Activity implements
 		name = (TextView) findViewById(R.id.Name);
 		price = (EditText) findViewById(R.id.Price);
 		gctBox = (CheckBox) findViewById(R.id.gct);
+		weight = (EditText) findViewById(R.id.weight);
+		uom = (TextView) findViewById(R.id.uom);
 		if (gctBox.isChecked())
 			gct = "yes";
 		else
@@ -59,6 +61,8 @@ public class UpdateProductActivity extends Activity implements
 			name.setText(getIntent().getStringArrayExtra("product")[1]);
 			brand.setText(getIntent().getStringArrayExtra("product")[2]);
 			price.setText(getIntent().getStringArrayExtra("product")[3]);
+			weight.setText(getIntent().getStringArrayExtra("product")[4]);
+			uom.setText(getIntent().getStringArrayExtra("product")[5]);
 		}
 		gctBox.setOnClickListener(new OnClickListener() {
 
@@ -146,6 +150,7 @@ public class UpdateProductActivity extends Activity implements
 			}
 			Toast.makeText(UpdateProductActivity.this, message,
 					Toast.LENGTH_SHORT).show();
+			finish();
 		}
 	}
 
