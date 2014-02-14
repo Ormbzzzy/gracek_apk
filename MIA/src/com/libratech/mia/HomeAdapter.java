@@ -1,9 +1,10 @@
 package com.libratech.mia;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,9 @@ public class HomeAdapter extends BaseAdapter {
 	public HomeAdapter(Context context, ArrayList<Scanned> aProducts) {
 		this.context = context;
 		this.data = aProducts;
-//		for (int i = 0; i < data.size(); i++) {
-//			Log.d("UPC to Adapter", ""+data.get(i).getUpcCode());
-//		}
+		// for (int i = 0; i < data.size(); i++) {
+		// Log.d("UPC to Adapter", ""+data.get(i).getUpcCode());
+		// }
 	}
 
 	@Override
@@ -48,12 +49,17 @@ public class HomeAdapter extends BaseAdapter {
 		}
 		TextView itemName = (TextView) vi.findViewById(R.id.itemName);
 		itemName.setText(data.get(position).getProductName());
-		TextView itemBrand = (TextView) vi.findViewById(R.id.itemBrand);
-		itemBrand.setText(data.get(position).getBrand());
+		// TextView itemBrand = (TextView) vi.findViewById(R.id.itemBrand);
+		// itemBrand.setText(data.get(position).getBrand());
 		TextView itemPrice = (TextView) vi.findViewById(R.id.itemPrice);
-		itemPrice.setText(String.valueOf(data.get(position).getPrice()));
+		NumberFormat format = NumberFormat.getNumberInstance();
+		format.setMinimumFractionDigits(2);
+		format.setMaximumFractionDigits(2);
+		itemPrice.setText(format.format(data.get(position).getPrice()));
 		CheckBox itemScanned = (CheckBox) vi.findViewById(R.id.itemScanned);
-		itemScanned.setChecked(data.get(position).getScanned());
+		Log.d("GCT", data.get(position).getGct());
+		itemScanned.setChecked(data.get(position).getGct()
+				.equalsIgnoreCase("yes"));
 		return vi;
 	}
 
@@ -62,4 +68,5 @@ public class HomeAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		return arg0;
 	}
+	
 }

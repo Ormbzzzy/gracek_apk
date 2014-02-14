@@ -64,7 +64,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 				Scanned p = (Scanned) arg0.getItemAtPosition(arg2);
 				String[] product = { p.getUpcCode(), p.getProductName(),
 						p.getBrand(), String.valueOf(p.getPrice()),
-						p.getWeight(),p.getUom() };
+						p.getWeight(),p.getUom(),p.getGct() };
 				b.putBoolean("scanned", p.getScanned());
 				b.putStringArray("product", product);
 				b.putString("parent", "com.libratech.mia.HomeActivity");
@@ -118,7 +118,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 		}
 		@Override
 		protected void onPostExecute(JSONArray result) {
-			Log.d("from db", result.toString());
+			Log.d(String.valueOf(all)+"|"+String.valueOf(scanned)+"|"+String.valueOf(unscanned), result.toString());
 			String upc, name, desc, brand, category, uom, gct, photo, weight;
 			name = desc = brand = category = uom = gct = photo = upc = weight = "";
 			String message = "Nothing";
@@ -126,7 +126,6 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 			for (int i = 0; i < result.length(); i++) {
 				try {
 					upc = result.getJSONArray(i).getString(0);
-					// upcCode=Integer.parseInt(upc);
 					Log.d("UPC from DB", upc);
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
@@ -170,7 +169,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 					e1.printStackTrace();
 				}
 				try {
-					photo = result.getJSONArray(i).getString(7);
+					photo = result.getJSONArray(i).getString(7);//price
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -181,16 +180,22 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 					message = "All Products";
 				} else if (scanned) {
 					try {
-						price = result.getJSONArray(i).getLong(7);
+						price = (float) result.getJSONArray(i).getDouble(7);
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					try {
-						gct = result.getJSONArray(i).getString(9);
+						gct = result.getJSONArray(i).getString(8);
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					}
+					try {
+						photo = result.getJSONArray(i).getString(9);//price
+					} catch (JSONException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 					sProducts.add(new Scanned(upc, weight, name, desc, brand,
 							category, uom, price, gct, photo, true));
@@ -214,6 +219,8 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 				new getProducts()
 						.execute("http://holycrosschurchjm.com/MIA_mysql.php?comp_id=COMP-00001&rec_date=2013-11-01&unscannedproducts=yes");
 			} else if (unscanned) {
+				unscanned = false;
+				all = true;
 				numScanned = sProducts.size();
 				listview.setAdapter(new HomeAdapter(HomeActivity.this,
 						sProducts));
@@ -252,9 +259,22 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 		}
 	}
 
+	
+	
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 	}
+
+	// @Override
+	// protected void onPostResume() {
+	// // TODO Auto-generated method stub
+	// super.onResume();
+	// unscanned = false;
+	// all = true;
+	// new getProducts()
+	// .execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
+	//
+	// }
 }

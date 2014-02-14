@@ -27,8 +27,8 @@ import com.libratech.mia.models.Product;
 public class ViewProductActivity extends Activity implements
 		iRibbonMenuCallback {
 
-	EditText price;
-	TextView brand, name, upc;
+	EditText price, weight;
+	TextView brand, name, upc,uom;
 	RibbonMenuView rbmView;
 	Button scan, confirm;
 	DatabaseConnector db = new DatabaseConnector();
@@ -52,6 +52,8 @@ public class ViewProductActivity extends Activity implements
 		name = (TextView) findViewById(R.id.Name);
 		price = (EditText) findViewById(R.id.Price);
 		gctBox = (CheckBox) findViewById(R.id.gct);
+		weight = (EditText) findViewById(R.id.weight);
+		uom = (TextView) findViewById(R.id.uom);
 		if (getIntent().hasExtra("code")) {
 			Toast.makeText(this, getIntent().getStringExtra("code"),
 					Toast.LENGTH_LONG).show();
@@ -71,12 +73,12 @@ public class ViewProductActivity extends Activity implements
 				name.setText(getIntent().getStringArrayExtra("product")[1]);
 				brand.setText(getIntent().getStringArrayExtra("product")[2]);
 				price.setText(getIntent().getStringArrayExtra("product")[3]);
+				weight.setText(getIntent().getStringArrayExtra("product")[4]);
+				uom.setText(getIntent().getStringArrayExtra("product")[5]);
+				gctBox.setChecked(getIntent().getStringArrayExtra("product")[6]
+						.equalsIgnoreCase("yes"));
 			}
 		}
-		if (gctBox.isChecked())
-			gct = "yes";
-		else
-			gct = "no";
 
 		gctBox.setOnClickListener(new OnClickListener() {
 			@Override

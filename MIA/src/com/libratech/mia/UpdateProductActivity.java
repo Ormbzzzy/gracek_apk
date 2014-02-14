@@ -1,5 +1,6 @@
 package com.libratech.mia;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,7 +28,7 @@ public class UpdateProductActivity extends Activity implements
 		iRibbonMenuCallback {
 
 	EditText price, weight;
-	TextView brand, name, upc,uom;
+	TextView brand, name, upc, uom;
 	RibbonMenuView rbmView;
 	Button edit, update;
 	DatabaseConnector db = new DatabaseConnector();
@@ -42,7 +43,7 @@ public class UpdateProductActivity extends Activity implements
 		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 		rbmView.setMenuClickCallback(this);
 		rbmView.setMenuItems(R.menu.home);
-		//getActionBar().setDisplayHomeAsUpEnabled(true);
+		// getActionBar().setDisplayHomeAsUpEnabled(true);
 		edit = (Button) findViewById(R.id.edit);
 		upc = (TextView) findViewById(R.id.upc);
 		update = (Button) findViewById(R.id.update);
@@ -52,10 +53,6 @@ public class UpdateProductActivity extends Activity implements
 		gctBox = (CheckBox) findViewById(R.id.gct);
 		weight = (EditText) findViewById(R.id.weight);
 		uom = (TextView) findViewById(R.id.uom);
-		if (gctBox.isChecked())
-			gct = "yes";
-		else
-			gct = "no";
 		if (getIntent().hasExtra("product")) {
 			upc.setText(getIntent().getStringArrayExtra("product")[0]);
 			name.setText(getIntent().getStringArrayExtra("product")[1]);
@@ -63,16 +60,18 @@ public class UpdateProductActivity extends Activity implements
 			price.setText(getIntent().getStringArrayExtra("product")[3]);
 			weight.setText(getIntent().getStringArrayExtra("product")[4]);
 			uom.setText(getIntent().getStringArrayExtra("product")[5]);
+			gctBox.setChecked(getIntent().getStringArrayExtra("product")[6].equalsIgnoreCase("yes"));
 		}
 		gctBox.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (gctBox.isChecked())
+				if (gctBox.isChecked()) {
 					gct = "yes";
-				else
+				} else {
 					gct = "no";
+				}
 			}
 		});
 		edit.setOnClickListener(new OnClickListener() {
@@ -157,8 +156,7 @@ public class UpdateProductActivity extends Activity implements
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 		// TODO Auto-generated method stub
-		String classes[] = { "HomeActivity", "ScanActivity",
-				"FeedbackActivity" };
+		String classes[] = { "HomeActivity", "ScanActivity", "FeedbackActivity" };
 		if (position != 0) {
 			try {
 				startActivity(new Intent(UpdateProductActivity.this,
