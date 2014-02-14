@@ -27,8 +27,8 @@ import com.darvds.ribbonmenu.iRibbonMenuCallback;
 public class UpdateProductActivity extends Activity implements
 		iRibbonMenuCallback {
 
-	EditText price, weight;
-	TextView brand, name, upc, uom;
+	EditText price;
+	TextView brand,weight, name, upc, uom;
 	RibbonMenuView rbmView;
 	Button edit, update;
 	DatabaseConnector db = new DatabaseConnector();
@@ -45,13 +45,14 @@ public class UpdateProductActivity extends Activity implements
 		rbmView.setMenuItems(R.menu.home);
 		// getActionBar().setDisplayHomeAsUpEnabled(true);
 		edit = (Button) findViewById(R.id.edit);
+		edit.setText("Cancel");
 		upc = (TextView) findViewById(R.id.upc);
 		update = (Button) findViewById(R.id.update);
 		brand = (TextView) findViewById(R.id.Brand);
 		name = (TextView) findViewById(R.id.Name);
 		price = (EditText) findViewById(R.id.Price);
 		gctBox = (CheckBox) findViewById(R.id.gct);
-		weight = (EditText) findViewById(R.id.weight);
+		weight = (TextView) findViewById(R.id.weight);
 		uom = (TextView) findViewById(R.id.uom);
 		if (getIntent().hasExtra("product")) {
 			upc.setText(getIntent().getStringArrayExtra("product")[0]);
@@ -79,21 +80,23 @@ public class UpdateProductActivity extends Activity implements
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				try {
-					Bundle b = new Bundle();
-					// String[] product = { name.getText(), brand.getText(),
-					// price.getText() };
-					// b.putStringArray("product", product);
-					b.putString("parent",
-							"com.libratech.mia.ViewProductActivity");
-					startActivity(new Intent(UpdateProductActivity.this, Class
-							.forName("com.libratech.mia.ScanActivity"))
-							.putExtras(b));
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				finish();
 			}
+			//	try {
+//					Bundle b = new Bundle();
+//					// String[] product = { name.getText(), brand.getText(),
+//					// price.getText() };
+//					// b.putStringArray("product", product);
+//					b.putString("parent",
+//							"com.libratech.mia.ViewProductActivity");
+//					startActivity(new Intent(UpdateProductActivity.this, Class
+//							.forName("com.libratech.mia.ScanActivity"))
+//							.putExtras(b));
+//				} catch (ClassNotFoundException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
 		});
 
 		update.setOnClickListener(new OnClickListener() {

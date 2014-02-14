@@ -27,8 +27,8 @@ import com.libratech.mia.models.Product;
 public class ViewProductActivity extends Activity implements
 		iRibbonMenuCallback {
 
-	EditText price, weight;
-	TextView brand, name, upc,uom;
+	EditText price;
+	TextView brand, weight, name, upc,uom;
 	RibbonMenuView rbmView;
 	Button scan, confirm;
 	DatabaseConnector db = new DatabaseConnector();
@@ -52,8 +52,9 @@ public class ViewProductActivity extends Activity implements
 		name = (TextView) findViewById(R.id.Name);
 		price = (EditText) findViewById(R.id.Price);
 		gctBox = (CheckBox) findViewById(R.id.gct);
-		weight = (EditText) findViewById(R.id.weight);
+		weight = (TextView) findViewById(R.id.weight);
 		uom = (TextView) findViewById(R.id.uom);
+		scan.setText("Cancel");
 		if (getIntent().hasExtra("code")) {
 			Toast.makeText(this, getIntent().getStringExtra("code"),
 					Toast.LENGTH_LONG).show();
@@ -64,6 +65,7 @@ public class ViewProductActivity extends Activity implements
 					brand.setText(products.get(i).getBrand());
 					name.setText(products.get(i).getProductName());
 					price.setText(String.valueOf(products.get(i).getPrice()));
+					weight.setText(products.get(i).getWeight());
 					break;
 				}
 			}
@@ -94,20 +96,21 @@ public class ViewProductActivity extends Activity implements
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				try {
-					Bundle b = new Bundle();
-					// String[] product = { name.getText(), brand.getText(),
-					// price.getText() };
-					// b.putStringArray("product", product);
-					b.putString("parent",
-							"com.libratech.mia.ViewProductActivity");
-					startActivity(new Intent(ViewProductActivity.this, Class
-							.forName("com.libratech.mia.ScanActivity"))
-							.putExtras(b));
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				finish();
+//				try {
+//					Bundle b = new Bundle();
+//					// String[] product = { name.getText(), brand.getText(),
+//					// price.getText() };
+//					// b.putStringArray("product", product);
+//					b.putString("parent",
+//							"com.libratech.mia.ViewProductActivity");
+//					startActivity(new Intent(ViewProductActivity.this, Class
+//							.forName("com.libratech.mia.ScanActivity"))
+//							.putExtras(b));
+//				} catch (ClassNotFoundException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 			}
 		});
 

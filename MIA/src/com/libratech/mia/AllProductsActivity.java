@@ -45,7 +45,7 @@ public class AllProductsActivity extends Activity implements
 				Product p = (Product) arg0.getItemAtPosition(arg2);
 				String[] product = { p.getUpcCode(), p.getProductName(),
 						p.getBrand(), String.valueOf(p.getPrice()),
-						p.getWeight(), p.getUom() };
+						p.getWeight(), p.getUom(),p.getGct() };
 				b.putStringArray("product", product);
 				b.putString("parent", "com.libratech.mia.AllProductsActivity");
 				Log.d("product", product[0] + product[1] + product[2]
