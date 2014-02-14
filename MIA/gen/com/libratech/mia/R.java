@@ -159,6 +159,7 @@ public final class R {
         public static final int Yellow=0x7f080020;
         public static final int YellowGreen=0x7f08006d;
         public static final int aqua=0x7f080016;
+        public static final int bbrown=0x7f0800a9;
         public static final int black=0x7f08001c;
         public static final int blue=0x7f08001a;
         public static final int contents_text=0x7f080000;
@@ -216,8 +217,10 @@ public final class R {
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
         public static final int launcher_icon=0x7f020001;
-        public static final int share_via_barcode=0x7f020002;
-        public static final int shopper_icon=0x7f020003;
+        public static final int mia_theme_drawable=0x7f020002;
+        public static final int no_image=0x7f020003;
+        public static final int share_via_barcode=0x7f020004;
+        public static final int shopper_icon=0x7f020005;
     }
     public static final class id {
         public static final int AllProducts=0x7f0a0060;
@@ -501,7 +504,6 @@ public final class R {
          */
         public static final int AppBaseTheme=0x7f0c0000;
         /**  Application theme. 
- All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f0c0001;
     }

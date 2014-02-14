@@ -142,6 +142,7 @@ int color WhiteSmoke 0x7f080043
 int color Yellow 0x7f080020
 int color YellowGreen 0x7f08006d
 int color aqua 0x7f080016
+int color bbrown 0x7f0800a9
 int color black 0x7f08001c
 int color blue 0x7f08001a
 int color contents_text 0x7f080000
@@ -183,8 +184,10 @@ int dimen rbm_menu_width 0x7f090002
 int dimen standard_padding 0x7f090000
 int drawable ic_launcher 0x7f020000
 int drawable launcher_icon 0x7f020001
-int drawable share_via_barcode 0x7f020002
-int drawable shopper_icon 0x7f020003
+int drawable mia_theme_drawable 0x7f020002
+int drawable no_image 0x7f020003
+int drawable share_via_barcode 0x7f020004
+int drawable shopper_icon 0x7f020005
 int id AllProducts 0x7f0a0060
 int id Brand 0x7f0a003b
 int id Category 0x7f0a0054
