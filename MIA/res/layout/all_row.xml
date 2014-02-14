@@ -12,14 +12,18 @@
         android:id="@+id/allName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="30"
+        android:layout_weight="35"
         android:text="Name" />
+
+    <View
+        android:layout_width="10dp"
+        android:layout_height="match_parent"/>
 
     <TextView
         android:id="@+id/allBrand"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="70"
+        android:layout_weight="60"
         android:text="Brand" />
 
 </LinearLayout>

@@ -24,35 +24,43 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="MIA"
+        android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.libratech.mia.HomeActivity"
-            android:label="Home" >
+            android:label="Home"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.libratech.mia.ScanItemActivity"
-            android:label="@string/app_name" 
-            />
+            android:label="@string/app_name" />
         <activity
             android:name="com.libratech.mia.FeedbackActivity"
-            android:label="Feedback" />
+            android:label="Feedback"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.libratech.mia.ViewProductActivity"
-            android:label="View Product" />
+            android:label="View Product"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.libratech.mia.ScanActivity"
             android:label="@string/app_name"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Black.NoTitleBar" />
         <activity
             android:name="com.libratech.mia.UpdateProductActivity"
-            android:label="Update Product" />
+            android:label="Update Product"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.libratech.mia.AllProductsActivity"
-            android:label="All Products"/>
+            android:label="All Products"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
     </application>
+
 </manifest>

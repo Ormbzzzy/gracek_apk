@@ -68,7 +68,7 @@
   <string name="msg_default_format">Format</string>
   <string name="msg_default_meta">Metadata</string>
   <string name="msg_default_mms_subject">Hi</string>
-  <string name="msg_default_status">Place QR code within the viewfinder area to scan. Use volume rockers to activate/deactivate torch.</string>
+  <string name="msg_default_status">Place barcode along the red line to scan. Use volume rockers to activate/deactivate torch.</string>
   <string name="msg_default_time">Time</string>
   <string name="msg_default_type">Type</string>
   <string name="msg_encode_contents_failed">Could not encode a barcode from the data provided.</string>

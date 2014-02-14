@@ -9,7 +9,7 @@
     android:weightSum="100" >
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="50"
         android:gravity="center_vertical"
@@ -19,30 +19,35 @@
             android:id="@+id/itemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name" >
-        </TextView>
+            android:text="Name" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_weight="50"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:weightSum="100" >
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/itemBrand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="45"
+            android:layout_gravity="right"
+            android:layout_weight="50"
             android:text="Brand" />
 
         <TextView
             android:id="@+id/itemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="45"
+            android:layout_gravity="right"
+            android:layout_weight="40"
             android:text="Price" />
 
         <CheckBox

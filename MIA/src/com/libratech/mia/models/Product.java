@@ -19,7 +19,7 @@ public class Product {
 	private String brand;
 	private String category;
 	private String uom;
-	private float price;
+	private float price = (float) 0.00;
 	private String gct;
 	private String photo;
 

@@ -31,7 +31,7 @@ public class ScanActivity extends CaptureActivity {
 		b.putString("code", scan);
 		try {
 			startActivity(new Intent(ScanActivity.this, Class
-					.forName("com.libratech.ViewProductActivity")).putExtras(b));
+					.forName("com.libratech.mia.ViewProductActivity")).putExtras(b));
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

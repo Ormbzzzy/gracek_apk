@@ -44,7 +44,7 @@ public class ViewProductActivity extends Activity implements
 		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 		rbmView.setMenuClickCallback(this);
 		rbmView.setMenuItems(R.menu.home);
-		//getActionBar().setDisplayHomeAsUpEnabled(true);
+		// getActionBar().setDisplayHomeAsUpEnabled(true);
 		scan = (Button) findViewById(R.id.scan);
 		upc = (TextView) findViewById(R.id.upc);
 		confirm = (Button) findViewById(R.id.confirm);
@@ -53,9 +53,11 @@ public class ViewProductActivity extends Activity implements
 		price = (EditText) findViewById(R.id.Price);
 		gctBox = (CheckBox) findViewById(R.id.gct);
 		if (getIntent().hasExtra("code")) {
+			Toast.makeText(this, getIntent().getStringExtra("code"),
+					Toast.LENGTH_LONG).show();
 			for (int i = 0; i < products.size(); i++) {
-				if (products.get(i).getUpcCode()
-						.equals(getIntent().hasExtra("code"))) {
+				if (getIntent().getStringExtra("code").contains(
+						products.get(i).getUpcCode())) {
 					upc.setText(products.get(i).getUpcCode());
 					brand.setText(products.get(i).getBrand());
 					name.setText(products.get(i).getProductName());
@@ -87,7 +89,6 @@ public class ViewProductActivity extends Activity implements
 			}
 		});
 		scan.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub

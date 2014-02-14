@@ -64,7 +64,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 				Scanned p = (Scanned) arg0.getItemAtPosition(arg2);
 				String[] product = { p.getUpcCode(), p.getProductName(),
 						p.getBrand(), String.valueOf(p.getPrice()),
-						p.getWeight() };
+						p.getWeight(),p.getUom() };
 				b.putBoolean("scanned", p.getScanned());
 				b.putStringArray("product", product);
 				b.putString("parent", "com.libratech.mia.HomeActivity");
@@ -80,7 +80,6 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 			}
 		});
 		tv = (TextView) findViewById(R.id.ScanProgressText);
-		// bA = (Button) findViewById(R.id.allbutton);
 		bS = (Button) findViewById(R.id.scannedbutton);
 		bU = (Button) findViewById(R.id.unscannedbutton);
 		pb = (ProgressBar) findViewById(R.id.scanProgressBar);
@@ -92,7 +91,6 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 				listview.setAdapter(new HomeAdapter(HomeActivity.this,
 						sProducts));
 				bU.setBackgroundColor(bS.getSolidColor());
-				// bA.setBackgroundColor(bS.getSolidColor());
 				bS.setBackgroundColor(bS.getHighlightColor());
 			}
 
@@ -118,7 +116,6 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 		protected JSONArray doInBackground(String... url) {
 			return db.DBPull(url[0]);
 		}
-
 		@Override
 		protected void onPostExecute(JSONArray result) {
 			Log.d("from db", result.toString());
