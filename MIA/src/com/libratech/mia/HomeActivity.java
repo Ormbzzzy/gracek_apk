@@ -10,7 +10,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -18,7 +21,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,13 +29,14 @@ import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import com.libratech.mia.models.Product;
 import com.libratech.mia.models.Scanned;
 
-public class HomeActivity extends Activity implements iRibbonMenuCallback {
+public class HomeActivity extends Activity implements iRibbonMenuCallback,
+		OnGestureListener {
 
 	private RibbonMenuView rbmView;
+	protected GestureDetector gest;
 	DatabaseConnector db = new DatabaseConnector();
 	boolean listReady = false;
 	ListView listview;
-	TabHost tabHost;
 	TextView tv;
 	Button bS, bU;
 	ProgressBar pb;
@@ -64,7 +67,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 				Scanned p = (Scanned) arg0.getItemAtPosition(arg2);
 				String[] product = { p.getUpcCode(), p.getProductName(),
 						p.getBrand(), String.valueOf(p.getPrice()),
-						p.getWeight(),p.getUom(),p.getGct() };
+						p.getWeight(), p.getUom(), p.getGct() };
 				b.putBoolean("scanned", p.getScanned());
 				b.putStringArray("product", product);
 				b.putString("parent", "com.libratech.mia.HomeActivity");
@@ -78,6 +81,12 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 							UpdateProductActivity.class).putExtras(b));
 				}
 			}
+		});
+		listview.setOnTouchListener(new OnSwipeTouchListener(this){
+			 public void onSwipeRight() {
+				 	rbmView.toggleMenu();
+			        Toast.makeText(HomeActivity.this, "right", Toast.LENGTH_SHORT).show();
+			    }
 		});
 		tv = (TextView) findViewById(R.id.ScanProgressText);
 		bS = (Button) findViewById(R.id.scannedbutton);
@@ -116,9 +125,11 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 		protected JSONArray doInBackground(String... url) {
 			return db.DBPull(url[0]);
 		}
+
 		@Override
 		protected void onPostExecute(JSONArray result) {
-			Log.d(String.valueOf(all)+"|"+String.valueOf(scanned)+"|"+String.valueOf(unscanned), result.toString());
+			Log.d(String.valueOf(all) + "|" + String.valueOf(scanned) + "|"
+					+ String.valueOf(unscanned), result.toString());
 			String upc, name, desc, brand, category, uom, gct, photo, weight;
 			name = desc = brand = category = uom = gct = photo = upc = weight = "";
 			String message = "Nothing";
@@ -169,7 +180,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 					e1.printStackTrace();
 				}
 				try {
-					photo = result.getJSONArray(i).getString(7);//price
+					photo = result.getJSONArray(i).getString(7);// price
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -192,7 +203,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 						e.printStackTrace();
 					}
 					try {
-						photo = result.getJSONArray(i).getString(9);//price
+						photo = result.getJSONArray(i).getString(9);// price
 					} catch (JSONException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -259,8 +270,6 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 		}
 	}
 
-	
-	
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
@@ -277,4 +286,43 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 	// .execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
 	//
 	// }
+
+	@Override
+	public boolean onDown(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+			float velocityY) {
+		// TODO Auto-generated method stub
+		rbmView.toggleMenu();
+		return false;
+	}
+
+	@Override
+	public void onLongPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+			float distanceY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onShowPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
