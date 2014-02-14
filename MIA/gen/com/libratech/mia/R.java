@@ -163,6 +163,7 @@ public final class R {
         public static final int black=0x7f08001c;
         public static final int blue=0x7f08001a;
         public static final int contents_text=0x7f080000;
+        public static final int coolred=0x7f0800aa;
         public static final int encode_view=0x7f080001;
         public static final int fuchsia=0x7f08000f;
         public static final int gray=0x7f080012;
@@ -231,7 +232,7 @@ public final class R {
         public static final int Name=0x7f0a003a;
         public static final int Price=0x7f0a003e;
         public static final int ScanItemActivity=0x7f0a005f;
-        public static final int ScanProgressText=0x7f0a0028;
+        public static final int ScanProgressText=0x7f0a0029;
         public static final int ScanitemName=0x7f0a002f;
         public static final int ScanitemPrice=0x7f0a0034;
         public static final int allBrand=0x7f0a000c;
@@ -300,7 +301,7 @@ public final class R {
         public static final int ribbonMenuView=0x7f0a0009;
         public static final int scan=0x7f0a0040;
         public static final int scanButton=0x7f0a002e;
-        public static final int scanProgressBar=0x7f0a0029;
+        public static final int scanProgressBar=0x7f0a0028;
         public static final int scannedbutton=0x7f0a002a;
         public static final int share_app_button=0x7f0a004e;
         public static final int share_bookmark_button=0x7f0a004f;
@@ -506,6 +507,7 @@ public final class R {
         /**  Application theme. 
          */
         public static final int AppTheme=0x7f0c0001;
+        public static final int HomeActionBar=0x7f0c0002;
     }
     public static final class xml {
         public static final int preferences=0x7f050000;

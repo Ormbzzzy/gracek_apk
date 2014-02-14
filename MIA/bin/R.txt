@@ -146,6 +146,7 @@ int color bbrown 0x7f0800a9
 int color black 0x7f08001c
 int color blue 0x7f08001a
 int color contents_text 0x7f080000
+int color coolred 0x7f0800aa
 int color encode_view 0x7f080001
 int color fuchsia 0x7f08000f
 int color gray 0x7f080012
@@ -196,7 +197,7 @@ int id HomeActiviy 0x7f0a005e
 int id Name 0x7f0a003a
 int id Price 0x7f0a003e
 int id ScanItemActivity 0x7f0a005f
-int id ScanProgressText 0x7f0a0028
+int id ScanProgressText 0x7f0a0029
 int id ScanitemName 0x7f0a002f
 int id ScanitemPrice 0x7f0a0034
 int id allBrand 0x7f0a000c
@@ -265,7 +266,7 @@ int id return_scan_result 0x7f0a0006
 int id ribbonMenuView 0x7f0a0009
 int id scan 0x7f0a0040
 int id scanButton 0x7f0a002e
-int id scanProgressBar 0x7f0a0029
+int id scanProgressBar 0x7f0a0028
 int id scannedbutton 0x7f0a002a
 int id share_app_button 0x7f0a004e
 int id share_bookmark_button 0x7f0a004f
@@ -438,4 +439,5 @@ int string wifi_ssid_label 0x7f0b0077
 int string wifi_type_label 0x7f0b0078
 int style AppBaseTheme 0x7f0c0000
 int style AppTheme 0x7f0c0001
+int style HomeActionBar 0x7f0c0002
 int xml preferences 0x7f050000

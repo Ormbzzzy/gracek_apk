@@ -151,7 +151,7 @@ public class ViewProductActivity extends Activity implements
 							.execute("http://holycrosschurchjm.com/MIA_mysql.php?addScannedProduct=yes&upc_code="
 									+ upc.getText()
 									+ "&merch_id=MER-00001&comp_id=COMP-00001&rec_date=2013-11-01&price="
-									+ price.getText() + "&gct=yes");
+									+ price.getText() + "&gct="+gct);
 					// new pushProduct().execute(nameValuePairs);
 
 				}
