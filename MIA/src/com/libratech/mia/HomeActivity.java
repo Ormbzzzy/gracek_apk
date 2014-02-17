@@ -29,8 +29,7 @@ import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import com.libratech.mia.models.Product;
 import com.libratech.mia.models.Scanned;
 
-public class HomeActivity extends Activity implements iRibbonMenuCallback,
-		OnGestureListener {
+public class HomeActivity extends Activity implements iRibbonMenuCallback {
 
 	private RibbonMenuView rbmView;
 	protected GestureDetector gest;
@@ -44,10 +43,11 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback,
 	boolean all = true;
 	boolean scanned = false;
 	boolean unscanned = false;
+	boolean done = false;
 
 	public static ArrayList<Product> aProducts = new ArrayList<Product>();
 	ArrayList<Scanned> uProducts = new ArrayList<Scanned>();
-	ArrayList<Scanned> sProducts = new ArrayList<Scanned>();
+	public static ArrayList<Scanned> sProducts = new ArrayList<Scanned>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +82,12 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback,
 				}
 			}
 		});
-		listview.setOnTouchListener(new OnSwipeTouchListener(this){
-			 public void onSwipeRight() {
-				 	rbmView.toggleMenu();
-			        Toast.makeText(HomeActivity.this, "right", Toast.LENGTH_SHORT).show();
-			    }
+		listview.setOnTouchListener(new OnSwipeTouchListener(this) {
+			public void onSwipeRight() {
+				rbmView.toggleMenu();
+				Toast.makeText(HomeActivity.this, "right", Toast.LENGTH_SHORT)
+						.show();
+			}
 		});
 		tv = (TextView) findViewById(R.id.ScanProgressText);
 		bS = (Button) findViewById(R.id.scannedbutton);
@@ -128,8 +129,6 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback,
 
 		@Override
 		protected void onPostExecute(JSONArray result) {
-			Log.d(String.valueOf(all) + "|" + String.valueOf(scanned) + "|"
-					+ String.valueOf(unscanned), result.toString());
 			String upc, name, desc, brand, category, uom, gct, photo, weight;
 			name = desc = brand = category = uom = gct = photo = upc = weight = "";
 			String message = "Nothing";
@@ -137,7 +136,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback,
 			for (int i = 0; i < result.length(); i++) {
 				try {
 					upc = result.getJSONArray(i).getString(0);
-					Log.d("UPC from DB", upc);
+				//	Log.d("UPC from DB", upc);
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -168,7 +167,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback,
 				}
 				try {
 					weight = result.getJSONArray(i).getString(5);
-					Log.d("weight from DB", weight);
+				//	Log.d("weight from DB", weight);
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -232,6 +231,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback,
 			} else if (unscanned) {
 				unscanned = false;
 				all = true;
+				done = true;
 				numScanned = sProducts.size();
 				listview.setAdapter(new HomeAdapter(HomeActivity.this,
 						sProducts));
@@ -276,53 +276,17 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback,
 		super.onPause();
 	}
 
-	// @Override
-	// protected void onPostResume() {
-	// // TODO Auto-generated method stub
-	// super.onResume();
-	// unscanned = false;
-	// all = true;
-	// new getProducts()
-	// .execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
-	//
-	// }
-
 	@Override
-	public boolean onDown(MotionEvent e) {
+	protected void onResume() {
 		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-			float velocityY) {
-		// TODO Auto-generated method stub
-		rbmView.toggleMenu();
-		return false;
-	}
-
-	@Override
-	public void onLongPress(MotionEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-			float distanceY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void onShowPress(MotionEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean onSingleTapUp(MotionEvent e) {
-		// TODO Auto-generated method stub
-		return false;
+		if (done) {
+			done = false;
+			aProducts = new ArrayList<Product>();
+			sProducts = new ArrayList<Scanned>();
+			uProducts = new ArrayList<Scanned>();
+			new getProducts()
+					.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
+		}
+		super.onResume();
 	}
 }

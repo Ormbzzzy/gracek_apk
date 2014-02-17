@@ -2,8 +2,12 @@ package com.libratech.mia;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,10 +18,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import com.libratech.mia.models.Product;
+import com.libratech.mia.models.Scanned;
 
 public class AllProductsActivity extends Activity implements
 		iRibbonMenuCallback {
@@ -25,6 +31,8 @@ public class AllProductsActivity extends Activity implements
 	EditText search;
 	ListView listview;
 	ArrayList<Product> products = HomeActivity.aProducts;
+	ArrayList<Scanned> scanned = HomeActivity.sProducts;
+	Boolean updated;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +50,18 @@ public class AllProductsActivity extends Activity implements
 					long arg3) {
 				// TODO Auto-generated method stub
 				Bundle b = new Bundle();
+				Scanned s = null;
 				Product p = (Product) arg0.getItemAtPosition(arg2);
+				for (int i = 0; i < scanned.size(); i++) {
+					s = scanned.get(i);
+					if (s.getUpcCode().equals(p.getUpcCode())) {
+						p.setPrice(s.getPrice());
+						p.setGct(s.getGct());
+					}
+				}
 				String[] product = { p.getUpcCode(), p.getProductName(),
 						p.getBrand(), String.valueOf(p.getPrice()),
-						p.getWeight(), p.getUom(),p.getGct() };
+						p.getWeight(), p.getUom(), p.getGct() };
 				b.putStringArray("product", product);
 				b.putString("parent", "com.libratech.mia.AllProductsActivity");
 				Log.d("product", product[0] + product[1] + product[2]
@@ -74,19 +90,96 @@ public class AllProductsActivity extends Activity implements
 			}
 
 			@Override
+			public void afterTextChanged(Editable arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
 					int arg2, int arg3) {
 				// TODO Auto-generated method stub
 
 			}
 
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-
-			}
 		});
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+
+	class getProducts extends AsyncTask<String, Void, JSONArray> {
+		protected JSONArray doInBackground(String... url) {
+			return new DatabaseConnector().DBPull(url[0]);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			Toast.makeText(AllProductsActivity.this, "Updating products.",
+					Toast.LENGTH_SHORT).show();
+			super.onPreExecute();
+		}
+
+		@Override
+		protected void onPostExecute(JSONArray result) {
+			String upc, name, desc, brand, category, uom, gct, photo, weight;
+			name = desc = brand = category = uom = gct = photo = upc = weight = "";
+			float price = (float) 0.00;
+			for (int i = 0; i < result.length(); i++) {
+				try {
+					upc = result.getJSONArray(i).getString(0);
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					name = result.getJSONArray(i).getString(1);
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					desc = result.getJSONArray(i).getString(2);
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					brand = result.getJSONArray(i).getString(3);
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					category = result.getJSONArray(i).getString(4);
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					weight = result.getJSONArray(i).getString(5);
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					uom = result.getJSONArray(i).getString(6);
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					photo = result.getJSONArray(i).getString(7);// price
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				products.add(new Product(upc, weight, name, desc, brand,
+						category, uom, price, gct, photo));
+				Toast.makeText(AllProductsActivity.this, "Products Updated",
+						Toast.LENGTH_SHORT).show();
+				updated = true;
+			}
+		}
 	}
 
 	@Override
@@ -113,6 +206,22 @@ public class AllProductsActivity extends Activity implements
 				e.printStackTrace();
 			}
 		}
-
 	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		if (updated) {
+			products = new ArrayList<Product>();
+			new getProducts()
+					.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
+		}
+	}
+
 }

@@ -1,5 +1,12 @@
 package com.libratech.mia;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,14 +16,19 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +40,8 @@ public class ViewProductActivity extends Activity implements
 		iRibbonMenuCallback {
 
 	EditText price;
+	ImageView img;
+	File image;
 	TextView brand, weight, name, upc, uom;
 	RibbonMenuView rbmView;
 	Button scan, confirm;
@@ -52,6 +66,7 @@ public class ViewProductActivity extends Activity implements
 		name = (TextView) findViewById(R.id.Name);
 		price = (EditText) findViewById(R.id.Price);
 		gctBox = (CheckBox) findViewById(R.id.gct);
+		img = (ImageView) findViewById(R.id.image);
 		weight = (TextView) findViewById(R.id.weight);
 		uom = (TextView) findViewById(R.id.uom);
 		scan.setText("Cancel");
@@ -82,6 +97,14 @@ public class ViewProductActivity extends Activity implements
 			}
 		}
 
+		image = new File(Environment.getExternalStorageDirectory().toString()
+				+ "/MIA/images", upc.getText() + ".jpg");
+		if (!image.exists()) {
+			new downloadImage()
+					.execute("http://th09.deviantart.net/fs17/PRE/f/2007/129/7/4/Stock_032__by_enchanted_stock.jpg");
+		} else {
+			img.setImageBitmap(BitmapFactory.decodeFile(image.getAbsolutePath()));
+		}
 		gctBox.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -97,20 +120,6 @@ public class ViewProductActivity extends Activity implements
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				finish();
-				// try {
-				// Bundle b = new Bundle();
-				// // String[] product = { name.getText(), brand.getText(),
-				// // price.getText() };
-				// // b.putStringArray("product", product);
-				// b.putString("parent",
-				// "com.libratech.mia.ViewProductActivity");
-				// startActivity(new Intent(ViewProductActivity.this, Class
-				// .forName("com.libratech.mia.ScanActivity"))
-				// .putExtras(b));
-				// } catch (ClassNotFoundException e) {
-				// // TODO Auto-generated catch block
-				// e.printStackTrace();
-				// }
 			}
 		});
 
@@ -151,7 +160,7 @@ public class ViewProductActivity extends Activity implements
 							.execute("http://holycrosschurchjm.com/MIA_mysql.php?addScannedProduct=yes&upc_code="
 									+ upc.getText()
 									+ "&merch_id=MER-00001&comp_id=COMP-00001&rec_date=2013-11-01&price="
-									+ price.getText() + "&gct="+gct);
+									+ price.getText() + "&gct=" + gct);
 					// new pushProduct().execute(nameValuePairs);
 
 				}
@@ -175,6 +184,54 @@ public class ViewProductActivity extends Activity implements
 			Toast.makeText(ViewProductActivity.this, message,
 					Toast.LENGTH_SHORT).show();
 			finish();
+		}
+	}
+
+	class downloadImage extends AsyncTask<String, Void, Bitmap> {
+		protected Bitmap doInBackground(String... fileUrl) {
+			URL myFileUrl = null;
+
+			try {
+				myFileUrl = new URL(fileUrl[0]);
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				HttpURLConnection conn = (HttpURLConnection) myFileUrl
+						.openConnection();
+				conn.setDoInput(true);
+				conn.connect();
+				InputStream is = conn.getInputStream();
+				Log.i("im connected", "Download");
+				return BitmapFactory.decodeStream(is);
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Bitmap result) {
+			// TODO Auto-generated method stub
+			img.setImageBitmap(result);
+			image.getParentFile().mkdirs();
+			try {
+				FileOutputStream out = new FileOutputStream(image);
+				result.compress(Bitmap.CompressFormat.JPEG, 90, out);
+				out.flush();
+				out.close();
+				MediaStore.Images.Media.insertImage(getContentResolver(),
+						image.getAbsolutePath(), image.getName(),
+						image.getName());
+				Toast.makeText(getApplicationContext(),
+						"File is Saved in  " + image, 1000).show();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 		}
 	}
 
