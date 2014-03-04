@@ -32,7 +32,7 @@ public class AllProductsActivity extends Activity implements
 	ListView listview;
 	ArrayList<Product> products = HomeActivity.aProducts;
 	ArrayList<Scanned> scanned = HomeActivity.sProducts;
-	Boolean updated;
+	Boolean updated = false; 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,7 @@ public class AllProductsActivity extends Activity implements
 					if (s.getUpcCode().equals(p.getUpcCode())) {
 						p.setPrice(s.getPrice());
 						p.setGct(s.getGct());
+						break;
 					}
 				}
 				String[] product = { p.getUpcCode(), p.getProductName(),
@@ -217,6 +218,7 @@ public class AllProductsActivity extends Activity implements
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
+		super.onResume();
 		if (updated) {
 			products = new ArrayList<Product>();
 			new getProducts()

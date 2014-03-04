@@ -83,21 +83,6 @@ public class UpdateProductActivity extends Activity implements
 				// TODO Auto-generated method stub
 				finish();
 			}
-			// try {
-			// Bundle b = new Bundle();
-			// // String[] product = { name.getText(), brand.getText(),
-			// // price.getText() };
-			// // b.putStringArray("product", product);
-			// b.putString("parent",
-			// "com.libratech.mia.ViewProductActivity");
-			// startActivity(new Intent(UpdateProductActivity.this, Class
-			// .forName("com.libratech.mia.ScanActivity"))
-			// .putExtras(b));
-			// } catch (ClassNotFoundException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// }
 		});
 
 		update.setOnClickListener(new OnClickListener() {
@@ -136,7 +121,7 @@ public class UpdateProductActivity extends Activity implements
 							.execute("http://holycrosschurchjm.com/MIA_mysql.php?updateScannedProduct=yes&upc_code="
 									+ upc.getText()
 									+ "&merch_id=MER-00001&comp_id=COMP-00001&rec_date=2013-11-01&price="
-									+ price.getText() + "&gct="+gct);
+									+ price.getText() + "&gct=" + gct);
 					// new pushProduct().execute(nameValuePairs);
 				}
 			}

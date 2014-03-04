@@ -79,4 +79,17 @@ public class DatabaseConnector {
 			return false;
 		}
 	}
+	
+	public boolean DBLogin(String id,String pass) {
+
+		DefaultHttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost("http://www.holycrosschurchjm.com/MIA_mysql.php?userlogin=yes&t_id="+id+"&t_password="+pass);
+		try {
+			httpclient.execute(httppost);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

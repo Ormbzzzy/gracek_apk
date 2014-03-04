@@ -11,9 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -133,6 +131,8 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 			name = desc = brand = category = uom = gct = photo = upc = weight = "";
 			String message = "Nothing";
 			float price = (float) 0.00;
+			if (result==null)
+				result=new JSONArray();
 			for (int i = 0; i < result.length(); i++) {
 				try {
 					upc = result.getJSONArray(i).getString(0);
@@ -235,7 +235,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 				numScanned = sProducts.size();
 				listview.setAdapter(new HomeAdapter(HomeActivity.this,
 						sProducts));
-				bS.setBackgroundColor(bS.getHighlightColor());
+				bS.callOnClick();
 				pb.setMax(sProducts.size() + uProducts.size());
 				pb.setProgress(sProducts.size());
 				tv.setText("" + sProducts.size() + "\\"
@@ -279,14 +279,16 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
+		super.onResume();
 		if (done) {
 			done = false;
-			aProducts = new ArrayList<Product>();
-			sProducts = new ArrayList<Scanned>();
-			uProducts = new ArrayList<Scanned>();
+			unscanned = false;
+			all = true;
+			aProducts.clear();
+			sProducts.clear();
+			uProducts.clear();
 			new getProducts()
 					.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
 		}
-		super.onResume();
 	}
 }

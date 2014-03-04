@@ -58,7 +58,6 @@ public class ViewProductActivity extends Activity implements
 		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 		rbmView.setMenuClickCallback(this);
 		rbmView.setMenuItems(R.menu.home);
-		// getActionBar().setDisplayHomeAsUpEnabled(true);
 		scan = (Button) findViewById(R.id.scan);
 		upc = (TextView) findViewById(R.id.upc);
 		confirm = (Button) findViewById(R.id.confirm);
@@ -71,8 +70,6 @@ public class ViewProductActivity extends Activity implements
 		uom = (TextView) findViewById(R.id.uom);
 		scan.setText("Cancel");
 		if (getIntent().hasExtra("code")) {
-			Toast.makeText(this, getIntent().getStringExtra("code"),
-					Toast.LENGTH_LONG).show();
 			for (int i = 0; i < products.size(); i++) {
 				if (getIntent().getStringExtra("code").contains(
 						products.get(i).getUpcCode())) {
@@ -83,6 +80,10 @@ public class ViewProductActivity extends Activity implements
 					weight.setText(products.get(i).getWeight());
 					break;
 				}
+				Toast.makeText(ViewProductActivity.this,
+						"That product is not in the system.",
+						Toast.LENGTH_SHORT).show();
+				finish();
 			}
 		} else {
 			if (getIntent().hasExtra("product")) {
@@ -100,8 +101,8 @@ public class ViewProductActivity extends Activity implements
 		image = new File(Environment.getExternalStorageDirectory().toString()
 				+ "/MIA/images", upc.getText() + ".jpg");
 		if (!image.exists()) {
-			new downloadImage()
-					.execute("http://th09.deviantart.net/fs17/PRE/f/2007/129/7/4/Stock_032__by_enchanted_stock.jpg");
+			// new downloadImage()
+			// .execute("http://th09.deviantart.net/fs17/PRE/f/2007/129/7/4/Stock_032__by_enchanted_stock.jpg");
 		} else {
 			img.setImageBitmap(BitmapFactory.decodeFile(image.getAbsolutePath()));
 		}

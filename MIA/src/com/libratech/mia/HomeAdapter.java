@@ -4,7 +4,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +56,6 @@ public class HomeAdapter extends BaseAdapter {
 		format.setMaximumFractionDigits(2);
 		itemPrice.setText(format.format(data.get(position).getPrice()));
 		CheckBox itemScanned = (CheckBox) vi.findViewById(R.id.itemScanned);
-		Log.d("GCT", data.get(position).getGct());
 		itemScanned.setChecked(data.get(position).getGct()
 				.equalsIgnoreCase("yes"));
 		return vi;
