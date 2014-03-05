@@ -6,7 +6,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -115,8 +118,14 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 				bU.setBackgroundColor(bU.getHighlightColor());
 			}
 		});
-		new getProducts()
-				.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
+		if (isConnected()) {
+			new getProducts()
+					.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
+		} else {
+			Toast.makeText(HomeActivity.this,
+					"No network connection, please check your connection and reload the application",
+					Toast.LENGTH_LONG).show();
+		}
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
@@ -129,14 +138,13 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 		protected void onPostExecute(JSONArray result) {
 			String upc, name, desc, brand, category, uom, gct, photo, weight;
 			name = desc = brand = category = uom = gct = photo = upc = weight = "";
-			String message = "Nothing";
 			float price = (float) 0.00;
-			if (result==null)
-				result=new JSONArray();
+			if (result == null)
+				result = new JSONArray();
 			for (int i = 0; i < result.length(); i++) {
 				try {
 					upc = result.getJSONArray(i).getString(0);
-				//	Log.d("UPC from DB", upc);
+					// Log.d("UPC from DB", upc);
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -167,7 +175,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 				}
 				try {
 					weight = result.getJSONArray(i).getString(5);
-				//	Log.d("weight from DB", weight);
+					// Log.d("weight from DB", weight);
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -187,7 +195,6 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 				if (all) {
 					aProducts.add(new Product(upc, weight, name, desc, brand,
 							category, uom, price, gct, photo));
-					message = "All Products";
 				} else if (scanned) {
 					try {
 						price = (float) result.getJSONArray(i).getDouble(7);
@@ -209,21 +216,20 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 					}
 					sProducts.add(new Scanned(upc, weight, name, desc, brand,
 							category, uom, price, gct, photo, true));
-					message = "Scanned Products";
 				} else if (unscanned) {
 					uProducts.add(new Scanned(upc, weight, name, desc, brand,
 							category, uom, price, gct, photo, false));
-					message = "Unscanned Products";
 				}
 			}
-			Toast.makeText(HomeActivity.this, message + " Loaded.",
-					Toast.LENGTH_SHORT).show();
+
 			if (all) {
+				sProducts.clear();
 				all = false;
 				scanned = true;
 				new getProducts()
 						.execute("http://holycrosschurchjm.com/MIA_mysql.php?comp_id=COMP-00001&rec_date=2013-11-01&scannedproducts=yes");
 			} else if (scanned) {
+				uProducts.clear();
 				scanned = false;
 				unscanned = true;
 				new getProducts()
@@ -241,6 +247,15 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 				tv.setText("" + sProducts.size() + "\\"
 						+ (sProducts.size() + uProducts.size())
 						+ " items scanned.");
+				if (aProducts.size() == 0) {
+					Toast.makeText(HomeActivity.this,
+							"No products were found.", Toast.LENGTH_SHORT)
+							.show();
+				} else {
+					Toast.makeText(HomeActivity.this,
+							"All products have been loaded.",
+							Toast.LENGTH_SHORT).show();
+				}
 			}
 		}
 	}
@@ -282,13 +297,23 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 		super.onResume();
 		if (done) {
 			done = false;
-			unscanned = false;
-			all = true;
-			aProducts.clear();
-			sProducts.clear();
-			uProducts.clear();
 			new getProducts()
 					.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
 		}
+	}
+
+	public boolean isConnected() {
+		ConnectivityManager connectivity = (ConnectivityManager) this
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (connectivity != null) {
+			NetworkInfo[] info = connectivity.getAllNetworkInfo();
+			if (info != null)
+				for (int i = 0; i < info.length; i++)
+					if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+						return true;
+					}
+
+		}
+		return false;
 	}
 }

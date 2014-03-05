@@ -80,16 +80,16 @@ public class DatabaseConnector {
 		}
 	}
 	
-	public boolean DBLogin(String id,String pass) {
-
-		DefaultHttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost("http://www.holycrosschurchjm.com/MIA_mysql.php?userlogin=yes&t_id="+id+"&t_password="+pass);
-		try {
-			httpclient.execute(httppost);
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+//	public JSONArray DBLogin(String id,String pass) {
+//
+//		DefaultHttpClient httpclient = new DefaultHttpClient();
+//		HttpPost httppost = new HttpPost("http://www.holycrosschurchjm.com/MIA_mysql.php?userLogin=yes&username="+id+"&password="+pass);
+//		try {
+//			httpclient.execute(httppost);
+//			return true;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return false;
+//		}
+//	}
 }

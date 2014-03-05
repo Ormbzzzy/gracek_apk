@@ -32,7 +32,7 @@ public class AllProductsActivity extends Activity implements
 	ListView listview;
 	ArrayList<Product> products = HomeActivity.aProducts;
 	ArrayList<Scanned> scanned = HomeActivity.sProducts;
-	Boolean updated = false; 
+	Boolean updated = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class AllProductsActivity extends Activity implements
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
+				boolean found = false;
 				Bundle b = new Bundle();
 				Scanned s = null;
 				Product p = (Product) arg0.getItemAtPosition(arg2);
@@ -57,18 +58,34 @@ public class AllProductsActivity extends Activity implements
 					if (s.getUpcCode().equals(p.getUpcCode())) {
 						p.setPrice(s.getPrice());
 						p.setGct(s.getGct());
+						String[] product = { p.getUpcCode(),
+								p.getProductName(), p.getBrand(),
+								String.valueOf(p.getPrice()), p.getWeight(),
+								p.getUom(), p.getGct() };
+						b.putStringArray("product", product);
+						b.putString("parent",
+								"com.libratech.mia.AllProductsActivity");
+						Log.d("product", product[0] + product[1] + product[2]
+								+ product[3] + product[4]);
+						startActivity(new Intent(AllProductsActivity.this,
+								UpdateProductActivity.class).putExtras(b));
+						found = true;
 						break;
 					}
 				}
-				String[] product = { p.getUpcCode(), p.getProductName(),
-						p.getBrand(), String.valueOf(p.getPrice()),
-						p.getWeight(), p.getUom(), p.getGct() };
-				b.putStringArray("product", product);
-				b.putString("parent", "com.libratech.mia.AllProductsActivity");
-				Log.d("product", product[0] + product[1] + product[2]
-						+ product[3] + product[4]);
-				startActivity(new Intent(AllProductsActivity.this,
-						UpdateProductActivity.class).putExtras(b));
+				if (!found) {
+					String[] product = { p.getUpcCode(), p.getProductName(),
+							p.getBrand(), String.valueOf(p.getPrice()),
+							p.getWeight(), p.getUom(), p.getGct() };
+					b.putStringArray("product", product);
+					b.putString("parent",
+							"com.libratech.mia.AllProductsActivity");
+					Log.d("product", product[0] + product[1] + product[2]
+							+ product[3] + product[4]);
+					startActivity(new Intent(AllProductsActivity.this,
+							ViewProductActivity.class).putExtras(b));
+
+				}
 			}
 		});
 		search.addTextChangedListener(new TextWatcher() {
@@ -219,6 +236,9 @@ public class AllProductsActivity extends Activity implements
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		String text = search.getText().toString();
+		search.setText("");
+		search.setText(text);
 		if (updated) {
 			products = new ArrayList<Product>();
 			new getProducts()

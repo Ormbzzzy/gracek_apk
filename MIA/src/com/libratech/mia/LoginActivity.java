@@ -1,28 +1,33 @@
 package com.libratech.mia;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class LoginActivity extends Activity {
 
-	public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
-
-	private UserLoginTask mAuthTask = null;
-
 	// Values for email and password at the time of the login attempt.
-	private DatabaseConnector db;
+	private DatabaseConnector db = new DatabaseConnector();
 	private String empID;
 	private String empPass;
 	// UI references.
@@ -42,14 +47,10 @@ public class LoginActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		// getMenuInflater().inflate(R.menu.login, menu);
 		return true;
 	}
 
 	public void attemptLogin() {
-		if (mAuthTask != null) {
-			return;
-		}
 
 		// Reset errors.
 		id.setError(null);
@@ -58,7 +59,6 @@ public class LoginActivity extends Activity {
 		// Store values at the time of the login attempt.
 		empID = id.getText().toString();
 		empPass = pass.getText().toString();
-
 		boolean cancel = false;
 		View focusView = null;
 
@@ -82,8 +82,13 @@ public class LoginActivity extends Activity {
 		} else {
 			mLoginStatusMessageView.setText("Logging in...");
 			showProgress(true);
-			mAuthTask = new UserLoginTask();
-			mAuthTask.execute((Void) null);
+			try {
+				new UserLoginTask()
+						.execute("http://www.holycrosschurchjm.com/MIA_mysql.php?userLogin=yes&username="
+								+ empID + "&password=" + empPass);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -92,7 +97,7 @@ public class LoginActivity extends Activity {
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	private void showProgress(final boolean show) {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
 			int shortAnimTime = getResources().getInteger(
 					android.R.integer.config_shortAnimTime);
 
@@ -123,52 +128,91 @@ public class LoginActivity extends Activity {
 		}
 	}
 
-	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+	public class UserLoginTask extends AsyncTask<String, Void, JSONArray> {
+
 		@Override
-		protected Boolean doInBackground(Void... params) {
-			db.DBLogin(id.getText().toString(),pass.getText().toString());
-			return true;
+		protected JSONArray doInBackground(String... params) {
+
+			JSONArray result = new JSONArray();
+			result = db.DBPull(params[0]);
+			return db.DBPull(params[0]);
 		}
 
 		@Override
-		protected void onPostExecute(final Boolean success) {
-			mAuthTask = null;
+		protected void onPostExecute(final JSONArray success) {
 			showProgress(false);
+			Log.d("emp", success.toString());
+			String empID, fName, lName, role;
+			empID = fName = lName = role = "";
+			try {
+				if (!success.getJSONArray(0).getString(0).equals("false")) {
+					try {
+						empID = success.getJSONArray(0).getString(0);
+					} catch (JSONException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					try {
+						fName = success.getJSONArray(0).getString(1);
+					} catch (JSONException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					try {
+						lName = success.getJSONArray(0).getString(2);
+					} catch (JSONException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					try {
+						role = success.getJSONArray(0).getString(2);
+					} catch (JSONException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					Bundle b = new Bundle();
+					String[] info = { empID, fName, lName, role };
+					b.putStringArray("info", info);
+					try {
+						startActivity(new Intent(LoginActivity.this,
+								Class.forName("com.libratech.mia.HomeActivity")));
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
-			if (success) {
-
-				finish();
-			} else {
-				pass.setError("Invalid password.");
-				pass.requestFocus();
+				} else {
+					pass.setError("Invalid password.");
+					pass.requestFocus();
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 
 		@Override
 		protected void onCancelled() {
-			mAuthTask = null;
 			showProgress(false);
 		}
 	}
 
-	private String getEmpId() {
-		Bundle fromScanner = getIntent().getExtras();
-		return fromScanner.getString("code");
-	}
-
 	private void setupLoginForm() {
-		empID = getIntent().getStringExtra(EXTRA_EMAIL);
 		id = (EditText) findViewById(R.id.empID);
-		id.setVisibility(View.GONE);
-		id.setText(getEmpId());
-
 		pass = (EditText) findViewById(R.id.password);
 		pass.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView textView, int id,
 					KeyEvent keyEvent) {
 				if (id == R.id.login || id == EditorInfo.IME_NULL) {
-					attemptLogin();
+					if (!isConnected()) {
+						Toast.makeText(
+								LoginActivity.this,
+								"No network connection. Please check you connection and try again.",
+								Toast.LENGTH_LONG).show();
+					} else {
+						attemptLogin();
+					}
 					return true;
 				}
 				return false;
@@ -183,8 +227,30 @@ public class LoginActivity extends Activity {
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						attemptLogin();
+						if (!isConnected()) {
+							Toast.makeText(
+									LoginActivity.this,
+									"No network connection. Please check you connection and try again.",
+									Toast.LENGTH_LONG).show();
+						} else {
+
+							attemptLogin();
+						}
 					}
 				});
+	}
+
+	public boolean isConnected() {
+		ConnectivityManager connectivity = (ConnectivityManager) this
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (connectivity != null) {
+			NetworkInfo[] info = connectivity.getAllNetworkInfo();
+			if (info != null)
+				for (int i = 0; i < info.length; i++)
+					if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+						return true;
+					}
+		}
+		return false;
 	}
 }
