@@ -19,9 +19,9 @@ public class AllAdapter extends BaseAdapter {
 	public AllAdapter(Context context, ArrayList<Product> aProducts) {
 		this.context = context;
 		this.data = aProducts;
-//		for (int i = 0; i < data.size(); i++) {
-//			Log.d("UPC to Adapter", "" + data.get(i).getUpcCode());
-//		}
+		// for (int i = 0; i < data.size(); i++) {
+		// Log.d("UPC to Adapter", "" + data.get(i).getUpcCode());
+		// }
 	}
 
 	@Override
@@ -46,8 +46,10 @@ public class AllAdapter extends BaseAdapter {
 		}
 		TextView name = (TextView) vi.findViewById(R.id.allName);
 		TextView brand = (TextView) vi.findViewById(R.id.allBrand);
+		TextView category = (TextView) vi.findViewById(R.id.allCat);
 		name.setText(data.get(position).getProductName());
 		brand.setText(data.get(position).getBrand());
+		category.setText(data.get(position).getCategory());
 		return vi;
 	}
 

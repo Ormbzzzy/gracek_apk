@@ -130,64 +130,57 @@ public class LoginActivity extends Activity {
 
 	public class UserLoginTask extends AsyncTask<String, Void, JSONArray> {
 
-		@Override
 		protected JSONArray doInBackground(String... params) {
 
-			JSONArray result = new JSONArray();
-			result = db.DBPull(params[0]);
-			return db.DBPull(params[0]);
+			return db.DBLogin(params[0]);
 		}
 
-		@Override
-		protected void onPostExecute(final JSONArray success) {
+		protected void onPostExecute(JSONArray success) {
 			showProgress(false);
-			Log.d("emp", success.toString());
 			String empID, fName, lName, role;
 			empID = fName = lName = role = "";
-			try {
-				if (!success.getJSONArray(0).getString(0).equals("false")) {
-					try {
-						empID = success.getJSONArray(0).getString(0);
-					} catch (JSONException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					try {
-						fName = success.getJSONArray(0).getString(1);
-					} catch (JSONException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					try {
-						lName = success.getJSONArray(0).getString(2);
-					} catch (JSONException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					try {
-						role = success.getJSONArray(0).getString(2);
-					} catch (JSONException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					Bundle b = new Bundle();
-					String[] info = { empID, fName, lName, role };
-					b.putStringArray("info", info);
-					try {
-						startActivity(new Intent(LoginActivity.this,
-								Class.forName("com.libratech.mia.HomeActivity")));
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-				} else {
-					pass.setError("Invalid password.");
-					pass.requestFocus();
+			if (success != null) {
+				try {
+					empID = success.getJSONArray(0).getString(0);
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				try {
+					fName = success.getJSONArray(0).getString(1);
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					lName = success.getJSONArray(0).getString(2);
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					role = success.getJSONArray(0).getString(2);
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Toast.makeText(getApplicationContext(), "Login successful",
+						Toast.LENGTH_LONG).show();
+				Bundle b = new Bundle();
+				String[] info = { empID, fName, lName, role };
+				b.putStringArray("info", info);
+				try {
+					startActivity(new Intent(LoginActivity.this,
+							Class.forName("com.libratech.mia.HomeActivity"))
+							.putExtras(b));
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			} else {
+				pass.setError("Invalid password.");
+				pass.requestFocus();
 			}
 		}
 
@@ -200,6 +193,8 @@ public class LoginActivity extends Activity {
 	private void setupLoginForm() {
 		id = (EditText) findViewById(R.id.empID);
 		pass = (EditText) findViewById(R.id.password);
+		id.setText("MER-00001");
+		pass.setText("password1");
 		pass.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView textView, int id,
@@ -208,7 +203,7 @@ public class LoginActivity extends Activity {
 					if (!isConnected()) {
 						Toast.makeText(
 								LoginActivity.this,
-								"No network connection. Please check you connection and try again.",
+								"No network connection. Please check your connection and try again.",
 								Toast.LENGTH_LONG).show();
 					} else {
 						attemptLogin();
@@ -230,7 +225,7 @@ public class LoginActivity extends Activity {
 						if (!isConnected()) {
 							Toast.makeText(
 									LoginActivity.this,
-									"No network connection. Please check you connection and try again.",
+									"No network connection. Please check your connection and try again.",
 									Toast.LENGTH_LONG).show();
 						} else {
 
@@ -253,4 +248,12 @@ public class LoginActivity extends Activity {
 		}
 		return false;
 	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		finish();
+	}
+
 }
