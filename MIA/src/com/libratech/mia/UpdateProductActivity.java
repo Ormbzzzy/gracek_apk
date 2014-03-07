@@ -48,7 +48,7 @@ public class UpdateProductActivity extends Activity implements
 	RibbonMenuView rbmView;
 	Button edit, update;
 	DatabaseConnector db = new DatabaseConnector();
-	String gct;
+	String gct, category;
 	CheckBox gctBox;
 	ImageView img;
 	File image;
@@ -81,6 +81,8 @@ public class UpdateProductActivity extends Activity implements
 			uom.setText(getIntent().getStringArrayExtra("product")[5]);
 			gctBox.setChecked(getIntent().getStringArrayExtra("product")[6]
 					.equalsIgnoreCase("yes"));
+			category = getIntent().getStringArrayExtra("product")[7]
+					.toLowerCase();
 		}
 		gctBox.setOnClickListener(new OnClickListener() {
 
@@ -145,12 +147,27 @@ public class UpdateProductActivity extends Activity implements
 			}
 		});
 
+		// char[] urlPath = category.toCharArray();
+		String upcCode = (String) upc.getText();
+		while (upcCode.charAt(0) == '0') {
+			upcCode = upcCode.replace("0", "");
+		}
+
+		// urlPath[0] = Character.toUpperCase(urlPath[0]);
+		// for (int i = 0; i < urlPath.length - 1; i++) {
+		// if (urlPath[i] == ' ') {
+		// urlPath[i + 1] = Character.toUpperCase(urlPath[i + 1]);
+		// }
+		// }
+		// String url = String.valueOf(urlPath);
+		// url = url.replaceAll(" ", "%20");
+		Log.d("url", "http://ma.holycrosschurchjm.com/" + upcCode + ".jpg");
 		image = new File(Environment.getExternalStorageDirectory().toString()
 				+ "/MIA/images", upc.getText() + ".jpg");
 		if (!image.exists()) {
 			if (isConnected()) {
-				new downloadImage()
-						.execute("http://th09.deviantart.net/fs17/PRE/f/2007/129/7/4/Stock_032__by_enchanted_stock.jpg");
+				new downloadImage().execute("http://ma.holycrosschurchjm.com/"
+						+ upcCode + ".jpg");
 			} else {
 				Toast.makeText(
 						getApplicationContext(),
@@ -158,7 +175,10 @@ public class UpdateProductActivity extends Activity implements
 						Toast.LENGTH_LONG).show();
 			}
 		} else {
-			img.setImageBitmap(BitmapFactory.decodeFile(image.getAbsolutePath()));
+			Bitmap b = BitmapFactory.decodeFile(image.getAbsolutePath());
+			int nh = (int) (b.getHeight() * (512.0 / b.getWidth()));
+			Bitmap scaled = Bitmap.createScaledBitmap(b, 150, 150, true);
+			img.setImageBitmap(scaled);
 		}
 	}
 
@@ -202,6 +222,7 @@ public class UpdateProductActivity extends Activity implements
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				noImage();
 				e.printStackTrace();
 			}
 			return null;
@@ -211,6 +232,9 @@ public class UpdateProductActivity extends Activity implements
 		protected void onPostExecute(Bitmap result) {
 			// TODO Auto-generated method stub
 			img.setImageBitmap(result);
+			Bitmap scaled = Bitmap.createScaledBitmap(result, 150, 150, true);
+			img.setImageBitmap(scaled);
+
 			image.getParentFile().mkdirs();
 			try {
 				FileOutputStream out = new FileOutputStream(image);
@@ -227,6 +251,10 @@ public class UpdateProductActivity extends Activity implements
 			}
 
 		}
+	}
+
+	private void noImage() {
+		img.setImageDrawable(getResources().getDrawable(R.drawable.no_image));
 	}
 
 	public boolean isConnected() {
