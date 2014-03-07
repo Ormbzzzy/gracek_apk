@@ -75,12 +75,10 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 				Scanned p = (Scanned) arg0.getItemAtPosition(arg2);
 				String[] product = { p.getUpcCode(), p.getProductName(),
 						p.getBrand(), String.valueOf(p.getPrice()),
-						p.getWeight(), p.getUom(), p.getGct() };
+						p.getWeight(), p.getUom(), p.getGct(), p.getCategory() };
 				b.putBoolean("scanned", p.getScanned());
 				b.putStringArray("product", product);
 				b.putString("parent", "com.libratech.mia.HomeActivity");
-				Log.d("product", product[0] + product[1] + product[2]
-						+ product[3]);
 				if (!p.getScanned()) {
 					startActivity(new Intent(HomeActivity.this,
 							ViewProductActivity.class).putExtras(b));
@@ -91,7 +89,6 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 			}
 		});
 		listview.setOnTouchListener(new OnTouchListener() {
-
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub

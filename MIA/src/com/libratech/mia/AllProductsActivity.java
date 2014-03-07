@@ -154,7 +154,7 @@ public class AllProductsActivity extends Activity implements
 						String[] product = { p.getUpcCode(),
 								p.getProductName(), p.getBrand(),
 								String.valueOf(p.getPrice()), p.getWeight(),
-								p.getUom(), p.getGct() };
+								p.getUom(), p.getGct(),p.getCategory() };
 						b.putStringArray("product", product);
 						b.putString("parent",
 								"com.libratech.mia.AllProductsActivity");
