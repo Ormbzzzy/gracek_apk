@@ -234,6 +234,7 @@ public class AllProductsActivity extends Activity implements
 			String upc, name, desc, brand, category, uom, gct, photo, weight;
 			name = desc = brand = category = uom = gct = photo = upc = weight = "";
 			float price = (float) 0.00;
+			products.clear();
 			for (int i = 0; i < result.length(); i++) {
 				try {
 					upc = result.getJSONArray(i).getString(0);
@@ -332,6 +333,7 @@ public class AllProductsActivity extends Activity implements
 		search.setText("");
 		search.setText(text);
 		if (updated) {
+			updated = !updated;
 			products = new ArrayList<Product>();
 			new getProducts()
 					.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");

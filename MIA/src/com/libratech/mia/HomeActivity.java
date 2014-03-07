@@ -15,8 +15,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -40,15 +42,20 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 	TextView tv;
 	Button bS, bU;
 	ProgressBar pb;
+	float downX = 0;
 	int numScanned, numUnscanned;
 	boolean all = true;
 	boolean scanned = false;
 	boolean unscanned = false;
 	boolean done = false;
 
+	View.OnTouchListener gestureListener;
+
 	public static ArrayList<Product> aProducts = new ArrayList<Product>();
 	ArrayList<Scanned> uProducts = new ArrayList<Scanned>();
 	public static ArrayList<Scanned> sProducts = new ArrayList<Scanned>();
+	HomeAdapter sAdapter = new HomeAdapter(this, sProducts);
+	HomeAdapter uAdapter = new HomeAdapter(this, uProducts);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,11 +90,47 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 				}
 			}
 		});
-		listview.setOnTouchListener(new OnSwipeTouchListener(this) {
-			public void onSwipeRight() {
-				rbmView.toggleMenu();
-				Toast.makeText(HomeActivity.this, "right", Toast.LENGTH_SHORT)
-						.show();
+		listview.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					((HomeAdapter) listview.getAdapter())
+							.areAllItemsEnabled(true);
+					return false;
+				}
+				final int HORIZONTAL_MIN_DISTANCE = 300;
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					downX = event.getX();
+				}
+				float upX;
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN: {
+					downX = event.getX();
+					return false;
+				}
+				case MotionEvent.ACTION_MOVE: {
+					((HomeAdapter) listview.getAdapter())
+							.areAllItemsEnabled(false);
+					upX = event.getX();
+					float deltaX = downX - upX;
+					if (Math.abs(deltaX) > HORIZONTAL_MIN_DISTANCE) {
+						if (deltaX < 0) {
+							if (!rbmView.isActivated())
+								rbmView.toggleMenu();
+							return true;
+						}
+						if (deltaX > 0) {
+							if (rbmView.isActivated())
+								rbmView.toggleMenu();
+							return true;
+						}
+						return false;
+					}
+				}
+				}
+				return false;
 			}
 		});
 		tv = (TextView) findViewById(R.id.ScanProgressText);
@@ -99,8 +142,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				listview.setAdapter(new HomeAdapter(HomeActivity.this,
-						sProducts));
+				listview.setAdapter(sAdapter);
 				bU.setBackgroundColor(bS.getSolidColor());
 				bS.setBackgroundColor(bS.getHighlightColor());
 			}
@@ -111,8 +153,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				listview.setAdapter(new HomeAdapter(HomeActivity.this,
-						uProducts));
+				listview.setAdapter(uAdapter);
 				bS.setBackgroundColor(bU.getSolidColor());
 				// bA.setBackgroundColor(bU.getSolidColor());
 				bU.setBackgroundColor(bU.getHighlightColor());
@@ -122,11 +163,18 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 			new getProducts()
 					.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
 		} else {
-			Toast.makeText(HomeActivity.this,
+			Toast.makeText(
+					HomeActivity.this,
 					"No network connection, please check your connection and reload the application",
 					Toast.LENGTH_LONG).show();
 		}
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		// TODO Auto-generated method stub
+		return super.onTouchEvent(event);
 	}
 
 	class getProducts extends AsyncTask<String, Void, JSONArray> {
@@ -228,19 +276,20 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 				scanned = true;
 				new getProducts()
 						.execute("http://holycrosschurchjm.com/MIA_mysql.php?comp_id=COMP-00001&rec_date=2013-11-01&scannedproducts=yes");
+				sAdapter.notifyDataSetChanged();
 			} else if (scanned) {
 				uProducts.clear();
 				scanned = false;
 				unscanned = true;
 				new getProducts()
 						.execute("http://holycrosschurchjm.com/MIA_mysql.php?comp_id=COMP-00001&rec_date=2013-11-01&unscannedproducts=yes");
+				uAdapter.notifyDataSetChanged();
 			} else if (unscanned) {
 				unscanned = false;
 				all = true;
 				done = true;
 				numScanned = sProducts.size();
-				listview.setAdapter(new HomeAdapter(HomeActivity.this,
-						sProducts));
+				listview.setAdapter(sAdapter);
 				bS.callOnClick();
 				pb.setMax(sProducts.size() + uProducts.size());
 				pb.setProgress(sProducts.size());
@@ -312,7 +361,6 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 					if (info[i].getState() == NetworkInfo.State.CONNECTED) {
 						return true;
 					}
-
 		}
 		return false;
 	}

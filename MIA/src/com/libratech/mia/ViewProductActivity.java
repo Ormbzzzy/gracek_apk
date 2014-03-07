@@ -15,9 +15,12 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -101,8 +104,15 @@ public class ViewProductActivity extends Activity implements
 		image = new File(Environment.getExternalStorageDirectory().toString()
 				+ "/MIA/images", upc.getText() + ".jpg");
 		if (!image.exists()) {
-			// new downloadImage()
-			// .execute("http://th09.deviantart.net/fs17/PRE/f/2007/129/7/4/Stock_032__by_enchanted_stock.jpg");
+			if (isConnected()) {
+				new downloadImage()
+						.execute("http://th09.deviantart.net/fs17/PRE/f/2007/129/7/4/Stock_032__by_enchanted_stock.jpg");
+			} else {
+				Toast.makeText(
+						getApplicationContext(),
+						"Image cannot be loaded. Please check your connection.",
+						Toast.LENGTH_LONG).show();
+			}
 		} else {
 			img.setImageBitmap(BitmapFactory.decodeFile(image.getAbsolutePath()));
 		}
@@ -191,7 +201,6 @@ public class ViewProductActivity extends Activity implements
 	class downloadImage extends AsyncTask<String, Void, Bitmap> {
 		protected Bitmap doInBackground(String... fileUrl) {
 			URL myFileUrl = null;
-
 			try {
 				myFileUrl = new URL(fileUrl[0]);
 			} catch (MalformedURLException e) {
@@ -204,7 +213,7 @@ public class ViewProductActivity extends Activity implements
 				conn.setDoInput(true);
 				conn.connect();
 				InputStream is = conn.getInputStream();
-				Log.i("im connected", "Download");
+				Log.i("im connected", "Downloading image");
 				return BitmapFactory.decodeStream(is);
 
 			} catch (IOException e) {
@@ -232,8 +241,21 @@ public class ViewProductActivity extends Activity implements
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 		}
+	}
+
+	public boolean isConnected() {
+		ConnectivityManager connectivity = (ConnectivityManager) this
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (connectivity != null) {
+			NetworkInfo[] info = connectivity.getAllNetworkInfo();
+			if (info != null)
+				for (int i = 0; i < info.length; i++)
+					if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+						return true;
+					}
+		}
+		return false;
 	}
 
 	@Override

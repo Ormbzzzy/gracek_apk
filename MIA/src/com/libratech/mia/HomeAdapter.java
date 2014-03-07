@@ -61,6 +61,11 @@ public class HomeAdapter extends BaseAdapter {
 		return vi;
 	}
 
+	public boolean areAllItemsEnabled(boolean set) {
+		// TODO Auto-generated method stub
+		return set;
+	}
+
 	@Override
 	public long getItemId(int arg0) {
 		// TODO Auto-generated method stub

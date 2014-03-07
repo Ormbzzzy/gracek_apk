@@ -1,5 +1,12 @@
 package com.libratech.mia;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,20 +16,29 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
+import com.libratech.mia.ViewProductActivity.downloadImage;
 
 public class UpdateProductActivity extends Activity implements
 		iRibbonMenuCallback {
@@ -34,6 +50,8 @@ public class UpdateProductActivity extends Activity implements
 	DatabaseConnector db = new DatabaseConnector();
 	String gct;
 	CheckBox gctBox;
+	ImageView img;
+	File image;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +61,7 @@ public class UpdateProductActivity extends Activity implements
 		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 		rbmView.setMenuClickCallback(this);
 		rbmView.setMenuItems(R.menu.home);
-		// getActionBar().setDisplayHomeAsUpEnabled(true);
+		img = (ImageView) findViewById(R.id.updateImage);
 		edit = (Button) findViewById(R.id.edit);
 		edit.setText("Cancel");
 		upc = (TextView) findViewById(R.id.upc);
@@ -127,6 +145,21 @@ public class UpdateProductActivity extends Activity implements
 			}
 		});
 
+		image = new File(Environment.getExternalStorageDirectory().toString()
+				+ "/MIA/images", upc.getText() + ".jpg");
+		if (!image.exists()) {
+			if (isConnected()) {
+				new downloadImage()
+						.execute("http://th09.deviantart.net/fs17/PRE/f/2007/129/7/4/Stock_032__by_enchanted_stock.jpg");
+			} else {
+				Toast.makeText(
+						getApplicationContext(),
+						"Image cannot be loaded. Please check your connection.",
+						Toast.LENGTH_LONG).show();
+			}
+		} else {
+			img.setImageBitmap(BitmapFactory.decodeFile(image.getAbsolutePath()));
+		}
 	}
 
 	class pushProduct extends AsyncTask<String, Void, Boolean> {
@@ -146,6 +179,68 @@ public class UpdateProductActivity extends Activity implements
 					Toast.LENGTH_SHORT).show();
 			finish();
 		}
+	}
+
+	class downloadImage extends AsyncTask<String, Void, Bitmap> {
+		protected Bitmap doInBackground(String... fileUrl) {
+			URL myFileUrl = null;
+
+			try {
+				myFileUrl = new URL(fileUrl[0]);
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				HttpURLConnection conn = (HttpURLConnection) myFileUrl
+						.openConnection();
+				conn.setDoInput(true);
+				conn.connect();
+				InputStream is = conn.getInputStream();
+				Log.i("im connected", "Downloading image");
+				return BitmapFactory.decodeStream(is);
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Bitmap result) {
+			// TODO Auto-generated method stub
+			img.setImageBitmap(result);
+			image.getParentFile().mkdirs();
+			try {
+				FileOutputStream out = new FileOutputStream(image);
+				result.compress(Bitmap.CompressFormat.JPEG, 90, out);
+				out.flush();
+				out.close();
+				MediaStore.Images.Media.insertImage(getContentResolver(),
+						image.getAbsolutePath(), image.getName(),
+						image.getName());
+				Toast.makeText(getApplicationContext(),
+						"File is Saved in  " + image, 1000).show();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+	public boolean isConnected() {
+		ConnectivityManager connectivity = (ConnectivityManager) this
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (connectivity != null) {
+			NetworkInfo[] info = connectivity.getAllNetworkInfo();
+			if (info != null)
+				for (int i = 0; i < info.length; i++)
+					if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+						return true;
+					}
+		}
+		return false;
 	}
 
 	@Override
