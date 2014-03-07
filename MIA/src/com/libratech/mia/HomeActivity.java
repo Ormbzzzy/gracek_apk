@@ -12,7 +12,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -343,8 +342,12 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 		super.onResume();
 		if (done) {
 			done = false;
-			new getProducts()
-					.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
+			if (isConnected()) {
+				new getProducts()
+						.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
+			}else{
+				Toast.makeText(getApplicationContext(), "Please check your connection.", Toast.LENGTH_SHORT).show();;
+			}
 		}
 	}
 

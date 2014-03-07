@@ -246,7 +246,6 @@ public class ViewProductActivity extends Activity implements
 		@Override
 		protected void onPostExecute(Bitmap result) {
 			// TODO Auto-generated method stub
-			int nh = (int) (result.getHeight() * (512.0 / result.getWidth()));
 			Bitmap scaled = Bitmap.createScaledBitmap(result, 150, 150, true);
 			img.setImageBitmap(scaled);
 			image.getParentFile().mkdirs();

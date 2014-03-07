@@ -7,7 +7,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,7 +23,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -154,7 +156,7 @@ public class AllProductsActivity extends Activity implements
 						String[] product = { p.getUpcCode(),
 								p.getProductName(), p.getBrand(),
 								String.valueOf(p.getPrice()), p.getWeight(),
-								p.getUom(), p.getGct(),p.getCategory() };
+								p.getUom(), p.getGct(), p.getCategory() };
 						b.putStringArray("product", product);
 						b.putString("parent",
 								"com.libratech.mia.AllProductsActivity");
@@ -325,6 +327,20 @@ public class AllProductsActivity extends Activity implements
 		super.onPause();
 	}
 
+	public boolean isConnected() {
+		ConnectivityManager connectivity = (ConnectivityManager) this
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (connectivity != null) {
+			NetworkInfo[] info = connectivity.getAllNetworkInfo();
+			if (info != null)
+				for (int i = 0; i < info.length; i++)
+					if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+						return true;
+					}
+		}
+		return false;
+	}
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -334,10 +350,14 @@ public class AllProductsActivity extends Activity implements
 		search.setText(text);
 		if (updated) {
 			updated = !updated;
-			products = new ArrayList<Product>();
-			new getProducts()
-					.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
+			if (isConnected()) {
+				products = new ArrayList<Product>();
+				new getProducts()
+						.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
+			} else {
+				Toast.makeText(getApplicationContext(), "Please check your connection.", Toast.LENGTH_SHORT).show();
+			}
 		}
-	}
 
+	}
 }
