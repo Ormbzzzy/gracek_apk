@@ -106,7 +106,7 @@ public class ViewProductActivity extends Activity implements
 		// char[] urlPath = category.toCharArray();
 		String upcCode = (String) upc.getText();
 		while (upcCode.charAt(0) == '0') {
-			upcCode = upcCode.replace("0", "");
+			upcCode = upcCode.replaceFirst("0", "");
 		}
 		// urlPath[0] = Character.toUpperCase(urlPath[0]);
 		// for (int i = 0; i < urlPath.length - 1; i++) {
@@ -237,7 +237,6 @@ public class ViewProductActivity extends Activity implements
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				noImage();
 				e.printStackTrace();
 			}
 			return null;
@@ -246,21 +245,29 @@ public class ViewProductActivity extends Activity implements
 		@Override
 		protected void onPostExecute(Bitmap result) {
 			// TODO Auto-generated method stub
-			Bitmap scaled = Bitmap.createScaledBitmap(result, 150, 150, true);
-			img.setImageBitmap(scaled);
-			image.getParentFile().mkdirs();
-			try {
-				FileOutputStream out = new FileOutputStream(image);
-				result.compress(Bitmap.CompressFormat.JPEG, 90, out);
-				out.flush();
-				out.close();
-				MediaStore.Images.Media.insertImage(getContentResolver(),
-						image.getAbsolutePath(), image.getName(),
-						image.getName());
-				Toast.makeText(getApplicationContext(),
-						"File is Saved in  " + image, 1000).show();
-			} catch (Exception e) {
-				e.printStackTrace();
+			if (result == null) {
+				img.setImageDrawable(getResources().getDrawable(
+						R.drawable.no_image));
+				Toast.makeText(getApplicationContext(), "Image not found.",
+						Toast.LENGTH_SHORT).show();
+			} else {
+				Bitmap scaled = Bitmap.createScaledBitmap(result, 150, 150,
+						true);
+				img.setImageBitmap(scaled);
+				image.getParentFile().mkdirs();
+				try {
+					FileOutputStream out = new FileOutputStream(image);
+					result.compress(Bitmap.CompressFormat.JPEG, 90, out);
+					out.flush();
+					out.close();
+					MediaStore.Images.Media.insertImage(getContentResolver(),
+							image.getAbsolutePath(), image.getName(),
+							image.getName());
+					Toast.makeText(getApplicationContext(),
+							"File is Saved in  " + image, 1000).show();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -277,10 +284,6 @@ public class ViewProductActivity extends Activity implements
 					}
 		}
 		return false;
-	}
-
-	private void noImage() {
-		img.setImageDrawable(getResources().getDrawable(R.drawable.no_image));
 	}
 
 	@Override
