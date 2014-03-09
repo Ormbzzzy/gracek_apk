@@ -160,8 +160,6 @@ public class AllProductsActivity extends Activity implements
 						b.putStringArray("product", product);
 						b.putString("parent",
 								"com.libratech.mia.AllProductsActivity");
-						Log.d("product", product[0] + product[1] + product[2]
-								+ product[3] + product[4]);
 						startActivity(new Intent(AllProductsActivity.this,
 								UpdateProductActivity.class).putExtras(b));
 						found = true;
@@ -171,12 +169,11 @@ public class AllProductsActivity extends Activity implements
 				if (!found) {
 					String[] product = { p.getUpcCode(), p.getProductName(),
 							p.getBrand(), String.valueOf(p.getPrice()),
-							p.getWeight(), p.getUom(), p.getGct() };
+							p.getWeight(), p.getUom(), p.getGct(),
+							p.getCategory() };
 					b.putStringArray("product", product);
 					b.putString("parent",
 							"com.libratech.mia.AllProductsActivity");
-					Log.d("product", product[0] + product[1] + product[2]
-							+ product[3] + product[4]);
 					startActivity(new Intent(AllProductsActivity.this,
 							ViewProductActivity.class).putExtras(b));
 				}

@@ -151,14 +151,6 @@ public class UpdateProductActivity extends Activity implements
 			upcCode = upcCode.replaceFirst("0", "");
 		}
 
-		// urlPath[0] = Character.toUpperCase(urlPath[0]);
-		// for (int i = 0; i < urlPath.length - 1; i++) {
-		// if (urlPath[i] == ' ') {
-		// urlPath[i + 1] = Character.toUpperCase(urlPath[i + 1]);
-		// }
-		// }
-		// String url = String.valueOf(urlPath);
-		// url = url.replaceAll(" ", "%20");
 		Log.d("url", "http://ma.holycrosschurchjm.com/" + upcCode + ".jpg");
 		image = new File(Environment.getExternalStorageDirectory().toString()
 				+ "/MIA/images", upc.getText() + ".jpg");
@@ -174,8 +166,8 @@ public class UpdateProductActivity extends Activity implements
 			}
 		} else {
 			Bitmap b = BitmapFactory.decodeFile(image.getAbsolutePath());
-			int nh = (int) (b.getHeight() * (512.0 / b.getWidth()));
-			Bitmap scaled = Bitmap.createScaledBitmap(b, 150, 150, true);
+			int nh = (int) (b.getHeight() / (b.getWidth() / 200));
+			Bitmap scaled = Bitmap.createScaledBitmap(b, 200, nh, true);
 			img.setImageBitmap(scaled);
 		}
 	}
@@ -235,8 +227,9 @@ public class UpdateProductActivity extends Activity implements
 						Toast.LENGTH_SHORT).show();
 			} else {
 				img.setImageBitmap(result);
-				Bitmap scaled = Bitmap.createScaledBitmap(result, 150, 150,
-						true);
+				int nh = (int) (result.getHeight() / (result.getWidth() / 200));
+				Bitmap scaled = Bitmap
+						.createScaledBitmap(result, 200, nh, true);
 				img.setImageBitmap(scaled);
 
 				image.getParentFile().mkdirs();

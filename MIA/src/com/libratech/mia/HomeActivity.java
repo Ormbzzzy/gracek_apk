@@ -107,8 +107,6 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 					return false;
 				}
 				case MotionEvent.ACTION_MOVE: {
-					((HomeAdapter) listview.getAdapter())
-							.areAllItemsEnabled(false);
 					upX = event.getX();
 					float deltaX = downX - upX;
 					if (Math.abs(deltaX) > HORIZONTAL_MIN_DISTANCE) {
