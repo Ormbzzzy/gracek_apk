@@ -113,13 +113,11 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 					float deltaX = downX - upX;
 					if (Math.abs(deltaX) > HORIZONTAL_MIN_DISTANCE) {
 						if (deltaX < 0) {
-							if (!rbmView.isActivated())
-								rbmView.toggleMenu();
+							bS.performClick();
 							return true;
 						}
 						if (deltaX > 0) {
-							if (rbmView.isActivated())
-								rbmView.toggleMenu();
+							bU.performClick();
 							return true;
 						}
 						return false;
@@ -156,6 +154,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 			}
 		});
 		if (isConnected()) {
+			aProducts.clear();
 			new getProducts()
 					.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
 		} else {
@@ -343,10 +342,14 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 		if (done) {
 			done = false;
 			if (isConnected()) {
+				aProducts.clear();
 				new getProducts()
 						.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
-			}else{
-				Toast.makeText(getApplicationContext(), "Please check your connection.", Toast.LENGTH_SHORT).show();;
+			} else {
+				Toast.makeText(getApplicationContext(),
+						"Please check your connection.", Toast.LENGTH_SHORT)
+						.show();
+				;
 			}
 		}
 	}

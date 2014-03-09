@@ -236,7 +236,6 @@ public class AllProductsActivity extends Activity implements
 			String upc, name, desc, brand, category, uom, gct, photo, weight;
 			name = desc = brand = category = uom = gct = photo = upc = weight = "";
 			float price = (float) 0.00;
-			products.clear();
 			for (int i = 0; i < result.length(); i++) {
 				try {
 					upc = result.getJSONArray(i).getString(0);
@@ -288,10 +287,12 @@ public class AllProductsActivity extends Activity implements
 				}
 				products.add(new Product(upc, weight, name, desc, brand,
 						category, uom, price, gct, photo));
-				Toast.makeText(AllProductsActivity.this, "Products Updated",
+				Toast.makeText(AllProductsActivity.this, "Products updated",
 						Toast.LENGTH_SHORT).show();
 				updated = true;
 			}
+			listview.setAdapter(new AllAdapter(AllProductsActivity.this,
+					products));
 		}
 	}
 
@@ -344,20 +345,21 @@ public class AllProductsActivity extends Activity implements
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
-		super.onResume();
 		String text = search.getText().toString();
 		search.setText("");
 		search.setText(text);
 		if (updated) {
 			updated = !updated;
 			if (isConnected()) {
-				products = new ArrayList<Product>();
+				products.clear();
 				new getProducts()
 						.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
 			} else {
-				Toast.makeText(getApplicationContext(), "Please check your connection.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(),
+						"Please check your connection.", Toast.LENGTH_SHORT)
+						.show();
 			}
 		}
-
+		super.onResume();
 	}
 }
