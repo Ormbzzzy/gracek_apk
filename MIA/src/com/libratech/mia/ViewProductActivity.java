@@ -86,11 +86,11 @@ public class ViewProductActivity extends Activity implements
 					break;
 				}
 			}
-			if(!found){
-			Toast.makeText(ViewProductActivity.this,
-					"That product is not in the system.", Toast.LENGTH_SHORT)
-					.show();
-			finish();
+			if (!found) {
+				Toast.makeText(ViewProductActivity.this,
+						"That product is not in the system.",
+						Toast.LENGTH_SHORT).show();
+				finish();
 			}
 		} else {
 			if (getIntent().hasExtra("product")) {
@@ -114,6 +114,7 @@ public class ViewProductActivity extends Activity implements
 		}
 
 		Log.d("url", "http://ma.holycrosschurchjm.com/" + upcCode + ".jpg");
+		System.gc();
 		image = new File(Environment.getExternalStorageDirectory().toString()
 				+ "/MIA/images", upcCode + ".jpg");
 		if (!image.exists()) {

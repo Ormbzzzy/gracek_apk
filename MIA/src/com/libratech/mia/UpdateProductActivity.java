@@ -158,6 +158,7 @@ public class UpdateProductActivity extends Activity implements
 		}
 
 		Log.d("url", "http://ma.holycrosschurchjm.com/" + upcCode + ".jpg");
+		System.gc();
 		image = new File(Environment.getExternalStorageDirectory().toString()
 				+ "/MIA/images", upc.getText() + ".jpg");
 		if (!image.exists()) {
