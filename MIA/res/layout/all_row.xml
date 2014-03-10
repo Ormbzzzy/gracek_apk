@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
+    android:paddingLeft="40dp"
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:orientation="horizontal"
     android:weightSum="100" >
@@ -12,7 +13,7 @@
         android:id="@+id/allName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="50"
+        android:layout_weight="35"
         android:ellipsize="none"
         android:scrollHorizontally="false"
         android:text="Name" />
@@ -25,22 +26,9 @@
         android:id="@+id/allBrand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="25"
+        android:layout_weight="60"
         android:ellipsize="none"
         android:scrollHorizontally="false"
         android:text="Brand" />
-
-    <View
-        android:layout_width="5dp"
-        android:layout_height="match_parent" />
-
-    <TextView
-        android:id="@+id/allCat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="25"
-        android:ellipsize="none"
-        android:scrollHorizontally="false"
-        android:text="Category" />
 
 </LinearLayout>

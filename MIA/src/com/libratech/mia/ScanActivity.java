@@ -28,10 +28,14 @@ public class ScanActivity extends CaptureActivity {
 	public void handleDecode(Result rawResult, Bitmap barcode) {
 		String scan = rawResult.getText().toString();
 		final Bundle b = new Bundle();
+		while (scan.charAt(0) == '0') {
+			scan = scan.replaceFirst("0", "");
+		}
 		b.putString("code", scan);
 		try {
-			startActivity(new Intent(ScanActivity.this, Class
-					.forName("com.libratech.mia.ViewProductActivity")).putExtras(b));
+			startActivity(new Intent(ScanActivity.this,
+					Class.forName("com.libratech.mia.ViewProductActivity"))
+					.putExtras(b));
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,7 +1,6 @@
 package com.libratech.mia;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,16 +14,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,12 +33,12 @@ public class AllProductsActivity extends Activity implements
 		iRibbonMenuCallback {
 	private RibbonMenuView rbmView;
 	EditText search;
-	ListView listview;
+	ExpandableListView listview;
 	ArrayList<Product> products = HomeActivity.aProducts;
 	ArrayList<Scanned> scanned = HomeActivity.sProducts;
 	boolean updated = false;
 	boolean nSort, bSort, cSort;
-	TextView name, brand, category;
+	TextView name, brand;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,102 +48,19 @@ public class AllProductsActivity extends Activity implements
 		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 		rbmView.setMenuClickCallback(this);
 		rbmView.setMenuItems(R.menu.home);
-		name = (TextView) findViewById(R.id.allNameHead);
-		brand = (TextView) findViewById(R.id.allBrandHead);
-		category = (TextView) findViewById(R.id.allCatHead);
 		search = (EditText) findViewById(R.id.inputSearch);
-		name.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					v.setBackgroundColor(getResources().getColor(
-							R.color.SkyBlue));
-				} else if (event.getAction() == MotionEvent.ACTION_UP) {
-					v.setBackgroundColor(listview.getSolidColor());
-				}
-				return false;
-			}
-		});
-		brand.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					v.setBackgroundColor(getResources().getColor(
-							R.color.SkyBlue));
-				} else if (event.getAction() == MotionEvent.ACTION_UP) {
-					v.setBackgroundColor(listview.getSolidColor());
-				}
-				return false;
-			}
-		});
-		category.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					v.setBackgroundColor(getResources().getColor(
-							R.color.SkyBlue));
-				} else if (event.getAction() == MotionEvent.ACTION_UP) {
-					v.setBackgroundColor(listview.getSolidColor());
-				}
-				return false;
-			}
-		});
-		name.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				if (nSort) {
-					nSort = false;
-					Collections.sort(products, Product.ascNameComparator);
-				} else {
-					nSort = true;
-					Collections.sort(products, Product.desNameComparator);
-				}
-				listview.setAdapter(new AllAdapter(AllProductsActivity.this,
-						products));
-			}
-		});
-		brand.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				if (bSort) {
-					bSort = false;
-					Collections.sort(products, Product.ascBrandComparator);
-				} else {
-					bSort = true;
-					Collections.sort(products, Product.desBrandComparator);
-				}
-				listview.setAdapter(new AllAdapter(AllProductsActivity.this,
-						products));
-			}
-		});
-		category.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				if (cSort) {
-					cSort = false;
-					Collections.sort(products, Product.ascCatComparator);
-				} else {
-					cSort = true;
-					Collections.sort(products, Product.desCatComparator);
-				}
-				listview.setAdapter(new AllAdapter(AllProductsActivity.this,
-						products));
-			}
-		});
-		listview = (ListView) findViewById(R.id.alllistview);
+		listview = (ExpandableListView) findViewById(R.id.alllistview);
 		listview.setAdapter(new AllAdapter(this, products));
-		listview.setOnItemClickListener(new OnItemClickListener() {
+		listview.setOnChildClickListener(new OnChildClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
+			public boolean onChildClick(ExpandableListView parent, View v,
+					int groupPosition, int childPosition, long id) {
 				// TODO Auto-generated method stub
 				boolean found = false;
 				Bundle b = new Bundle();
 				Scanned s = null;
-				Product p = (Product) arg0.getItemAtPosition(arg2);
+				Product p = ((AllAdapter) listview.getExpandableListAdapter())
+						.getProduct(groupPosition, childPosition);
 				for (int i = 0; i < scanned.size(); i++) {
 					s = scanned.get(i);
 					if (s.getUpcCode().equals(p.getUpcCode())) {
@@ -177,8 +90,10 @@ public class AllProductsActivity extends Activity implements
 					startActivity(new Intent(AllProductsActivity.this,
 							ViewProductActivity.class).putExtras(b));
 				}
+				return false;
 			}
 		});
+
 		search.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence cs, int arg1, int arg2,
