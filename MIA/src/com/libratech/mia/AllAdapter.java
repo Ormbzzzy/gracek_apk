@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.libratech.mia.models.Product;
@@ -42,7 +44,6 @@ public class AllAdapter extends BaseExpandableListAdapter {
 			if (!parentList.contains(p.getCategory())) {
 				parentList.add(p.getCategory());
 				pList.add(new Child());
-				Log.d("category", p.getCategory());
 			} else {
 				pList.get(parentList.indexOf(p.getCategory())).add(p);
 			}
@@ -77,19 +78,14 @@ public class AllAdapter extends BaseExpandableListAdapter {
 				.getProductName());
 		brand.setText(pList.get(groupPosition).getList().get(childPosition)
 				.getBrand());
-		Log.d("name", (String) name.getText());
 		return vi;
 	}
 
 	@Override
 	public int getChildrenCount(int groupPosition) {
 		// TODO Auto-generated method stub
-		int i = 0;
-		for (Product p : childList) {
-			if (p.getCategory().equalsIgnoreCase(parentList.get(groupPosition)))
-				i++;
-		}
-		return i;
+
+		return pList.get(groupPosition).getList().size();
 	}
 
 	@Override
@@ -126,7 +122,6 @@ public class AllAdapter extends BaseExpandableListAdapter {
 
 		TextView tv = (TextView) vi.findViewById(R.id.allCat);
 		tv.setText(parentList.get(groupPosition));
-		Log.d("cat", (String) tv.getText());
 		return tv;
 	}
 
@@ -140,5 +135,26 @@ public class AllAdapter extends BaseExpandableListAdapter {
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	public void filterData(String query) {
+		query = query.toLowerCase();
+		pList.clear();
+		parentList.clear();
+		for (Product p : childList) {
+			if (p.getBrand().toLowerCase().contains(query)
+					|| p.getProductName().toLowerCase().contains(query)
+					|| p.getCategory().toLowerCase().contains(query)) {
+				if (!parentList.contains(p.getCategory())) {
+					parentList.add(p.getCategory());
+					pList.add(new Child());
+					Log.d("category", p.getCategory() + " " + parentList.size()
+							+ " " + pList.size());
+				} else {
+					pList.get(parentList.indexOf(p.getCategory())).add(p);
+				}
+			}
+		}
+		notifyDataSetChanged();
 	}
 }

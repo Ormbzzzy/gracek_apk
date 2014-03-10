@@ -33,6 +33,7 @@ public class ScanActivity extends CaptureActivity {
 		}
 		b.putString("code", scan);
 		try {
+			b.putString("parent", getIntent().getStringExtra("parent"));
 			startActivity(new Intent(ScanActivity.this,
 					Class.forName("com.libratech.mia.ViewProductActivity"))
 					.putExtras(b));

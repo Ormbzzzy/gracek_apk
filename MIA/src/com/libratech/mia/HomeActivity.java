@@ -79,11 +79,11 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 				b.putStringArray("product", product);
 				b.putString("parent", "com.libratech.mia.HomeActivity");
 				if (!p.getScanned()) {
-					startActivity(new Intent(HomeActivity.this,
-							ViewProductActivity.class).putExtras(b));
+					startActivityForResult(new Intent(HomeActivity.this,
+							ViewProductActivity.class).putExtras(b), 1);
 				} else {
-					startActivity(new Intent(HomeActivity.this,
-							UpdateProductActivity.class).putExtras(b));
+					startActivityForResult(new Intent(HomeActivity.this,
+							UpdateProductActivity.class).putExtras(b), 1);
 				}
 			}
 		});
@@ -92,8 +92,13 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					((HomeAdapter) listview.getAdapter())
-							.areAllItemsEnabled(true);
+					try {
+						((HomeAdapter) listview.getAdapter())
+								.areAllItemsEnabled(true);
+						return false;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					return false;
 				}
 				final int HORIZONTAL_MIN_DISTANCE = 300;
@@ -308,8 +313,17 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 				"AllProductsActivity", "FeedbackActivity" };
 		if (position != 0) {
 			try {
-				startActivity(new Intent(HomeActivity.this,
-						Class.forName("com.libratech.mia." + classes[position])));
+				if (classes[position].equalsIgnoreCase("homeactivity")) {
+					Bundle b = new Bundle();
+					b.putString("parent", "AllProductsActivity");
+					startActivity(new Intent(HomeActivity.this,
+							Class.forName("com.libratech.mia."
+									+ classes[position])));
+				} else {
+					startActivity(new Intent(HomeActivity.this,
+							Class.forName("com.libratech.mia."
+									+ classes[position])));
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -333,22 +347,44 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 		super.onPause();
 	}
 
+	// @Override
+	// protected void onResume() {
+	// // TODO Auto-generated method stub
+	// super.onResume();
+	// if (done) {
+	// done = false;
+	// if (isConnected()) {
+	// aProducts.clear();
+	// new getProducts()
+	// .execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
+	// } else {
+	// Toast.makeText(getApplicationContext(),
+	// "Please check your connection.", Toast.LENGTH_SHORT)
+	// .show();
+	// ;
+	// }
+	// }
+	// }
+
 	@Override
-	protected void onResume() {
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
-		super.onResume();
-		if (done) {
-			done = false;
-			if (isConnected()) {
-				aProducts.clear();
-				new getProducts()
-						.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
-			} else {
-				Toast.makeText(getApplicationContext(),
-						"Please check your connection.", Toast.LENGTH_SHORT)
-						.show();
-				;
+		super.onActivityResult(requestCode, resultCode, data);
+		try {
+			if (data.hasExtra("updated")) {
+				if (isConnected()) {
+					all = true;
+					aProducts.clear();
+					new getProducts()
+							.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
+				} else {
+					Toast.makeText(getApplicationContext(),
+							"Please check your connection.", Toast.LENGTH_SHORT)
+							.show();
+				}
 			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 	}
 

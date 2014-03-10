@@ -51,6 +51,7 @@ public class ViewProductActivity extends Activity implements
 	DatabaseConnector db = new DatabaseConnector();
 	String gct, category;
 	CheckBox gctBox;
+	boolean found = false;
 	ArrayList<Product> products = HomeActivity.aProducts;
 
 	@Override
@@ -81,12 +82,15 @@ public class ViewProductActivity extends Activity implements
 					name.setText(products.get(i).getProductName());
 					price.setText(String.valueOf(products.get(i).getPrice()));
 					weight.setText(products.get(i).getWeight());
+					found = true;
 					break;
 				}
-				Toast.makeText(ViewProductActivity.this,
-						"That product is not in the system.",
-						Toast.LENGTH_SHORT).show();
-				finish();
+			}
+			if(!found){
+			Toast.makeText(ViewProductActivity.this,
+					"That product is not in the system.", Toast.LENGTH_SHORT)
+					.show();
+			finish();
 			}
 		} else {
 			if (getIntent().hasExtra("product")) {
@@ -180,13 +184,18 @@ public class ViewProductActivity extends Activity implements
 							.getText().toString()));
 					nameValuePairs.add(new BasicNameValuePair("gct", gct));
 					// "http://holycrosschurchjm.com/MIA_mysql.php?addScannedProduct=yes&upc_code="+upc.getText().toString()+"&merch_id=MER-00001&comp_id=COMP-00001&rec_date=2014-02-09&price=345.00&gct=yes"
-					new pushProduct()
-							.execute("http://holycrosschurchjm.com/MIA_mysql.php?addScannedProduct=yes&upc_code="
-									+ upc.getText()
-									+ "&merch_id=MER-00001&comp_id=COMP-00001&rec_date=2013-11-01&price="
-									+ price.getText() + "&gct=" + gct);
-					// new pushProduct().execute(nameValuePairs);
-
+					if (isConnected()) {
+						new pushProduct()
+								.execute("http://holycrosschurchjm.com/MIA_mysql.php?addScannedProduct=yes&upc_code="
+										+ upc.getText()
+										+ "&merch_id=MER-00001&comp_id=COMP-00001&rec_date=2013-11-01&price="
+										+ price.getText() + "&gct=" + gct);
+					} else {
+						Toast.makeText(getApplicationContext(),
+								"Please check your connection and try again.",
+								Toast.LENGTH_SHORT).show();
+						// new pushProduct().execute(nameValuePairs);
+					}
 				}
 			}
 		});
@@ -202,11 +211,19 @@ public class ViewProductActivity extends Activity implements
 			String message;
 			if (result) {
 				message = "Product updated.";
+				setResult(RESULT_OK, new Intent().putExtra("updated", true));
 			} else {
 				message = "Error while updating product.";
 			}
 			Toast.makeText(ViewProductActivity.this, message,
 					Toast.LENGTH_SHORT).show();
+			try {
+				startActivity(new Intent(ViewProductActivity.this,
+						Class.forName("com.libratech.mia."
+								+ getIntent().getStringExtra("parent"))));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			finish();
 		}
 	}

@@ -135,11 +135,17 @@ public class UpdateProductActivity extends Activity implements
 							.getText().toString()));
 					nameValuePairs.add(new BasicNameValuePair("gct", gct));
 					// "http://holycrosschurchjm.com/MIA_mysql.php?addScannedProduct=yes&upc_code="+upc.getText().toString()+"&merch_id=MER-00001&comp_id=COMP-00001&rec_date=2014-02-09&price=345.00&gct=yes"
-					new pushProduct()
-							.execute("http://holycrosschurchjm.com/MIA_mysql.php?updateScannedProduct=yes&upc_code="
-									+ upc.getText()
-									+ "&merch_id=MER-00001&comp_id=COMP-00001&rec_date=2013-11-01&price="
-									+ price.getText() + "&gct=" + gct);
+					if (isConnected()) {
+						new pushProduct()
+								.execute("http://holycrosschurchjm.com/MIA_mysql.php?updateScannedProduct=yes&upc_code="
+										+ upc.getText()
+										+ "&merch_id=MER-00001&comp_id=COMP-00001&rec_date=2013-11-01&price="
+										+ price.getText() + "&gct=" + gct);
+					} else {
+						Toast.makeText(getApplicationContext(),
+								"Please check your connection and try again.",
+								Toast.LENGTH_SHORT).show();
+					}
 					// new pushProduct().execute(nameValuePairs);
 				}
 			}
@@ -182,11 +188,13 @@ public class UpdateProductActivity extends Activity implements
 			String message;
 			if (result) {
 				message = "Product updated.";
+				setResult(RESULT_OK, new Intent().putExtra("updated", true));
 			} else {
 				message = "Error while updating product.";
 			}
 			Toast.makeText(UpdateProductActivity.this, message,
 					Toast.LENGTH_SHORT).show();
+
 			finish();
 		}
 	}
