@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.libratech.mia.models.Product;
@@ -44,6 +42,7 @@ public class AllAdapter extends BaseExpandableListAdapter {
 			if (!parentList.contains(p.getCategory())) {
 				parentList.add(p.getCategory());
 				pList.add(new Child());
+				pList.get(parentList.indexOf(p.getCategory())).add(p);
 			} else {
 				pList.get(parentList.indexOf(p.getCategory())).add(p);
 			}
@@ -148,8 +147,7 @@ public class AllAdapter extends BaseExpandableListAdapter {
 				if (!parentList.contains(p.getCategory())) {
 					parentList.add(p.getCategory());
 					pList.add(new Child());
-					Log.d("category", p.getCategory() + " " + parentList.size()
-							+ " " + pList.size());
+					pList.get(parentList.indexOf(p.getCategory())).add(p);
 				} else {
 					pList.get(parentList.indexOf(p.getCategory())).add(p);
 				}
