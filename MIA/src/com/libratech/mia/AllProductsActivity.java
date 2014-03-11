@@ -1,6 +1,7 @@
 package com.libratech.mia;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,6 +15,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -37,6 +40,7 @@ public class AllProductsActivity extends Activity implements
 	boolean updated = false;
 	boolean nSort, bSort, cSort;
 	TextView name, brand;
+	AllAdapter ad = new AllAdapter(this, products);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,7 @@ public class AllProductsActivity extends Activity implements
 		rbmView.setMenuItems(R.menu.home);
 		search = (EditText) findViewById(R.id.inputSearch);
 		listview = (ExpandableListView) findViewById(R.id.alllistview);
-		listview.setAdapter(new AllAdapter(this, products));
+		listview.setAdapter(ad);
 		listview.setOnChildClickListener(new OnChildClickListener() {
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v,
@@ -287,10 +291,56 @@ public class AllProductsActivity extends Activity implements
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == android.R.id.home) {
+
+		switch (item.getItemId()) {
+
+		case android.R.id.home:
 			rbmView.toggleMenu();
 			return true;
-		} else {
+
+		case R.id.name:
+			if (nSort) {
+				nSort = false;
+				Collections.sort(products, Product.ascNameComparator);
+			} else {
+				nSort = true;
+				Collections.sort(products, Product.desNameComparator);
+			}
+			ad.notifyDataSetChanged();
+			// listview.setAdapter(new AllAdapter(AllProductsActivity.this,
+			// products));
+			return true;
+
+		case R.id.brand:
+			if (bSort) {
+				bSort = false;
+				Collections.sort(products, Product.ascBrandComparator);
+			} else {
+				bSort = true;
+				Collections.sort(products, Product.desBrandComparator);
+			}
+			ad.notifyDataSetChanged();
+			// listview.setAdapter(new AllAdapter(AllProductsActivity.this,
+			// products));
+			return true;
+
+		case R.id.category:
+			if (cSort) {
+				cSort = false;
+				Collections.sort(products, Product.ascCatComparator);
+			} else {
+				cSort = true;
+				Collections.sort(products, Product.desCatComparator);
+			}
+			ad.notifyDataSetChanged();
+			// listview.setAdapter(new AllAdapter(AllProductsActivity.this,
+			// products));
+			return true;
+
+		case R.id.logout:
+			return true;
+
+		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
@@ -381,5 +431,12 @@ public class AllProductsActivity extends Activity implements
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.allprod_actionbar, menu);
+		return true;
 	}
 }

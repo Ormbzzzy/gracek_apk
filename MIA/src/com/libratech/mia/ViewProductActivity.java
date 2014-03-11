@@ -115,6 +115,8 @@ public class ViewProductActivity extends Activity implements
 
 		Log.d("url", "http://ma.holycrosschurchjm.com/" + upcCode + ".jpg");
 		System.gc();
+		img.setImageDrawable(getResources().getDrawable(
+				R.drawable.image_loading));
 		image = new File(Environment.getExternalStorageDirectory().toString()
 				+ "/MIA/images", upcCode + ".jpg");
 		if (!image.exists()) {

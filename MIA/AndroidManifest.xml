@@ -74,6 +74,50 @@
             android:label="All Products"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.libratech.mia.Settings"
+            android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name="com.libratech.mia.UserControl"
+            android:label="@string/title_activity_user_control"
+            android:parentActivityName="com.libratech.mia.Settings" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.libratech.mia.Settings" />
+        </activity>
+        <activity
+            android:name="com.libratech.mia.ProductControl"
+            android:label="@string/title_activity_product_control"
+            android:parentActivityName="com.libratech.mia.Settings" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.libratech.mia.Settings" />
+        </activity>
+        <activity
+            android:name="com.libratech.mia.StoreControl"
+            android:label="@string/title_activity_store_control"
+            android:parentActivityName="com.libratech.mia.Settings" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.libratech.mia.Settings" />
+        </activity>
+        <activity
+            android:name="com.libratech.mia.AddProduct"
+            android:label="@string/title_activity_add_product"
+            android:parentActivityName="com.libratech.mia.ProductControl" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.libratech.mia.ProductControl" />
+        </activity>
+        <activity
+            android:name="com.libratech.mia.DeleteProduct"
+            android:label="@string/title_activity_delete_product" >
+        </activity>
+        <activity
+            android:name="com.libratech.mia.AddStore"
+            android:label="@string/title_activity_add_store" >
+        </activity>
     </application>
 
 </manifest>

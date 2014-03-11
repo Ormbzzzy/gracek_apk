@@ -159,6 +159,8 @@ public class UpdateProductActivity extends Activity implements
 
 		Log.d("url", "http://ma.holycrosschurchjm.com/" + upcCode + ".jpg");
 		System.gc();
+		img.setImageDrawable(getResources().getDrawable(
+				R.drawable.image_loading));
 		image = new File(Environment.getExternalStorageDirectory().toString()
 				+ "/MIA/images", upc.getText() + ".jpg");
 		if (!image.exists()) {
@@ -232,7 +234,7 @@ public class UpdateProductActivity extends Activity implements
 			if (result == null) {
 				img.setImageDrawable(getResources().getDrawable(
 						R.drawable.no_image));
-				Toast.makeText(getApplicationContext(), "File not found.",
+				Toast.makeText(getApplicationContext(), "Image not found.",
 						Toast.LENGTH_SHORT).show();
 			} else {
 				img.setImageBitmap(result);
