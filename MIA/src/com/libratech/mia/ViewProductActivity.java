@@ -74,14 +74,13 @@ public class ViewProductActivity extends Activity implements
 		uom = (TextView) findViewById(R.id.uom);
 		scan.setText("Cancel");
 		if (getIntent().hasExtra("code")) {
-			for (int i = 0; i < products.size(); i++) {
-				if (getIntent().getStringExtra("code").contains(
-						products.get(i).getUpcCode())) {
-					upc.setText(products.get(i).getUpcCode());
-					brand.setText(products.get(i).getBrand());
-					name.setText(products.get(i).getProductName());
-					price.setText(String.valueOf(products.get(i).getPrice()));
-					weight.setText(products.get(i).getWeight());
+			for (Product p : products) {
+				if (getIntent().getStringExtra("code").contains(p.getUpcCode())) {
+					upc.setText(p.getUpcCode());
+					brand.setText(p.getBrand());
+					name.setText(p.getProductName());
+					price.setText(String.valueOf(p.getPrice()));
+					weight.setText(p.getWeight());
 					found = true;
 					break;
 				}

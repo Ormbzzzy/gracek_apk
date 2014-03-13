@@ -50,6 +50,7 @@ public class DatabaseConnector {
 			}
 			is.close();
 			result = sb.toString();
+			Log.d("from DB", result);
 		} catch (Exception e) {
 			Log.e("log_tag", "Error converting result " + e.toString());
 		}
@@ -57,6 +58,7 @@ public class DatabaseConnector {
 		try {
 
 			jArray = new JSONArray(result);
+			Log.d("from DB", jArray.toString());
 		} catch (JSONException e) {
 			Log.e("log_tag", "Error parsing data " + e.toString());
 		}

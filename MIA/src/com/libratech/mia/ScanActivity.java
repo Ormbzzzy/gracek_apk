@@ -28,9 +28,6 @@ public class ScanActivity extends CaptureActivity {
 	public void handleDecode(Result rawResult, Bitmap barcode) {
 		String scan = rawResult.getText().toString();
 		final Bundle b = new Bundle();
-		while (scan.charAt(0) == '0') {
-			scan = scan.replaceFirst("0", "");
-		}
 		b.putString("code", scan);
 		try {
 			b.putString("parent", getIntent().getStringExtra("parent"));

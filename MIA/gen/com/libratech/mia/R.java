@@ -404,11 +404,12 @@ public final class R {
         public static final int encode=0x7f0d0005;
         public static final int history=0x7f0d0006;
         public static final int home=0x7f0d0007;
-        public static final int manager_menu=0x7f0d0008;
-        public static final int product_control=0x7f0d0009;
-        public static final int settings=0x7f0d000a;
-        public static final int store_control=0x7f0d000b;
-        public static final int user_control=0x7f0d000c;
+        public static final int logout=0x7f0d0008;
+        public static final int manager_menu=0x7f0d0009;
+        public static final int product_control=0x7f0d000a;
+        public static final int settings=0x7f0d000b;
+        public static final int store_control=0x7f0d000c;
+        public static final int user_control=0x7f0d000d;
     }
     public static final class raw {
         public static final int beep=0x7f060000;

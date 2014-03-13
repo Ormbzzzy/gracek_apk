@@ -49,7 +49,13 @@ public class AllProductsActivity extends Activity implements
 		nSort = bSort = cSort = true;
 		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 		rbmView.setMenuClickCallback(this);
-		rbmView.setMenuItems(R.menu.home);
+		if (getIntent().hasExtra("user")
+				&& getIntent().getStringArrayExtra("user")[3]
+						.equalsIgnoreCase("manager")) {
+			rbmView.setMenuItems(R.menu.manager_menu);
+		} else {
+			rbmView.setMenuItems(R.menu.home);
+		}
 		search = (EditText) findViewById(R.id.inputSearch);
 		listview = (ExpandableListView) findViewById(R.id.alllistview);
 		listview.setAdapter(ad);
@@ -119,12 +125,24 @@ public class AllProductsActivity extends Activity implements
 			}
 
 		});
+		if (products == null || products.size() == 0) {
+			new getProducts()
+					.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
+		}
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	class getProducts extends AsyncTask<String, Void, JSONArray> {
 		protected JSONArray doInBackground(String... url) {
 			return new DatabaseConnector().DBPull(url[0]);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			Toast.makeText(AllProductsActivity.this, "Loading products.",
+					Toast.LENGTH_SHORT).show();
+			super.onPreExecute();
 		}
 
 		@Override
@@ -183,10 +201,11 @@ public class AllProductsActivity extends Activity implements
 				}
 				products.add(new Product(upc, weight, name, desc, brand,
 						category, uom, price, gct, photo));
-				Toast.makeText(AllProductsActivity.this, "Products updated",
-						Toast.LENGTH_SHORT).show();
-				updated = true;
+
 			}
+			Toast.makeText(AllProductsActivity.this, "Products loaded.",
+					Toast.LENGTH_SHORT).show();
+			updated = true;
 			listview.setAdapter(new AllAdapter(AllProductsActivity.this,
 					products));
 		}
@@ -200,7 +219,7 @@ public class AllProductsActivity extends Activity implements
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
-			Toast.makeText(AllProductsActivity.this, "Updating products.",
+			Toast.makeText(AllProductsActivity.this, "Loading products.",
 					Toast.LENGTH_SHORT).show();
 			super.onPreExecute();
 		}
@@ -215,7 +234,6 @@ public class AllProductsActivity extends Activity implements
 			for (int i = 0; i < result.length(); i++) {
 				try {
 					upc = result.getJSONArray(i).getString(0);
-					// Log.d("UPC from DB", upc);
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -284,7 +302,7 @@ public class AllProductsActivity extends Activity implements
 				scanned.add(new Scanned(upc, weight, name, desc, brand,
 						category, uom, price, gct, photo, true));
 			}
-			Toast.makeText(getApplicationContext(), "Products updated.",
+			Toast.makeText(getApplicationContext(), "Products loaded.",
 					Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -338,6 +356,9 @@ public class AllProductsActivity extends Activity implements
 			return true;
 
 		case R.id.logout:
+			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(i);
 			return true;
 
 		default:

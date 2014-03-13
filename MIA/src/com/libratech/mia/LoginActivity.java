@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -140,25 +141,25 @@ public class LoginActivity extends Activity {
 			empID = fName = lName = role = "";
 			if (success != null) {
 				try {
-					empID = success.getJSONArray(0).getString(0);
+					empID = success.getString(1);
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				try {
-					fName = success.getJSONArray(0).getString(1);
+					fName = success.getString(1);
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				try {
-					lName = success.getJSONArray(0).getString(2);
+					lName = success.getString(2);
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				try {
-					role = success.getJSONArray(0).getString(2);
+					role = success.getString(3);
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -166,12 +167,19 @@ public class LoginActivity extends Activity {
 				Toast.makeText(getApplicationContext(), "Login successful",
 						Toast.LENGTH_LONG).show();
 				Bundle b = new Bundle();
-				String[] info = { empID, fName, lName, role };
-				b.putStringArray("info", info);
+				String[] user = { empID, fName, lName, role };
+				b.putStringArray("user", user);
 				try {
-					startActivity(new Intent(LoginActivity.this,
-							Class.forName("com.libratech.mia.HomeActivity"))
-							.putExtras(b));
+					if (role.equalsIgnoreCase("manager")) {
+						startActivity(new Intent(
+								LoginActivity.this,
+								Class.forName("com.libratech.mia.AllProductsActivity"))
+								.putExtras(b));
+					} else {
+						startActivity(new Intent(LoginActivity.this,
+								Class.forName("com.libratech.mia.HomeActivity"))
+								.putExtras(b));
+					}
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -252,7 +260,6 @@ public class LoginActivity extends Activity {
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		finish();
 	}
 
 }

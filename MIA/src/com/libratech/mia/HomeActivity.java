@@ -13,6 +13,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.GestureDetector;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -333,12 +335,23 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == android.R.id.home) {
+
+		switch (item.getItemId()) {
+
+		case android.R.id.home:
 			rbmView.toggleMenu();
 			return true;
-		} else {
+
+		case R.id.logout:
+			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(i);
+			return true;
+
+		default:
 			return super.onOptionsItemSelected(item);
 		}
+
 	}
 
 	@Override
@@ -347,24 +360,12 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 		super.onPause();
 	}
 
-	// @Override
-	// protected void onResume() {
-	// // TODO Auto-generated method stub
-	// super.onResume();
-	// if (done) {
-	// done = false;
-	// if (isConnected()) {
-	// aProducts.clear();
-	// new getProducts()
-	// .execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
-	// } else {
-	// Toast.makeText(getApplicationContext(),
-	// "Please check your connection.", Toast.LENGTH_SHORT)
-	// .show();
-	// ;
-	// }
-	// }
-	// }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.logout, menu);
+		return true;
+	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
