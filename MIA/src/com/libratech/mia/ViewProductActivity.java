@@ -81,7 +81,9 @@ public class ViewProductActivity extends Activity implements
 					name.setText(p.getProductName());
 					price.setText(String.valueOf(p.getPrice()));
 					weight.setText(p.getWeight());
+					uom.setText(p.getUom());
 					found = true;
+					Log.d("product", p.toString());
 					break;
 				}
 			}

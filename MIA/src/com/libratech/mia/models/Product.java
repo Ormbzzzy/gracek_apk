@@ -120,6 +120,11 @@ public class Product {
 		this.photo = photo;
 	}
 
+	public String toString() {
+		return upcCode + " " + productName + " " + brand + " " + weight + " "
+				+ uom;
+	}
+
 	public static Comparator<Product> ascCatComparator = new Comparator<Product>() {
 
 		public int compare(Product p1, Product p2) {
