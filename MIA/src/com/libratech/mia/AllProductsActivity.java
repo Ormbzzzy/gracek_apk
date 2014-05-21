@@ -307,9 +307,9 @@ public class AllProductsActivity extends Activity implements
 		case R.id.StoreReviewActivity:
 			i = new Intent(this, StoreReviewActivity.class);
 			break;
-		 case R.id.delProduct:
-		 i = new Intent(this, DeleteProduct.class);
-		 break;
+		case R.id.delProduct:
+			i = new Intent(this, DeleteProduct.class);
+			break;
 		case R.id.addUser:
 			i = new Intent(this, AddUser.class);
 			break;

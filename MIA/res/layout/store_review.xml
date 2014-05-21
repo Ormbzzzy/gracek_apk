@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:minHeight="?android:attr/listPreferredItemHeight" >
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="STORE REVIEW" />
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Store" />
+        <ProgressBar
+			android:id="@+id/allstorereview_progress"
+			android:layout_width="match_parent"
+			android:layout_height="80dp"
+			android:gravity="center_vertical"
+			android:layout_marginTop="160dp"
+			android:indeterminate="true"
+			/>
+        
+        <ListView
+            android:id="@+id/reviewListview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="2dp" />
+    </LinearLayout>
 
-    <ListView
+    <com.darvds.ribbonmenu.RibbonMenuView
+        android:id="@+id/ribbonMenuView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/storelistview"/>
-</LinearLayout>
+        android:layout_height="match_parent" />
+
+</FrameLayout>

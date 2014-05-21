@@ -1,7 +1,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:orderInCategory="0" android:id="@+id/HomeActiviy" android:title="Home" android:icon="@drawable/ic_launcher"></item>
-    <item android:orderInCategory="1" android:id="@+id/ScanItemActivity" android:title="Scan Item" android:icon="@drawable/ic_launcher"></item>
-    <item android:orderInCategory="3" android:id="@+id/AllProducts" android:title="All Products" android:icon="@drawable/ic_launcher"></item>
-<!--     <item android:orderInCategory="3" android:id="@+id/Feedback" android:title="Feedback" android:icon="@drawable/ic_launcher"></item> -->
+    <item
+        android:id="@+id/HomeActivity"
+        android:icon="@drawable/ic_launcher"
+        android:orderInCategory="0"
+        android:title="Home">
+    </item>
+    <item
+        android:id="@+id/ScanItemActivity"
+        android:icon="@drawable/ic_launcher"
+        android:orderInCategory="1"
+        android:title="Scan Item">
+    </item>
+    <item
+        android:id="@+id/AllProducts"
+        android:icon="@drawable/ic_launcher"
+        android:orderInCategory="3"
+        android:title="All Products">
+    </item>
+    <!-- <item android:orderInCategory="3" android:id="@+id/Feedback" android:title="Feedback" android:icon="@drawable/ic_launcher"></item> -->
 
 </menu>

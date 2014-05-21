@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,70 +6,82 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".AddStore" >
+    tools:context=".DeleteUser" >
 
-<RelativeLayout 
-    android:id="@+id/rel"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    
-   <TextView
-        android:id="@+id/compNameLabel"
+    <TextView
+        android:id="@+id/userIDPrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginTop="60dp"
-        android:text="Company Name:"/>
+        android:layout_marginTop="80dp"
+        android:text="User ID:"/>
 
     <TextView
-        android:id="@+id/addressLabel1"
+        android:id="@+id/passwordPrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/compNameLabel"
-        android:layout_below="@+id/compNameLabel"
+        android:layout_alignLeft="@+id/userIDPrompt"
+        android:layout_below="@+id/userIDPrompt"
         android:layout_marginTop="49dp"
-        android:text="Address:" 
+        android:text="Password:" 
         android:textSize="20sp"
         android:textStyle="bold"/>
 
-    <EditText
-        android:id="@+id/addressLine1"
+    <TextView
+        android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/addressLabel1"
-        android:layout_marginLeft="75dp"
-        android:layout_toRightOf="@+id/addressLabel1"         
-        android:hint="Enter Address" />
+        android:layout_alignBottom="@+id/passwordPrompt"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/passwordPrompt"
+        android:ems="10"        
+        android:inputType="textPassword" 
+        android:textSize="20dp"
+        android:text="password">
 
-       
-    <EditText
-        android:id="@+id/compName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/compNameLabel"
-        android:layout_alignLeft="@+id/addressLine1"        
-        android:hint="Enter Company's Name"/>
-        
-
+        <requestFocus />
+    </TextView>
 
     <TextView
-        android:id="@+id/cityLabel"
+        android:id="@+id/userID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/addressLabel1"
-        android:layout_below="@+id/addressLabel1"
+        android:layout_alignBottom="@+id/userIDPrompt"
+        android:layout_alignLeft="@+id/password"
+        android:textSize="20dp"
+        android:text="User's ID"/>
+    
+
+    <TextView
+        android:id="@+id/userRolePrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/passwordPrompt"
+        android:layout_below="@+id/passwordPrompt"
         android:layout_marginTop="52dp"
-        android:text="City:"
+        android:text="User Role:"
         android:textSize="20sp" 
         android:textStyle="bold"/>
+    
+    <TextView
+        android:id="@+id/userRole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/userRolePrompt"
+        android:layout_alignLeft="@+id/password"
+        android:layout_below="@+id/confirmPassword"
+        android:layout_marginTop="52dp"
+        android:text="User Role Dropdown"
+        android:textSize="20sp" 
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/cityLabel"
+        android:layout_alignLeft="@+id/userRolePrompt"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="28dp"
         android:gravity="center_horizontal"
@@ -85,14 +97,12 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/addStore"
+            android:id="@+id/deleteUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="40"
-            android:text="Add Store"
+            android:text="Delete User"
             android:textSize="20sp" />
     </LinearLayout>
-   
-</RelativeLayout>
 
-</FrameLayout>
+</RelativeLayout>

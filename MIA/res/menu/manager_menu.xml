@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:orderInCategory="0" android:id="@+id/HomeActiviy" android:title="Home" android:icon="@drawable/ic_launcher"></item>
-    <item android:orderInCategory="1" android:id="@+id/ScanItemActivity" android:title="Scan Item" android:icon="@drawable/ic_launcher"></item>
-    <item android:orderInCategory="3" android:id="@+id/AllProducts" android:title="All Products" android:icon="@drawable/ic_launcher"></item>
-     <item android:orderInCategory="4" android:id="@+id/Settings" android:title="Settings" android:icon="@drawable/ic_launcher"></item>
+
+    <item
+        android:id="@+id/StoreReviewActivity"
+        android:icon="@drawable/ic_action_place"
+        android:orderInCategory="0"
+        android:title="Home"/>
+    <item
+        android:id="@+id/AllProducts"
+        android:icon="@drawable/ic_action_select_all"
+        android:orderInCategory="1"
+        android:title="All Products"/>
+    <item
+        android:id="@+id/Scan"
+        android:icon="@drawable/ic_action_camera"
+        android:orderInCategory="2"
+        android:title="Scan Item"/>
+    <item
+        android:id="@+id/addProduct"
+        android:icon="@drawable/ic_action_new"
+        android:orderInCategory="5"
+        android:title="Add Product"/>
+    <item
+        android:id="@+id/delProduct"
+        android:icon="@drawable/ic_action_discard"
+        android:orderInCategory="6"
+        android:title="Delete Product"/>
 
 </menu>
