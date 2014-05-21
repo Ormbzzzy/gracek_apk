@@ -3,6 +3,7 @@ package com.libratech.mia;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.Menu;
 
 import com.google.zxing.Result;
 import com.google.zxing.client.android.CaptureActivity;
@@ -25,16 +26,29 @@ public class ScanActivity extends CaptureActivity {
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
 	public void handleDecode(Result rawResult, Bitmap barcode) {
 		String scan = rawResult.getText().toString();
 		final Bundle b = new Bundle();
 		b.putString("code", scan);
 		try {
-			b.putString("parent", getIntent().getStringExtra("parent"));
-			startActivity(new Intent(ScanActivity.this,
-					Class.forName("com.libratech.mia.ViewProductActivity"))
-					.putExtras(b));
-		} catch (ClassNotFoundException e) {
+			if (getIntent().hasExtra("parent")) {
+				if (getIntent().getStringExtra("parent").equals("AddProduct")) {
+					setResult(RESULT_OK, new Intent().putExtras(b));
+					finish();
+				}
+			} else {
+				startActivity(new Intent(
+						ScanActivity.this,
+						Class.forName("com.libratech.mia.UpdateProductActivity"))
+						.putExtras(b));
+			}
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -4,6 +4,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,7 @@ public class HomeAdapter extends BaseAdapter {
 	public HomeAdapter(Context context, ArrayList<Scanned> aProducts) {
 		this.context = context;
 		this.data = aProducts;
-		// for (int i = 0; i < data.size(); i++) {
-		// Log.d("UPC to Adapter", ""+data.get(i).getUpcCode());
-		// }
+		Log.d("data", data.toString());
 	}
 
 	@Override

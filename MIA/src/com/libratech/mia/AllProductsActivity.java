@@ -1,7 +1,9 @@
 package com.libratech.mia;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,29 +43,34 @@ public class AllProductsActivity extends Activity implements
 	boolean nSort, bSort, cSort;
 	TextView name, brand;
 	AllAdapter ad = new AllAdapter(this, products);
+	String compId = HomeActivity.storeID;
+	String dateString = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.all);
+		Date date = new Date();
+		dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
 		nSort = bSort = cSort = true;
 		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 		rbmView.setMenuClickCallback(this);
-		if (getIntent().hasExtra("user")
-				&& getIntent().getStringArrayExtra("user")[3]
-						.equalsIgnoreCase("manager")) {
+		if (getIntent().hasExtra("parent")
+				&& getIntent().getStringExtra("parent").equalsIgnoreCase(
+						"StoreReviewActivity")) {
 			rbmView.setMenuItems(R.menu.manager_menu);
 		} else {
 			rbmView.setMenuItems(R.menu.home);
 		}
 		search = (EditText) findViewById(R.id.inputSearch);
 		listview = (ExpandableListView) findViewById(R.id.alllistview);
+		listview.setFastScrollEnabled(true);
 		listview.setAdapter(ad);
 		listview.setOnChildClickListener(new OnChildClickListener() {
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v,
 					int groupPosition, int childPosition, long id) {
-				// TODO Auto-generated method stub
+
 				boolean found = false;
 				Bundle b = new Bundle();
 				Scanned s = null;
@@ -79,8 +86,9 @@ public class AllProductsActivity extends Activity implements
 								String.valueOf(p.getPrice()), p.getWeight(),
 								p.getUom(), p.getGct(), p.getCategory() };
 						b.putStringArray("product", product);
+						b.putString("mode", "update");
 						b.putString("parent",
-								"com.libratech.mia.AllProductsActivity");
+								getIntent().getStringExtra("parent"));
 						startActivityForResult(new Intent(
 								AllProductsActivity.this,
 								UpdateProductActivity.class).putExtras(b), 1);
@@ -89,15 +97,15 @@ public class AllProductsActivity extends Activity implements
 					}
 				}
 				if (!found) {
+					b.putString("mode", "view");
 					String[] product = { p.getUpcCode(), p.getProductName(),
 							p.getBrand(), String.valueOf(p.getPrice()),
 							p.getWeight(), p.getUom(), p.getGct(),
 							p.getCategory() };
 					b.putStringArray("product", product);
-					b.putString("parent",
-							"com.libratech.mia.AllProductsActivity");
+					b.putString("parent", getIntent().getStringExtra("parent"));
 					startActivityForResult(new Intent(AllProductsActivity.this,
-							ViewProductActivity.class).putExtras(b), 1);
+							UpdateProductActivity.class).putExtras(b), 1);
 				}
 				return false;
 			}
@@ -113,14 +121,12 @@ public class AllProductsActivity extends Activity implements
 
 			@Override
 			public void afterTextChanged(Editable arg0) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
 					int arg2, int arg3) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -134,12 +140,12 @@ public class AllProductsActivity extends Activity implements
 
 	class getProducts extends AsyncTask<String, Void, JSONArray> {
 		protected JSONArray doInBackground(String... url) {
-			return new DatabaseConnector().DBPull(url[0]);
+			return new DatabaseConnector().dbPull(url[0]);
 		}
 
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
+
 			Toast.makeText(AllProductsActivity.this, "Loading products.",
 					Toast.LENGTH_SHORT).show();
 			super.onPreExecute();
@@ -153,50 +159,14 @@ public class AllProductsActivity extends Activity implements
 			for (int i = 0; i < result.length(); i++) {
 				try {
 					upc = result.getJSONArray(i).getString(0);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					name = result.getJSONArray(i).getString(1);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					desc = result.getJSONArray(i).getString(2);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					brand = result.getJSONArray(i).getString(3);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					category = result.getJSONArray(i).getString(4);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					weight = result.getJSONArray(i).getString(5);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					uom = result.getJSONArray(i).getString(6);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					photo = result.getJSONArray(i).getString(7);// price
 				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				products.add(new Product(upc, weight, name, desc, brand,
@@ -213,12 +183,12 @@ public class AllProductsActivity extends Activity implements
 
 	class updateScanned extends AsyncTask<String, Void, JSONArray> {
 		protected JSONArray doInBackground(String... url) {
-			return new DatabaseConnector().DBPull(url[0]);
+			return new DatabaseConnector().dbPull(url[0]);
 		}
 
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
+
 			Toast.makeText(AllProductsActivity.this, "Loading products.",
 					Toast.LENGTH_SHORT).show();
 			super.onPreExecute();
@@ -234,69 +204,17 @@ public class AllProductsActivity extends Activity implements
 			for (int i = 0; i < result.length(); i++) {
 				try {
 					upc = result.getJSONArray(i).getString(0);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					name = result.getJSONArray(i).getString(1);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					desc = result.getJSONArray(i).getString(2);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					brand = result.getJSONArray(i).getString(3);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					category = result.getJSONArray(i).getString(4);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					weight = result.getJSONArray(i).getString(5);
-					// Log.d("weight from DB", weight);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					uom = result.getJSONArray(i).getString(6);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					photo = result.getJSONArray(i).getString(7);// price
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					price = (float) result.getJSONArray(i).getDouble(7);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				try {
 					gct = result.getJSONArray(i).getString(8);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				try {
 					photo = result.getJSONArray(i).getString(9);// price
 				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				scanned.add(new Scanned(upc, weight, name, desc, brand,
@@ -316,84 +234,103 @@ public class AllProductsActivity extends Activity implements
 			rbmView.toggleMenu();
 			return true;
 
-		case R.id.name:
-			if (nSort) {
-				nSort = false;
-				Collections.sort(products, Product.ascNameComparator);
-			} else {
-				nSort = true;
-				Collections.sort(products, Product.desNameComparator);
-			}
-			ad.notifyDataSetChanged();
+			// case R.id.name:
+			// if (nSort) {
+			// nSort = false;
+			// Collections.sort(products, Product.ascNameComparator);
+			// } else {
+			// nSort = true;
+			// Collections.sort(products, Product.desNameComparator);
+			// }
+			// ad = new AllAdapter(AllProductsActivity.this, products);
 			// listview.setAdapter(new AllAdapter(AllProductsActivity.this,
-			// products));
-			return true;
-
-		case R.id.brand:
-			if (bSort) {
-				bSort = false;
-				Collections.sort(products, Product.ascBrandComparator);
-			} else {
-				bSort = true;
-				Collections.sort(products, Product.desBrandComparator);
-			}
-			ad.notifyDataSetChanged();
+			// new ArrayList<Product>()));
+			// listview.setAdapter(ad);
+			// break;
+			//
+			// case R.id.brand:
+			// if (bSort) {
+			// bSort = false;
+			// Collections.sort(products, Product.ascBrandComparator);
+			// } else {
+			// bSort = true;
+			// Collections.sort(products, Product.desBrandComparator);
+			// }
+			// ad = new AllAdapter(AllProductsActivity.this, products);
 			// listview.setAdapter(new AllAdapter(AllProductsActivity.this,
-			// products));
-			return true;
-
-		case R.id.category:
-			if (cSort) {
-				cSort = false;
-				Collections.sort(products, Product.ascCatComparator);
-			} else {
-				cSort = true;
-				Collections.sort(products, Product.desCatComparator);
-			}
-			ad.notifyDataSetChanged();
-			// listview.setAdapter(new AllAdapter(AllProductsActivity.this,
-			// products));
-			return true;
+			// new ArrayList<Product>()));
+			// listview.setAdapter(ad);
+			// break;
+			//
+			// case R.id.category:
+			// if (cSort) {
+			// cSort = false;
+			// Collections.sort(products, Product.ascCatComparator);
+			// } else {
+			// cSort = true;
+			// Collections.sort(products, Product.desCatComparator);
+			// }
+			// ad = new AllAdapter(AllProductsActivity.this, products);
+			// listview.setAdapter(ad);
+			// break;
 
 		case R.id.logout:
 			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(i);
-			return true;
+			break;
 
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+		return true;
 	}
 
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 		// TODO Auto-generated method stub
-		String classes[] = { "HomeActivity", "ScanActivity",
-				"AllProductsActivity", "FeedbackActivity" };
-		if (position != 2) {
-			try {
-				if (classes[position].equalsIgnoreCase("scanactivity")) {
-					Bundle b = new Bundle();
-					b.putString("parent", "AllProductsActivity");
-					startActivity(new Intent(AllProductsActivity.this,
-							Class.forName("com.libratech.mia."
-									+ classes[position])));
-				} else {
-					startActivity(new Intent(AllProductsActivity.this,
-							Class.forName("com.libratech.mia."
-									+ classes[position])));
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		Bundle b = new Bundle();
+		Intent i = new Intent();
+		switch (itemId) {
+		case R.id.HomeActivity:
+			i = new Intent(this, HomeActivity.class);
+			break;
+		case R.id.AllProducts:
+			i = new Intent(this, AllProductsActivity.class);
+			break;
+		case R.id.ScanItemActivity:
+			i = new Intent(this, ScanActivity.class);
+			break;
+		// case R.id.Feedback:
+		// i = new Intent(this, FeedbackActivity.class);
+		// break;
+		case R.id.StoreReviewActivity:
+			i = new Intent(this, StoreReviewActivity.class);
+			break;
+		 case R.id.delProduct:
+		 i = new Intent(this, DeleteProduct.class);
+		 break;
+		case R.id.addUser:
+			i = new Intent(this, AddUser.class);
+			break;
+		case R.id.addProduct:
+			i = new Intent(this, AddProduct.class);
+			break;
+		// case R.id.delUser:
+		// i = new Intent(this, DeleteUser.class);
+		// break;
+
+		default:
+			break;
 		}
+		b.putString("parent", getIntent().getStringExtra("parent"));
+		i.putExtras(b);
+		startActivityForResult(i, 1);
 	}
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
+
 		super.onPause();
 	}
 
@@ -413,7 +350,7 @@ public class AllProductsActivity extends Activity implements
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
+
 		String text = search.getText().toString();
 		search.setText("");
 		search.setText(text);
@@ -434,7 +371,7 @@ public class AllProductsActivity extends Activity implements
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
+
 		super.onActivityResult(requestCode, resultCode, data);
 		try {
 			if (data.hasExtra("updated")) {
@@ -442,7 +379,11 @@ public class AllProductsActivity extends Activity implements
 				if (isConnected()) {
 					scanned.clear();
 					new updateScanned()
-							.execute("http://holycrosschurchjm.com/MIA_mysql.php?comp_id=COMP-00001&rec_date=2013-11-01&scannedproducts=yes");
+							.execute("http://holycrosschurchjm.com/MIA_mysql.php?comp_id="
+									+ compId
+									+ "&rec_date="
+									+ dateString
+									+ "&scannedproducts=yes");
 				} else {
 					Toast.makeText(getApplicationContext(),
 							"Please check your connection.", Toast.LENGTH_SHORT)

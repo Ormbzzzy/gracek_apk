@@ -1,5 +1,9 @@
 package com.libratech.mia;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -7,8 +11,16 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -19,35 +31,154 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.libratech.mia.models.Store;
 
 public class LoginActivity extends Activity {
 
 	// Values for email and password at the time of the login attempt.
 	private DatabaseConnector db = new DatabaseConnector();
-	private String empID;
+	public static String empID;
 	private String empPass;
+	private ArrayAdapter<String> adapter;
+	private ArrayList<Store> stores = new ArrayList<Store>();
+	private ArrayList<Store> tempStores = new ArrayList<Store>();
+	private ArrayList<String> spinList = new ArrayList<String>();
+	public static String storeID = "";
+	private Bundle b = new Bundle();
+	private Location curLoc, storeLoc;
+	private boolean locChange;
+	public static String storeName = "";
+
 	// UI references.
 	private EditText id;
 	private EditText pass;
 	private View mLoginFormView;
 	private View mLoginStatusView;
-	private TextView mLoginStatusMessageView;;
+	private TextView mLoginStatusMessageView;
+	private Dialog dg;
+	private Button confirm;
+	private Button cancel;
+	private MySpinner sp;
+
+	private LocationManager locMan;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_activity);
+		startUp();
+	}
+
+	private boolean requestLocation() {
+		locMan = (LocationManager) getApplicationContext().getSystemService(
+				Context.LOCATION_SERVICE);
+		if (!locMan.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			Log.d("GPS", " disabled");
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Location is Disabled");
+			builder.setMessage("Please enable location based services.");
+			builder.setPositiveButton("Ok",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialogInterface,
+								int i) {
+							startActivityForResult(
+									new Intent(
+											android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS),
+									1);
+						}
+					});
+			builder.setNegativeButton("Cancel", null);
+			builder.create().show();
+			startUp();
+		}
+		return locMan.isProviderEnabled(LocationManager.GPS_PROVIDER);
+	}
+
+	private void startUp() {
+		storeLoc = new Location(LocationManager.GPS_PROVIDER);
+		curLoc = getBestLocation();
+		// Log.d("curLoc", "" + curLoc.getLatitude() + " " +
+		// curLoc.getLongitude());
+		dg = new Dialog(LoginActivity.this);
+		dg.setContentView(R.layout.dialog);
+		dg.setTitle("Select Store");
+		dg.setCanceledOnTouchOutside(false);
+		sp = (MySpinner) dg.findViewById(R.id.storeSpinner);
+		confirm = (Button) dg.findViewById(R.id.spinnerButton);
+		confirm.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				if (!storeID.equals("")) {
+					for (Store s : stores) {
+						if (s.getStoreID().equals(storeID))
+							storeName = s.getCompanyName();
+					}
+
+					b.putString("name", storeName);
+					b.putString("store", storeID);
+					try {
+						dg.dismiss();
+						startActivity(new Intent(LoginActivity.this, Class
+								.forName("com.libratech.mia.HomeActivity"))
+								.putExtras(b));
+					} catch (ClassNotFoundException e) {
+
+						e.printStackTrace();
+					}
+
+				} else {
+					Toast.makeText(getApplicationContext(),
+							"Please select a store.", Toast.LENGTH_SHORT)
+							.show();
+				}
+			}
+		});
+		cancel = (Button) dg.findViewById(R.id.spinnerCancel);
+		cancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				dg.dismiss();
+			}
+
+		});
+		sp.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+
+				if (arg2 != 0)
+					storeID = stores.get(arg2 - 1).getStoreID();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+
+			}
+		});
+
 		setupLoginForm();
+
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		return true;
+	protected void onPause() {
+		dg.dismiss();
+		pass.setText("");
+		super.onPause();
 	}
 
 	public void attemptLogin() {
@@ -67,10 +198,6 @@ public class LoginActivity extends Activity {
 			pass.setError("Password is required.");
 			focusView = pass;
 			cancel = true;
-		} else if (empPass.length() < 4) {
-			pass.setError("Password too short.");
-			focusView = pass;
-			cancel = true;
 		}
 		if (TextUtils.isEmpty(empID)) {
 			id.setError("ID is required");
@@ -83,9 +210,11 @@ public class LoginActivity extends Activity {
 			mLoginStatusMessageView.setText("Logging in...");
 			showProgress(true);
 			try {
-				new UserLoginTask()
-						.execute("http://www.holycrosschurchjm.com/MIA_mysql.php?userLogin=yes&username="
-								+ empID + "&password=" + empPass);
+				String[] s = { empID, empPass };
+				new UserLoginTask().execute(s);
+				// new UserLoginTask()
+				// .execute("http://www.holycrosschurchjm.com/MIA_mysql.php?userLogin=yes&username="
+				// + empID + "&password=" + empPass);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -132,61 +261,49 @@ public class LoginActivity extends Activity {
 
 		protected JSONArray doInBackground(String... params) {
 
-			return db.DBLogin(params[0]);
+			return new DatabaseConnector().DBLogin(params[0],params[1]);
 		}
 
 		protected void onPostExecute(JSONArray success) {
 			showProgress(false);
-			String empID, fName, lName, role;
-			empID = fName = lName = role = "";
-			if (success != null) {
+			String id, fName, lName, role;
+			id = fName = lName = role = "";
+			if (success.length() > 0) {
+				Log.d("success", success.toString());
 				try {
-					empID = success.getString(1);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
+					id = success.getString(0);
 					fName = success.getString(1);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					lName = success.getString(2);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					role = success.getString(3);
 				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				success = new JSONArray();
+				Log.d("user", id + " " + fName + " " + lName + " " + " " + role);
+				String[] user = { id, fName, lName, role };
+				b.putStringArray("user", user);
 				Toast.makeText(getApplicationContext(), "Login successful",
 						Toast.LENGTH_LONG).show();
-				Bundle b = new Bundle();
-				String[] user = { empID, fName, lName, role };
-				b.putStringArray("user", user);
-				try {
-					if (role.equalsIgnoreCase("manager")) {
+				db.clear();
+				showProgress(false);
+				id = fName = lName = role = "";
+				if (user[3].equals("manager")) {
+					try {
 						startActivity(new Intent(
 								LoginActivity.this,
-								Class.forName("com.libratech.mia.AllProductsActivity"))
+								Class.forName("com.libratech.mia.StoreReviewActivity"))
 								.putExtras(b));
-					} else {
-						startActivity(new Intent(LoginActivity.this,
-								Class.forName("com.libratech.mia.HomeActivity"))
-								.putExtras(b));
-					}
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+					} catch (ClassNotFoundException e) {
 
+						e.printStackTrace();
+					}
+				} else {
+					new getStores()
+							.execute("http://holycrosschurchjm.com/MIA_mysql.php?allStores=yes");
+					dg.show();
+				}
 			} else {
-				pass.setError("Invalid password.");
+				pass.setError("Invalid username or password.");
 				pass.requestFocus();
 			}
 		}
@@ -197,11 +314,107 @@ public class LoginActivity extends Activity {
 		}
 	}
 
+	class getStores extends AsyncTask<String, Void, JSONArray> {
+		protected JSONArray doInBackground(String... url) {
+			return db.dbPull(url[0]);
+		}
+
+		@Override
+		protected void onPostExecute(JSONArray result) {
+			String code, name, addr, city;
+			code = name = addr = city = "";
+			if (result != null) {
+				for (int i = 0; i < result.length(); i++) {
+					try {
+						code = result.getJSONArray(i).getString(0);
+						name = result.getJSONArray(i).getString(1);
+						addr = result.getJSONArray(i).getString(2);
+						city = result.getJSONArray(i).getString(3);
+					} catch (JSONException e1) {
+						e1.printStackTrace();
+					}
+					tempStores.add(new Store(code, name, addr, city));
+				}
+				new getLocation().execute(tempStores);
+			}
+		}
+	}
+
+	class getLocation extends
+			AsyncTask<ArrayList<Store>, Void, ArrayList<Store>> {
+		protected ArrayList<Store> doInBackground(ArrayList<Store>... store) {
+
+			List<Address> addresses;
+			Geocoder geocoder = new Geocoder(LoginActivity.this);
+			spinList.clear();
+			stores.clear();
+			try {
+				for (int i = 0; i < store[0].size(); i++) {
+					Store s = store[0].get(i);
+					addresses = geocoder.getFromLocationName(s.getAddress()
+							+ "," + s.getCity() + ", jamaica", 1);
+					if (addresses.size() > 0) {
+						double latitude = addresses.get(0).getLatitude();
+						double longitude = addresses.get(0).getLongitude();
+						storeLoc.setLatitude(latitude);
+						storeLoc.setLongitude(longitude);
+						Log.d("Store Location",
+								s.getCompanyName() + " "
+										+ storeLoc.getLatitude() + " "
+										+ storeLoc.getLongitude()
+										+ "Distance: "
+										+ curLoc.distanceTo(storeLoc) + "m "
+										+ "addr + city");
+						if (curLoc.distanceTo(storeLoc) < 1000000) {
+							Log.d("Added", s.getCompanyName());
+							spinList.add(s.getCompanyName());
+							stores.add(s);
+						}
+					} else {
+						addresses = geocoder.getFromLocationName(s.getAddress()
+								+ ",jamaica", 1);
+						if (addresses.size() > 0) {
+							double latitude = addresses.get(0).getLatitude();
+							double longitude = addresses.get(0).getLongitude();
+							storeLoc.setLatitude(latitude);
+							storeLoc.setLongitude(longitude);
+							Log.d("Store Location",
+									s.getCompanyName() + " "
+											+ storeLoc.getLatitude() + " "
+											+ storeLoc.getLongitude()
+											+ "Distance: "
+											+ curLoc.distanceTo(storeLoc)
+											+ "m " + "addr");
+							if (curLoc.distanceTo(storeLoc) < 1000000) {
+								Log.d("Added", s.getCompanyName());
+								spinList.add(s.getCompanyName());
+								stores.add(s);
+							}
+						}
+					}
+				}
+			} catch (IOException e) {
+
+				e.printStackTrace();
+				new getLocation().execute(tempStores);
+			}
+			spinList.add(0, "- Please select a store -");
+			return store[0];
+		}
+
+		protected void onPostExecute(ArrayList<Store> store) {
+			adapter = new SpinnerAdapter(LoginActivity.this,
+					android.R.layout.simple_spinner_item, spinList);
+			sp.setAdapter(adapter);
+			adapter.notifyDataSetChanged();
+		}
+	}
+
 	private void setupLoginForm() {
 		id = (EditText) findViewById(R.id.empID);
 		pass = (EditText) findViewById(R.id.password);
-		id.setText("MER-00001");
-		pass.setText("password1");
+		id.setText("MAN-00001");
+		pass.setText("boss1");
 		pass.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView textView, int id,
@@ -213,7 +426,8 @@ public class LoginActivity extends Activity {
 								"No network connection. Please check your connection and try again.",
 								Toast.LENGTH_LONG).show();
 					} else {
-						attemptLogin();
+						if (requestLocation())
+							attemptLogin();
 					}
 					return true;
 				}
@@ -235,8 +449,8 @@ public class LoginActivity extends Activity {
 									"No network connection. Please check your connection and try again.",
 									Toast.LENGTH_LONG).show();
 						} else {
-
-							attemptLogin();
+							if (requestLocation())
+								attemptLogin();
 						}
 					}
 				});
@@ -256,10 +470,93 @@ public class LoginActivity extends Activity {
 		return false;
 	}
 
+	private Location getBestLocation() {
+		Location gpslocation = null;
+		Location networkLocation = null;
+
+		if (locMan == null)
+			locMan = (LocationManager) getApplicationContext()
+					.getSystemService(Context.LOCATION_SERVICE);
+		try {
+			if (locMan.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+				locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+						100, 1, gpsListener);
+				gpslocation = locMan
+						.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			}
+			if (locMan.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+				locMan.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+						100, 1, gpsListener);
+				networkLocation = locMan
+						.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			}
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		if (gpslocation == null && networkLocation == null)
+			return null;
+
+		if (gpslocation != null && networkLocation != null) {
+			if (gpslocation.getTime() < networkLocation.getTime())
+				return networkLocation;
+			else
+				return gpslocation;
+		}
+		if (gpslocation == null) {
+			return networkLocation;
+		}
+		if (networkLocation == null) {
+			return gpslocation;
+		}
+		return null;
+	}
+
+	LocationListener gpsListener = new LocationListener() {
+		public void onLocationChanged(Location loc) {
+			if (curLoc == null) {
+				curLoc = loc;
+				locChange = true;
+			} else if (curLoc.getLatitude() == loc.getLatitude()
+					&& curLoc.getLongitude() == loc.getLongitude()) {
+				locChange = false;
+				return;
+			} else
+				locChange = true;
+			curLoc = loc;
+			if (locChange)
+				locMan.removeUpdates(gpsListener);
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+
+		}
+	};
+
 	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
+	protected void onResume() {
+		super.onResume();
+		spinList.clear();
+		sp.setAdapter(new SpinnerAdapter(LoginActivity.this,
+				android.R.layout.simple_spinner_item, spinList));
+		requestLocation();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		super.onActivityResult(requestCode, resultCode, data);
+		requestLocation();
 	}
 
 }

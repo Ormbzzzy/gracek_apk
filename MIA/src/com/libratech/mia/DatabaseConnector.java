@@ -3,12 +3,16 @@ package com.libratech.mia;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -23,10 +27,16 @@ public class DatabaseConnector {
 	public DatabaseConnector() {
 		is = null;
 		result = "";
-		jArray = null;
+		jArray = new JSONArray();
 	}
 
-	public JSONArray DBPull(String url) {
+	public void clear() {
+		is = null;
+		result = "";
+		jArray = new JSONArray();
+	}
+
+	public JSONArray dbPull(String url) {
 		// Download JSON data from URLs
 		try {
 			HttpClient httpclient = new DefaultHttpClient();
@@ -50,17 +60,17 @@ public class DatabaseConnector {
 			}
 			is.close();
 			result = sb.toString();
-			Log.d("from DB", result);
 		} catch (Exception e) {
 			Log.e("log_tag", "Error converting result " + e.toString());
+			return new JSONArray();
 		}
 
 		try {
 
 			jArray = new JSONArray(result);
-			Log.d("from DB", jArray.toString());
 		} catch (JSONException e) {
 			Log.e("log_tag", "Error parsing data " + e.toString());
+			return new JSONArray();
 		}
 
 		return jArray;
@@ -82,11 +92,17 @@ public class DatabaseConnector {
 		}
 	}
 
-	public JSONArray DBLogin(String url) {
+	public JSONArray DBLogin(String id, String pass) {
 		// Download JSON data from URLs
+		ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("userLogin", "yes"));
+		nameValuePairs.add(new BasicNameValuePair("username", "" + id));
+		nameValuePairs.add(new BasicNameValuePair("password", "" + pass));
 		try {
 			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost(url);
+			HttpPost httppost = new HttpPost(
+					"http://holycrosschurchjm.com/MIA_mysql.php");
+			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();
 			is = entity.getContent();
@@ -108,18 +124,18 @@ public class DatabaseConnector {
 			result = sb.toString();
 		} catch (Exception e) {
 			Log.e("log_tag", "Error converting result " + e.toString());
+			return new JSONArray();
 		}
 		if (result != null && result.equals("false")) {
-			return null;
+
 		} else {
 			try {
 				jArray = new JSONArray(result);
 			} catch (JSONException e) {
 				Log.e("log_tag", "Error parsing data " + e.toString());
+				return new JSONArray();
 			}
 		}
-
 		return jArray;
-		// return true;
 	}
 }
