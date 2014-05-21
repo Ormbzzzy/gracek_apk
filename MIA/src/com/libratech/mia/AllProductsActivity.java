@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.libratech.mia.models.Product;
 import com.libratech.mia.models.Scanned;
 
@@ -135,6 +136,7 @@ public class AllProductsActivity extends Activity implements
 			new getProducts()
 					.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
 		}
+		EasyTracker.getInstance(this).activityStart(this);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
@@ -330,7 +332,7 @@ public class AllProductsActivity extends Activity implements
 
 	@Override
 	protected void onPause() {
-
+		EasyTracker.getInstance(this).activityStop(this);
 		super.onPause();
 	}
 

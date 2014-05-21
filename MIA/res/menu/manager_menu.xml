@@ -26,5 +26,35 @@
         android:icon="@drawable/ic_action_discard"
         android:orderInCategory="6"
         android:title="Delete Product"/>
+    <item>
+ <!-- android:id="@+id/addUser" -->
 
+
+        <!-- android:icon="@drawable/ic_launcher" -->
+
+
+        <!-- android:orderInCategory="7" -->
+
+
+        <!-- android:title="Add User"/> -->
+
+
+        <!-- <item -->
+
+
+        <!-- android:id="@+id/delUser" -->
+
+
+        <!-- android:icon="@drawable/ic_launcher" -->
+
+
+        <!-- android:orderInCategory="8" -->
+
+
+        <!-- android:title="Delete User"> -->
+
+
+        <!-- </item> -->
+
+    </item>
 </menu>

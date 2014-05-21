@@ -41,6 +41,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.libratech.mia.models.Store;
 
 public class LoginActivity extends Activity {
@@ -76,6 +77,7 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_activity);
+		EasyTracker.getInstance(this).activityStart(this);
 		startUp();
 	}
 
@@ -178,6 +180,7 @@ public class LoginActivity extends Activity {
 	protected void onPause() {
 		dg.dismiss();
 		pass.setText("");
+		EasyTracker.getInstance(this).activityStop(this);
 		super.onPause();
 	}
 

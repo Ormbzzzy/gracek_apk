@@ -41,6 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.darvds.ribbonmenu.RibbonMenuView;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.libratech.mia.models.Product;
 
 public class UpdateProductActivity extends Activity {
@@ -118,10 +119,6 @@ public class UpdateProductActivity extends Activity {
 						.toLowerCase();
 			}
 		}
-		if (price.getText().equals("0.0")) {
-			price.setText("");
-			price.setHint("Price");
-		}
 		if (mode.equals("view")) {
 			update.setText("Confirm");
 		} else if (mode.equals("update")) {
@@ -148,12 +145,12 @@ public class UpdateProductActivity extends Activity {
 				finish();
 			}
 		});
+
 		update.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (Double.parseDouble(price.getText().toString()) == 0.0
-						|| price.getText().equals("")) {
+				if (Double.parseDouble(price.getText().toString()) == 0.0) {
 					Toast.makeText(UpdateProductActivity.this,
 							"Price cannot be zero.", Toast.LENGTH_LONG).show();
 				} else {
@@ -266,6 +263,7 @@ public class UpdateProductActivity extends Activity {
 			edit.setVisibility(View.GONE);
 			update.setVisibility(View.GONE);
 		}
+		EasyTracker.getInstance(this).activityStart(this);
 	}
 
 	class pushProduct extends AsyncTask<String, Void, Boolean> {
@@ -421,7 +419,7 @@ public class UpdateProductActivity extends Activity {
 
 		public DecimalDigitsInputFilter(int digitsBeforeZero,
 				int digitsAfterZero) {
-			mPattern = Pattern.compile("[0-9]{1," + (digitsBeforeZero - 1)
+			mPattern = Pattern.compile("[0-9]{0," + (digitsBeforeZero - 1)
 					+ "}+((\\.[0-9]{0," + (digitsAfterZero - 1)
 					+ "})?)||(\\.)?");
 		}

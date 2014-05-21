@@ -17,6 +17,14 @@ public final class R {
     }
     public static final class attr {
     }
+    public static final class bool {
+        /** Enable automatic activity tracking
+         */
+        public static final int ga_autoActivityTracking=0x7f0c0000;
+        /** Enable automatic exception tracking
+         */
+        public static final int ga_reportUncaughtExceptions=0x7f0c0001;
+    }
     public static final class color {
         public static final int AliceBlue=0x7f080049;
         public static final int AntiqueWhite=0x7f08003f;
@@ -434,30 +442,30 @@ public final class R {
         public static final int update=0x7f030025;
     }
     public static final class menu {
-        public static final int add_product=0x7f0d0000;
-        public static final int add_store=0x7f0d0001;
-        public static final int allprod_actionbar=0x7f0d0002;
-        public static final int capture=0x7f0d0003;
-        public static final int delete_product=0x7f0d0004;
-        public static final int encode=0x7f0d0005;
-        public static final int history=0x7f0d0006;
-        public static final int home=0x7f0d0007;
-        public static final int logout=0x7f0d0008;
-        public static final int manager_menu=0x7f0d0009;
-        public static final int product_control=0x7f0d000a;
-        public static final int settings=0x7f0d000b;
-        public static final int store_control=0x7f0d000c;
-        public static final int user_control=0x7f0d000d;
+        public static final int add_product=0x7f0e0000;
+        public static final int add_store=0x7f0e0001;
+        public static final int allprod_actionbar=0x7f0e0002;
+        public static final int capture=0x7f0e0003;
+        public static final int delete_product=0x7f0e0004;
+        public static final int encode=0x7f0e0005;
+        public static final int history=0x7f0e0006;
+        public static final int home=0x7f0e0007;
+        public static final int logout=0x7f0e0008;
+        public static final int manager_menu=0x7f0e0009;
+        public static final int product_control=0x7f0e000a;
+        public static final int settings=0x7f0e000b;
+        public static final int store_control=0x7f0e000c;
+        public static final int user_control=0x7f0e000d;
     }
     public static final class raw {
         public static final int beep=0x7f060000;
     }
     public static final class string {
-        public static final int ScanProgressText=0x7f0b007a;
-        public static final int action_settings=0x7f0b0079;
-        public static final int add_product=0x7f0b0085;
-        public static final int add_store=0x7f0b0087;
-        public static final int addproduct=0x7f0b008d;
+        public static final int ScanProgressText=0x7f0b007b;
+        public static final int action_settings=0x7f0b007a;
+        public static final int add_product=0x7f0b0086;
+        public static final int add_store=0x7f0b0088;
+        public static final int addproduct=0x7f0b008e;
         public static final int app_name=0x7f0b0000;
         public static final int app_picker_name=0x7f0b0001;
         public static final int bookmark_picker_name=0x7f0b0002;
@@ -487,18 +495,21 @@ public final class R {
         public static final int button_sms=0x7f0b001a;
         public static final int button_web_search=0x7f0b001b;
         public static final int button_wifi=0x7f0b001c;
-        public static final int cancel=0x7f0b008c;
+        public static final int cancel=0x7f0b008d;
         public static final int contents_contact=0x7f0b001d;
         public static final int contents_email=0x7f0b001e;
         public static final int contents_location=0x7f0b001f;
         public static final int contents_phone=0x7f0b0020;
         public static final int contents_sms=0x7f0b0021;
         public static final int contents_text=0x7f0b0022;
-        public static final int create_user=0x7f0b0081;
-        public static final int delete_product=0x7f0b0086;
-        public static final int delete_store=0x7f0b0088;
-        public static final int delete_user=0x7f0b0082;
-        public static final int hello_world=0x7f0b007c;
+        public static final int create_user=0x7f0b0082;
+        public static final int delete_product=0x7f0b0087;
+        public static final int delete_store=0x7f0b0089;
+        public static final int delete_user=0x7f0b0083;
+        /** Replace placeholder ID with your tracking ID
+         */
+        public static final int ga_trackingId=0x7f0b0079;
+        public static final int hello_world=0x7f0b007d;
         public static final int history_clear_one_history_text=0x7f0b0024;
         public static final int history_clear_text=0x7f0b0023;
         public static final int history_email_title=0x7f0b0025;
@@ -569,7 +580,7 @@ public final class R {
         public static final int preferences_try_bsplus=0x7f0b0064;
         public static final int preferences_try_bsplus_summary=0x7f0b0065;
         public static final int preferences_vibrate_title=0x7f0b0068;
-        public static final int productcontrol=0x7f0b007e;
+        public static final int productcontrol=0x7f0b007f;
         public static final int result_address_book=0x7f0b0069;
         public static final int result_calendar=0x7f0b006a;
         public static final int result_email_address=0x7f0b006b;
@@ -583,18 +594,18 @@ public final class R {
         public static final int result_wifi=0x7f0b0073;
         public static final int sbc_name=0x7f0b0074;
         public static final int share_name=0x7f0b0075;
-        public static final int storecontrol=0x7f0b007f;
-        public static final int title_activity_add_product=0x7f0b008b;
-        public static final int title_activity_add_store=0x7f0b0090;
-        public static final int title_activity_delete_product=0x7f0b008f;
-        public static final int title_activity_product_control=0x7f0b0084;
-        public static final int title_activity_settings=0x7f0b007b;
-        public static final int title_activity_store_control=0x7f0b008a;
-        public static final int title_activity_user_control=0x7f0b0080;
-        public static final int update=0x7f0b008e;
-        public static final int usercontrol=0x7f0b007d;
-        public static final int view_all_stores=0x7f0b0089;
-        public static final int view_all_users=0x7f0b0083;
+        public static final int storecontrol=0x7f0b0080;
+        public static final int title_activity_add_product=0x7f0b008c;
+        public static final int title_activity_add_store=0x7f0b0091;
+        public static final int title_activity_delete_product=0x7f0b0090;
+        public static final int title_activity_product_control=0x7f0b0085;
+        public static final int title_activity_settings=0x7f0b007c;
+        public static final int title_activity_store_control=0x7f0b008b;
+        public static final int title_activity_user_control=0x7f0b0081;
+        public static final int update=0x7f0b008f;
+        public static final int usercontrol=0x7f0b007e;
+        public static final int view_all_stores=0x7f0b008a;
+        public static final int view_all_users=0x7f0b0084;
         public static final int wifi_changing_network=0x7f0b0076;
         public static final int wifi_ssid_label=0x7f0b0077;
         public static final int wifi_type_label=0x7f0b0078;
@@ -621,12 +632,12 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f0c0000;
+        public static final int AppBaseTheme=0x7f0d0000;
         /**  Application theme. 
          */
-        public static final int AppTheme=0x7f0c0001;
-        public static final int HomeActionBar=0x7f0c0003;
-        public static final int LoginFormContainer=0x7f0c0002;
+        public static final int AppTheme=0x7f0d0001;
+        public static final int HomeActionBar=0x7f0d0003;
+        public static final int LoginFormContainer=0x7f0d0002;
     }
     public static final class xml {
         public static final int preferences=0x7f050000;

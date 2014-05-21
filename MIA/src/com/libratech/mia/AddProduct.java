@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class AddProduct extends Activity implements iRibbonMenuCallback {
 
@@ -170,6 +171,7 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 		});
 		setupMenu();
 		setupActionBar();
+		EasyTracker.getInstance(this).activityStart(this);
 	}
 
 	private void setupMenu() {

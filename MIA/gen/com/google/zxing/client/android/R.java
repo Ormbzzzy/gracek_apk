@@ -92,9 +92,9 @@ public final class R {
 		public static final int share = 0x7f030020;
 	}
 	public static final class menu {
-		public static final int capture = 0x7f0d0003;
-		public static final int encode = 0x7f0d0005;
-		public static final int history = 0x7f0d0006;
+		public static final int capture = 0x7f0e0003;
+		public static final int encode = 0x7f0e0005;
+		public static final int history = 0x7f0e0006;
 	}
 	public static final class raw {
 		public static final int beep = 0x7f060000;

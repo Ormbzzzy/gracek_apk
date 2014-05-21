@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import com.google.analytics.tracking.android.EasyTracker;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -191,6 +192,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 					"No network connection, please check your connection and reload the application",
 					Toast.LENGTH_LONG).show();
 		}
+		EasyTracker.getInstance(this).activityStart(this);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
@@ -297,6 +299,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 			listLoad.setVisibility(View.GONE);
 			// listview.setVisibility(View.VISIBLE);
 		}
+		//EasyTracker.getInstance(this).activityStart(this);
 	}
 
 	@Override
@@ -365,6 +368,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 		Intent intent = new Intent(Intent.ACTION_MAIN);
 		intent.addCategory(Intent.CATEGORY_HOME);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		EasyTracker.getInstance(this).activityStop(this);
 		startActivity(intent);
 	}
 
@@ -378,6 +382,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 			return true;
 
 		case R.id.logout:
+			EasyTracker.getInstance(this).activityStop(this);
 			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(i);

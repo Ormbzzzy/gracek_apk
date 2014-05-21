@@ -44,6 +44,7 @@ import android.widget.Toast;
 
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.libratech.mia.HomeActivity.getProducts;
 import com.libratech.mia.models.Product;
 import com.libratech.mia.models.Products;
@@ -95,8 +96,10 @@ public class StoreReviewActivity extends Activity implements
 		setupList();
 		setupMenu();
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+		EasyTracker.getInstance(this).activityStart(this);
 		new getInfo()
 				.execute("http://holycrosschurchjm.com/MIA_mysql.php?allStores=yes");
+
 	}
 
 	private void setupMenu() {
@@ -429,6 +432,7 @@ public class StoreReviewActivity extends Activity implements
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
+		EasyTracker.getInstance(this).activityStop(this);
 		super.onPause();
 	}
 
