@@ -1,98 +1,108 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".AddStore" >
+   xmlns:tools="http://schemas.android.com/tools"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:paddingBottom="@dimen/activity_vertical_margin"
+   android:paddingLeft="@dimen/activity_horizontal_margin"
+   android:paddingRight="@dimen/activity_horizontal_margin"
+   android:paddingTop="@dimen/activity_vertical_margin"
+   tools:context=".AddStore" >
 
 <RelativeLayout 
-    android:id="@+id/rel"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    
-   <TextView
-        android:id="@+id/compNameLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginTop="60dp"
-        android:text="Company Name:"/>
-
-    <TextView
-        android:id="@+id/addressLabel1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/compNameLabel"
-        android:layout_below="@+id/compNameLabel"
-        android:layout_marginTop="49dp"
-        android:text="Address:" 
-        android:textSize="20sp"
-        android:textStyle="bold"/>
-
-    <EditText
-        android:id="@+id/addressLine1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/addressLabel1"
-        android:layout_marginLeft="75dp"
-        android:layout_toRightOf="@+id/addressLabel1"         
-        android:hint="Enter Address" />
-
-       
-    <EditText
-        android:id="@+id/compName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/compNameLabel"
-        android:layout_alignLeft="@+id/addressLine1"        
-        android:hint="Enter Company's Name"/>
-        
-
-
-    <TextView
-        android:id="@+id/cityLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/addressLabel1"
-        android:layout_below="@+id/addressLabel1"
-        android:layout_marginTop="52dp"
-        android:text="City:"
-        android:textSize="20sp" 
-        android:textStyle="bold"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/cityLabel"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="28dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:weightSum="100" >
-
-        <Button
-            android:id="@+id/cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:text="Cancel"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/addStore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:text="Add Store"
-            android:textSize="20sp" />
-    </LinearLayout>
+   android:id="@+id/rel"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent">
    
+  <TextView
+       android:id="@+id/compNameLabel"
+       android:layout_width="120dp"
+       android:layout_height="wrap_content"
+       android:layout_alignParentLeft="true"
+       android:layout_alignParentTop="true"
+       android:textSize="20sp"
+       android:textStyle="bold"
+       android:layout_marginTop="60dp"
+       android:text="Company Name:"/>
+
+   <TextView
+       android:id="@+id/addressLabel1"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignLeft="@+id/compNameLabel"
+       android:layout_below="@+id/compNameLabel"
+       android:layout_marginTop="49dp"
+       android:text="Address:" 
+       android:textSize="20sp"
+       android:textStyle="bold"/>
+
+   <EditText
+       android:id="@+id/addressLine1"
+       android:layout_width="200dp"
+       android:layout_height="wrap_content"
+       android:layout_alignBottom="@+id/addressLabel1"
+       android:layout_marginLeft="20dp"
+       android:layout_toRightOf="@+id/addressLabel1"         
+       android:hint="Enter Address" />
+
+      
+   <EditText
+       android:id="@+id/compName"
+       android:layout_width="200dp"
+       android:layout_height="wrap_content"
+       android:layout_alignBottom="@+id/compNameLabel"
+       android:layout_alignLeft="@id/addressLine1"        
+       android:hint="Enter Company's Name"/>
+       
+
+
+   <TextView
+       android:id="@+id/cityLabel"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignLeft="@+id/addressLabel1"
+       android:layout_below="@+id/addressLabel1"
+       android:layout_marginTop="52dp"
+       android:text="City:"
+       android:textSize="20sp" 
+       android:textStyle="bold"/>
+   
+   <Spinner
+       android:id="@+id/citySpinner"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignLeft="@id/addressLine1"
+       android:layout_alignTop="@id/cityLabel"        
+       />
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_alignLeft="@+id/cityLabel"
+       android:layout_alignParentBottom="true"
+       android:layout_marginBottom="28dp"
+       android:gravity="center_horizontal"
+       android:orientation="horizontal"
+       android:weightSum="100" >
+
+       <Button
+           android:id="@+id/cancel"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_weight="40"
+           android:text="Cancel"
+           android:textSize="20sp" />
+
+       <Button
+           android:id="@+id/addStore"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_weight="40"
+           android:text="Add Store"
+           android:textSize="20sp" />
+   </LinearLayout>
+
+  
+  
 </RelativeLayout>
 
 </FrameLayout>

@@ -69,7 +69,7 @@ public class UpdateProductActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.update);
 		img = (ImageView) findViewById(R.id.updateImage);
@@ -146,7 +146,7 @@ public class UpdateProductActivity extends Activity {
 		gctBox.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				
 				if (gctBox.isChecked()) {
 					gct = "yes";
 				} else {
@@ -159,7 +159,7 @@ public class UpdateProductActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
+				
 				imgDown.cancel(true);
 				finish();
 			}
@@ -168,7 +168,7 @@ public class UpdateProductActivity extends Activity {
 		update.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				
 				if (Double.parseDouble(price.getText().toString()) == 0.0) {
 					Toast.makeText(UpdateProductActivity.this,
 							"Price cannot be zero.", Toast.LENGTH_LONG).show();
@@ -259,7 +259,7 @@ public class UpdateProductActivity extends Activity {
 			try {
 				f.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}
@@ -315,7 +315,7 @@ public class UpdateProductActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
+		
 		imgDown.cancel(true);
 		super.onBackPressed();
 	}
@@ -331,7 +331,7 @@ public class UpdateProductActivity extends Activity {
 				if (isCancelled())
 					cancel(true);
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 			try {
@@ -354,7 +354,7 @@ public class UpdateProductActivity extends Activity {
 				return BitmapFactory.decodeStream(is);
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 			return null;
@@ -362,14 +362,14 @@ public class UpdateProductActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
+			
 			if (isCancelled())
 				cancel(true);
 		}
 
 		@Override
 		protected void onPostExecute(Bitmap result) {
-			// TODO Auto-generated method stub
+			
 			if (result == null) {
 				img.setImageDrawable(getResources().getDrawable(
 						R.drawable.no_image));

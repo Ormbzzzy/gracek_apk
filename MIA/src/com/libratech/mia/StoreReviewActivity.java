@@ -45,7 +45,6 @@ import android.widget.Toast;
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.libratech.mia.HomeActivity.getProducts;
 import com.libratech.mia.models.Product;
 import com.libratech.mia.models.Products;
 import com.libratech.mia.models.Scanned;

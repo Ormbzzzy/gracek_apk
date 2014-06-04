@@ -25,10 +25,10 @@ public final class R {
 		public static final int rbm_menu_width = 0x7f090002;
 	}
 	public static final class id {
-		public static final int rbm_item_icon = 0x7f0a0073;
-		public static final int rbm_item_text = 0x7f0a0074;
-		public static final int rbm_listview = 0x7f0a0075;
-		public static final int rbm_outside_view = 0x7f0a0076;
+		public static final int rbm_item_icon = 0x7f0a0078;
+		public static final int rbm_item_text = 0x7f0a0079;
+		public static final int rbm_listview = 0x7f0a007a;
+		public static final int rbm_outside_view = 0x7f0a007b;
 	}
 	public static final class layout {
 		public static final int rbm_item = 0x7f030019;

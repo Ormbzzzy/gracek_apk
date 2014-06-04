@@ -1,109 +1,109 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".DeleteStore" >
+   xmlns:tools="http://schemas.android.com/tools"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:paddingBottom="@dimen/activity_vertical_margin"
+   android:paddingLeft="@dimen/activity_horizontal_margin"
+   android:paddingRight="@dimen/activity_horizontal_margin"
+   android:paddingTop="@dimen/activity_vertical_margin"
+   tools:context=".DeleteStore" >
 
 <RelativeLayout 
-    android:id="@+id/rel"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    
+   android:id="@+id/rel"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent">
+   
+  <TextView
+       android:id="@+id/compNameLabel"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentLeft="true"
+       android:layout_alignParentTop="true"
+       android:textSize="20sp"
+       android:textStyle="bold"
+       android:layout_marginTop="60dp"
+       android:text="Company Name:"/>
+
    <TextView
-        android:id="@+id/compNameLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginTop="60dp"
-        android:text="Company Name:"/>
+       android:id="@+id/addressLabel1"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignLeft="@+id/compNameLabel"
+       android:layout_below="@+id/compNameLabel"
+       android:layout_marginTop="49dp"
+       android:text="Address:" 
+       android:textSize="20sp"
+       android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/addressLabel1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/compNameLabel"
-        android:layout_below="@+id/compNameLabel"
-        android:layout_marginTop="49dp"
-        android:text="Address:" 
-        android:textSize="20sp"
-        android:textStyle="bold"/>
+   <TextView
+       android:id="@+id/addressLine1"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignBottom="@+id/addressLabel1"
+       android:layout_marginLeft="90dp"
+       android:layout_toRightOf="@+id/addressLabel1"         
+       android:text="Address"
+       android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/addressLine1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/addressLabel1"
-        android:layout_marginLeft="90dp"
-        android:layout_toRightOf="@+id/addressLabel1"         
-        android:text="Address"
-        android:textSize="20sp" />
-
-       
-    <TextView
-        android:id="@+id/compName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/compNameLabel"
-        android:layout_alignLeft="@+id/addressLine1"        
-        android:text="Company Name"
-        android:textSize="20sp"/>
-            
+      
+   <TextView
+       android:id="@+id/compName"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignBottom="@+id/compNameLabel"
+       android:layout_alignLeft="@+id/addressLine1"        
+       android:text="Company Name"
+       android:textSize="20sp"/>
+           
+  
+   <TextView
+       android:id="@+id/cityLabel"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignLeft="@+id/addressLabel1"
+       android:layout_below="@+id/addressLabel1"
+       android:layout_marginTop="52dp"
+       android:text="City:"
+       android:textSize="20sp" 
+       android:textStyle="bold"/>
    
-    <TextView
-        android:id="@+id/cityLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/addressLabel1"
-        android:layout_below="@+id/addressLabel1"
-        android:layout_marginTop="52dp"
-        android:text="City:"
-        android:textSize="20sp" 
-        android:textStyle="bold"/>
-    
-    <TextView
-        android:id="@+id/city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"       
-        android:layout_alignBottom="@+id/cityLabel"
-        android:layout_alignLeft="@+id/addressLine1"
-        android:textSize="20sp"       
-        android:layout_marginTop="60dp"
-        android:text="city"/>
+   <TextView
+       android:id="@+id/city"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"       
+       android:layout_alignBottom="@+id/cityLabel"
+       android:layout_alignLeft="@+id/addressLine1"
+       android:textSize="20sp"       
+       android:layout_marginTop="60dp"
+       android:text="city"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/cityLabel"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="28dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:weightSum="100" >
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_alignLeft="@+id/cityLabel"
+       android:layout_alignParentBottom="true"
+       android:layout_marginBottom="28dp"
+       android:gravity="center_horizontal"
+       android:orientation="horizontal"
+       android:weightSum="100" >
 
-        <Button
-            android:id="@+id/cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:text="Cancel"
-            android:textSize="20sp" />
+       <Button
+           android:id="@+id/cancel"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_weight="40"
+           android:text="Cancel"
+           android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/addStore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:text="Delete Store"
-            android:textSize="20sp" />
-    </LinearLayout>
-   
+       <Button
+           android:id="@+id/addStore"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_weight="40"
+           android:text="Delete Store"
+           android:textSize="20sp" />
+   </LinearLayout>
+  
 </RelativeLayout>
 
 </FrameLayout>

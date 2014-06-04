@@ -2,7 +2,6 @@ package com.libratech.mia;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 
 import org.json.JSONArray;
@@ -290,7 +289,7 @@ public class AllProductsActivity extends Activity implements
 
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
-		// TODO Auto-generated method stub
+	
 		Bundle b = new Bundle();
 		Intent i = new Intent();
 		switch (itemId) {

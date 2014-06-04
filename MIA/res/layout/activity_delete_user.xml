@@ -1,108 +1,147 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".DeleteUser" >
+   xmlns:tools="http://schemas.android.com/tools"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:paddingBottom="@dimen/activity_vertical_margin"
+   android:paddingLeft="@dimen/activity_horizontal_margin"
+   android:paddingRight="@dimen/activity_horizontal_margin"
+   android:paddingTop="@dimen/activity_vertical_margin"
+   tools:context=".DeleteUser" >
 
-    <TextView
-        android:id="@+id/userIDPrompt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginTop="80dp"
-        android:text="User ID:"/>
+   <TextView
+       android:id="@+id/firstNamePrompt"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentLeft="true"
+       android:layout_alignParentTop="true"
+       android:textSize="20sp"
+       android:textStyle="bold"
+       android:layout_marginTop="40dp"
+       android:text="First Name:"/>
+   
+   <TextView
+       android:id="@+id/lastNamePrompt"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignLeft="@id/firstNamePrompt"
+       android:layout_below="@id/firstNamePrompt"
+       android:layout_marginTop="50dp"
+       android:textSize="20sp"
+       android:textStyle="bold"        
+       android:text="Last Name:"/>
+   
+   <TextView
+       android:id="@+id/userIDPrompt"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignLeft="@id/lastNamePrompt"
+       android:layout_below="@id/lastNamePrompt"
+       android:layout_marginTop="50dp"
+       android:textSize="20sp"
+       android:textStyle="bold"        
+       android:text="User ID:"/>
 
-    <TextView
-        android:id="@+id/passwordPrompt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/userIDPrompt"
-        android:layout_below="@+id/userIDPrompt"
-        android:layout_marginTop="49dp"
-        android:text="Password:" 
-        android:textSize="20sp"
-        android:textStyle="bold"/>
+   <TextView
+       android:id="@+id/passwordPrompt"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignLeft="@+id/userIDPrompt"
+       android:layout_below="@+id/userIDPrompt"
+       android:layout_marginTop="49dp"
+       android:text="Password:" 
+       android:textSize="20sp"
+       android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/passwordPrompt"
-        android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@+id/passwordPrompt"
-        android:ems="10"        
-        android:inputType="textPassword" 
-        android:textSize="20dp"
-        android:text="password">
+   <TextView
+       android:id="@+id/password"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignBottom="@+id/passwordPrompt"
+       android:layout_marginLeft="35dp"
+       android:layout_toRightOf="@+id/passwordPrompt"
+       android:ems="10"        
+       android:inputType="textPassword" 
+       android:textSize="20dp"
+       android:text="password">
 
-        <requestFocus />
-    </TextView>
+       <requestFocus />
+   </TextView>
 
-    <TextView
-        android:id="@+id/userID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/userIDPrompt"
-        android:layout_alignLeft="@+id/password"
-        android:textSize="20dp"
-        android:text="User's ID"/>
-    
+   <TextView
+       android:id="@+id/userID"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignBottom="@+id/userIDPrompt"
+       android:layout_alignLeft="@+id/password"
+       android:textSize="20dp"
+       android:text="User's ID"/>
+   
+   <TextView
+       android:id="@+id/firstName"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignBottom="@id/firstNamePrompt"
+       android:layout_alignLeft="@id/password" 
+       android:textSize="20dp"       
+       android:text="Enter First Name"/>
+   
+   <TextView
+       android:id="@+id/lastName"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignBottom="@id/lastNamePrompt"
+       android:layout_alignLeft="@id/password" 
+       android:textSize="20dp"              
+       android:text="Enter Last Name"/>
+   
 
-    <TextView
-        android:id="@+id/userRolePrompt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/passwordPrompt"
-        android:layout_below="@+id/passwordPrompt"
-        android:layout_marginTop="52dp"
-        android:text="User Role:"
-        android:textSize="20sp" 
-        android:textStyle="bold"/>
-    
-    <TextView
-        android:id="@+id/userRole"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/userRolePrompt"
-        android:layout_alignLeft="@+id/password"
-        android:layout_below="@+id/confirmPassword"
-        android:layout_marginTop="52dp"
-        android:text="User Role Dropdown"
-        android:textSize="20sp" 
-        />
+   <TextView
+       android:id="@+id/userRolePrompt"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignLeft="@+id/passwordPrompt"
+       android:layout_below="@+id/passwordPrompt"
+       android:layout_marginTop="50dp"
+       android:text="User Role:"
+       android:textSize="20sp" 
+       android:textStyle="bold"/>
+   
+   <TextView
+       android:id="@+id/userRole"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignBottom="@+id/userRolePrompt"
+       android:layout_alignLeft="@+id/password"        
+       android:layout_marginTop="50dp"
+       android:text="User Role Dropdown"
+       android:textSize="20sp" 
+       />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/userRolePrompt"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="28dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:weightSum="100" >
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_alignLeft="@+id/userRolePrompt"
+       android:layout_alignParentBottom="true"
+       android:layout_marginBottom="28dp"
+       android:gravity="center_horizontal"
+       android:orientation="horizontal"
+       android:weightSum="100" >
 
-        <Button
-            android:id="@+id/cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:text="Cancel"
-            android:textSize="20sp" />
+       <Button
+           android:id="@+id/cancel"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_weight="40"
+           android:text="Cancel"
+           android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/deleteUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:text="Delete User"
-            android:textSize="20sp" />
-    </LinearLayout>
+       <Button
+           android:id="@+id/deleteUser"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_weight="40"
+           android:text="Delete User"
+           android:textSize="20sp" />
+   </LinearLayout>
 
 </RelativeLayout>
