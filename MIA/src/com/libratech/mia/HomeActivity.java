@@ -389,7 +389,6 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-
 	}
 
 	@Override
