@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MIA</string>
+    <string name="action_settings">Settings</string>
+    <string name="ScanProgressText">24/60 Items Scanned at **Store Location**</string>
+    <string name="app_name">MIA</string>
+    <string name="action_settings">Settings</string>
+    <string name="ScanProgressText">24/60 Items Scanned at **Store Location**</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="usercontrol">User Control</string>
+    <string name="productcontrol">Product Control</string>
+    <string name="storecontrol">Store Control</string>
+    <string name="title_activity_user_control">User Control</string>
+    <string name="create_user">Create a User</string>
+    <string name="delete_user">Delete a User</string>
+    <string name="view_all_users">View All Users</string>
+    <string name="title_activity_product_control">Product Control</string>
+    <string name="add_product">Add a Product</string>
+    <string name="delete_product">Delete a Product</string>
+    <string name="add_store">Add a Store</string>
+    <string name="delete_store">Delete a Store</string>
+    <string name="view_all_stores">View all Stores</string>
+    <string name="title_activity_store_control">Store Control</string>
+    <string name="title_activity_add_product">Add a Product</string>
+    <string name="cancel">Cancel</string>
+    <string name="addproduct">Add Product</string>
+    <string name="update">Update</string>
+    <string name="title_activity_delete_product">Delete Product</string>
+    <string name="title_activity_add_store">Add a Store</string>
+
+</resources>

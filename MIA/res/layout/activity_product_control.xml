@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"    
+    tools:context=".ProductControl" >
+
+	 <Button android:drawableLeft= "@drawable/ic_action_person"        	
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:id="@+id/addproductbutton"
+        	android:text="@string/add_product" 
+        	android:background="#ffffff"        	
+        	android:paddingLeft="30dp"
+        	android:paddingRight="16dp"
+        	android:paddingTop="16dp"
+        	android:paddingBottom="16dp"         	       	        	
+        	android:drawablePadding="-155dp"/>
+    
+    <View
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:background="#c0c0c0"
+             android:layout_marginLeft="16dp"
+             android:layout_marginRight="16dp"/>
+    
+    <Button android:drawableLeft= "@drawable/ic_action_person"
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"       	 	
+        	android:id="@+id/deleteproductbutton"
+        	android:text="@string/delete_product" 
+        	android:background="#ffffff"
+        	android:paddingLeft="30dp"
+        	android:paddingRight="16dp"
+        	android:paddingTop="16dp"
+        	android:paddingBottom="16dp"
+        	android:drawablePadding="-140dp"/>
+    
+     <View
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:background="#c0c0c0"
+             android:layout_marginLeft="16dp"
+             android:layout_marginRight="16dp"/>
+    
+</LinearLayout>

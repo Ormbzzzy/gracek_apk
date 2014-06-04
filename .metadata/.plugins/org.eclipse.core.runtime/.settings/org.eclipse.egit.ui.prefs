@@ -1,0 +1,3 @@
+commit_dialog_history_messages=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<messages>\r\n<message>sync</message>\r\n<message>Sync</message>\r\n<message>Login fix, anaytics + scan fix</message>\r\n<message>Login changes + analytics + scan fix</message>\r\n<message>Merge branch &apos;master&apos; of https\://github.com/Ormbzzzy/gracek_apk</message>\r\n<message>Added analytics</message>\r\n<message>Resync</message>\r\n<message>Many Changes\!</message>\r\n<message>Login fix, logout fix, no login screen on back press from home. Store&\#x0A;selection prompt</message>\r\n</messages>
+eclipse.preferences.version=1
+show_initial_config_dialog=false
