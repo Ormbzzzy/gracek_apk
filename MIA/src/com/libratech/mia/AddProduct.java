@@ -197,9 +197,9 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 			new DatabaseConnector().DBPush(params[0]);
 			SimpleFTP ftp = new SimpleFTP();
 			try {
-				ftp.connect("http://holycrosschurchjm.com");
+				ftp.connect("holycrosschurchjm.com", 21, "picupload@holycrosschurchjm.com", "picupload123");;
 				ftp.bin();
-				ftp.cwd("path");
+				ftp.cwd("/");
 				ftp.stor(img);
 				ftp.disconnect();
 			} catch (IOException e) {
