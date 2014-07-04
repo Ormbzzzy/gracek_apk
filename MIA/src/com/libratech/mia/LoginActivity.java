@@ -45,7 +45,6 @@ import com.libratech.mia.models.Store;
 
 public class LoginActivity extends Activity {
 
-	// Values for email and password at the time of the login attempt.
 	private DatabaseConnector db = new DatabaseConnector();
 	public static String empID;
 	private String empPass;
@@ -59,7 +58,6 @@ public class LoginActivity extends Activity {
 	private boolean locChange;
 	public static String storeName = "";
 
-	// UI references.
 	private EditText id;
 	private EditText pass;
 	private View mLoginFormView;
@@ -300,12 +298,12 @@ public class LoginActivity extends Activity {
 						e.printStackTrace();
 					}
 				} else {
-					new getStoreInfo()
-							.execute("http://holycrosschurchjm.com/MIA_mysql.php?workLoc=yes&merch_id="
-									+ user[0]);
-					// new getStores()
-					// .execute("http://holycrosschurchjm.com/MIA_mysql.php?allStores=yes");
-					// dg.show();
+					// new getStoreInfo()
+					// .execute("http://holycrosschurchjm.com/MIA_mysql.php?workLoc=yes&merch_id="
+					// + user[0]);
+					new getStores()
+							.execute("http://holycrosschurchjm.com/MIA_mysql.php?allStores=yes");
+					dg.show();
 				}
 			} else {
 				pass.setError("Invalid username or password.");
@@ -370,7 +368,7 @@ public class LoginActivity extends Activity {
 										+ "Distance: "
 										+ curLoc.distanceTo(storeLoc) + "m "
 										+ "addr + city");
-						if (curLoc.distanceTo(storeLoc) < 1000000) {
+						if (curLoc.distanceTo(storeLoc) < 40000) {
 							Log.d("Added", s.getCompanyName());
 							spinList.add(s.getCompanyName());
 							stores.add(s);
@@ -390,7 +388,7 @@ public class LoginActivity extends Activity {
 											+ "Distance: "
 											+ curLoc.distanceTo(storeLoc)
 											+ "m " + "addr");
-							if (curLoc.distanceTo(storeLoc) < 1000000) {
+							if (curLoc.distanceTo(storeLoc) < 40000) {
 								Log.d("Added", s.getCompanyName());
 								spinList.add(s.getCompanyName());
 								stores.add(s);

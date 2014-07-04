@@ -547,13 +547,25 @@ public class StoreReviewActivity extends Activity implements
 			i.putExtras(b);
 			startActivityForResult(i, 1);
 			break;
-		// case R.id.delUser:
-		// i = new Intent(this, DeleteUser.class);
-		// b.putString("parent", "StoreReviewActivity");
-		// i.putExtras(b);
-		// startActivityForResult(i, 1);
-		// break;
+		case R.id.delUser:
+			i = new Intent(this, DeleteUser.class);
+			b.putString("parent", "StoreReviewActivity");
+			i.putExtras(b);
+			startActivityForResult(i, 1);
+			break;
+		case R.id.addStore:
+			i = new Intent(this, AddStore.class);
+			b.putString("parent", "StoreReviewActivity");
+			i.putExtras(b);
+			startActivityForResult(i, 1);
+			break;
 
+		case R.id.delStore:
+			i = new Intent(this, DeleteStore.class);
+			b.putString("parent", "StoreReviewActivity");
+			i.putExtras(b);
+			startActivityForResult(i, 1);
+			break;
 		default:
 			break;
 		}

@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jibble.simpleftp.SimpleFTP;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -125,7 +127,7 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 							Toast.LENGTH_SHORT).show();
 				} else {
 					new addProduct()
-							.execute("http:/holycrosschurchjm.com/MIA_mysql.php?addProduct=yes&upc_code="
+							.execute("http://holycrosschurchjm.com/MIA_mysql.php?addProduct=yes&upc_code="
 									+ upc.getText()
 									+ "&product_name="
 									+ name.getText()
@@ -193,6 +195,17 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 			// TODO Auto-generated method stub
 
 			new DatabaseConnector().DBPush(params[0]);
+			SimpleFTP ftp = new SimpleFTP();
+			try {
+				ftp.connect("http://holycrosschurchjm.com");
+				ftp.bin();
+				ftp.cwd("path");
+				ftp.stor(img);
+				ftp.disconnect();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return "";
 		}
 
@@ -220,7 +233,7 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 			Bundle extras = data.getExtras();
 			Bitmap b = (Bitmap) extras.get("data");
 			image.setImageBitmap(b);
-			
+
 		}
 	}
 
@@ -247,10 +260,10 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
+
 		Bundle b = new Bundle();
 		Intent i = new Intent();
-		EasyTracker.getInstance(this).activityStart(this);
-		switch (itemId) {		
+		switch (itemId) {
 		case R.id.HomeActivity:
 			i = new Intent(this, HomeActivity.class);
 			b.putString("parent", "StoreReviewActivity");
@@ -271,22 +284,16 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 			break;
 		// case R.id.Feedback:
 		// i = new Intent(this, FeedbackActivity.class);
-		// b.putString("parent", "StoreReviewActivity");
-		// i.putExtras(b);
-		// startActivityForResult(i, 1);
 		// break;
 		case R.id.StoreReviewActivity:
-			i = new Intent(this, StoreReviewActivity.class);
+			rbmView.toggleMenu();
+			break;
+		case R.id.delProduct:
+			i = new Intent(this, DeleteProduct.class);
 			b.putString("parent", "StoreReviewActivity");
 			i.putExtras(b);
 			startActivityForResult(i, 1);
 			break;
-		// case R.id.delProduct:
-		// i = new Intent(this, DeleteProduct.class);
-		// b.putString("parent", "StoreReviewActivity");
-		// i.putExtras(b);
-		// startActivityForResult(i, 1);
-		// break;
 		case R.id.addUser:
 			i = new Intent(this, AddUser.class);
 			b.putString("parent", "StoreReviewActivity");
@@ -299,17 +306,29 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 			i.putExtras(b);
 			startActivityForResult(i, 1);
 			break;
-		// case R.id.delUser:
-		// i = new Intent(this, DeleteUser.class);
-		// b.putString("parent", "StoreReviewActivity");
-		// i.putExtras(b);
-		// startActivityForResult(i, 1);
-		// break;
+		case R.id.delUser:
+			i = new Intent(this, DeleteUser.class);
+			b.putString("parent", "StoreReviewActivity");
+			i.putExtras(b);
+			startActivityForResult(i, 1);
+			break;
+		case R.id.addStore:
+			i = new Intent(this, AddStore.class);
+			b.putString("parent", "StoreReviewActivity");
+			i.putExtras(b);
+			startActivityForResult(i, 1);
+			break;
+
+		case R.id.delStore:
+			i = new Intent(this, DeleteStore.class);
+			b.putString("parent", "StoreReviewActivity");
+			i.putExtras(b);
+			startActivityForResult(i, 1);
+			break;
 		default:
 			break;
 		}
 	}
-
 	public class DecimalDigitsInputFilter implements InputFilter {
 
 		Pattern mPattern;

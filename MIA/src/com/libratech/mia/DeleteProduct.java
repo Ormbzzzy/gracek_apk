@@ -7,6 +7,7 @@ import org.json.JSONException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import com.libratech.mia.models.Product;
+import com.libratech.mia.models.Store;
 
 public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 
@@ -46,75 +48,8 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.all);
 		setupMenu();
-		search = (EditText) findViewById(R.id.inputSearch);
-		listview = (ExpandableListView) findViewById(R.id.alllistview);
-		listview.setFastScrollEnabled(true);
-		listview.setAdapter(ad);
-		listview.setOnChildClickListener(new OnChildClickListener() {
-			@Override
-			public boolean onChildClick(ExpandableListView parent, View v,
-					int groupPosition, int childPosition, long id) {
-				setContentView(R.layout.product);
-				Product p = ((AllAdapter) listview.getExpandableListAdapter())
-						.getProduct(groupPosition, childPosition);
-				upc = (TextView) findViewById(R.id.upc);
-				update = (Button) findViewById(R.id.update);
-				update.setText("Delete");
-				brand = (TextView) findViewById(R.id.Brand);
-				name = (TextView) findViewById(R.id.Name);
-				price = (EditText) findViewById(R.id.Price);
-				gctBox = (CheckBox) findViewById(R.id.gct);
-				weight = (TextView) findViewById(R.id.weight);
-				uom = (TextView) findViewById(R.id.uom);
-				gct = "";
-				gctBox.setClickable(false);
-				upc.setText(p.getUpcCode());
-				brand.setText(p.getBrand());
-				name.setText(p.getProductName());
-				price.setText(String.valueOf(p.getPrice()));
-				weight.setText(p.getWeight());
-				uom.setText(p.getUom());
-				update.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						new delete()
-								.execute("http://holycrosschurchjm.com/MIA_mysql.php?deleteProduct=yes&upc_code=014113913638");
-						setContentView(R.layout.all);
-						setupList();
-					}
-				});
-				cancel.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						setContentView(R.layout.all);
-						setupList();
-					}
-				});
+		setupList();
 
-				return false;
-			}
-		});
-
-		search.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void onTextChanged(CharSequence cs, int arg1, int arg2,
-					int arg3) {
-				((AllAdapter) listview.getExpandableListAdapter())
-						.filterData(cs.toString());
-			}
-
-			@Override
-			public void afterTextChanged(Editable arg0) {
-
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1,
-					int arg2, int arg3) {
-
-			}
-
-		});
 		if (pList == null || pList.size() == 0) {
 			new getProducts()
 					.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
@@ -164,8 +99,8 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 						// TODO Auto-generated method stub
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								DeleteProduct.this);
-						builder.setTitle("Location is Disabled");
-						builder.setMessage("Please enable location based services.");
+						builder.setTitle("Warning");
+						builder.setMessage("Doing this will remove the product from the database. Do you want to continue?");
 						builder.setPositiveButton("Delete",
 								new DialogInterface.OnClickListener() {
 									public void onClick(
@@ -197,6 +132,26 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 			}
 		});
 
+		search.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence cs, int arg1, int arg2,
+					int arg3) {
+				((AllAdapter) listview.getExpandableListAdapter())
+						.filterData(cs.toString());
+			}
+
+			@Override
+			public void afterTextChanged(Editable arg0) {
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1,
+					int arg2, int arg3) {
+
+			}
+
+		});
 	}
 
 	class delete extends AsyncTask<String, Void, Boolean> {
@@ -285,6 +240,7 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
+
 		Bundle b = new Bundle();
 		Intent i = new Intent();
 		switch (itemId) {
@@ -308,22 +264,16 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 			break;
 		// case R.id.Feedback:
 		// i = new Intent(this, FeedbackActivity.class);
-		// b.putString("parent", "StoreReviewActivity");
-		// i.putExtras(b);
-		// startActivityForResult(i, 1);
 		// break;
 		case R.id.StoreReviewActivity:
-			i = new Intent(this, StoreReviewActivity.class);
+			rbmView.toggleMenu();
+			break;
+		case R.id.delProduct:
+			i = new Intent(this, DeleteProduct.class);
 			b.putString("parent", "StoreReviewActivity");
 			i.putExtras(b);
 			startActivityForResult(i, 1);
 			break;
-		// case R.id.delProduct:
-		// i = new Intent(this, DeleteProduct.class);
-		// b.putString("parent", "StoreReviewActivity");
-		// i.putExtras(b);
-		// startActivityForResult(i, 1);
-		// break;
 		case R.id.addUser:
 			i = new Intent(this, AddUser.class);
 			b.putString("parent", "StoreReviewActivity");
@@ -336,12 +286,25 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 			i.putExtras(b);
 			startActivityForResult(i, 1);
 			break;
-		// case R.id.delUser:
-		// i = new Intent(this, DeleteUser.class);
-		// b.putString("parent", "StoreReviewActivity");
-		// i.putExtras(b);
-		// startActivityForResult(i, 1);
-		// break;
+		case R.id.delUser:
+			i = new Intent(this, DeleteUser.class);
+			b.putString("parent", "StoreReviewActivity");
+			i.putExtras(b);
+			startActivityForResult(i, 1);
+			break;
+		case R.id.addStore:
+			i = new Intent(this, AddStore.class);
+			b.putString("parent", "StoreReviewActivity");
+			i.putExtras(b);
+			startActivityForResult(i, 1);
+			break;
+
+		case R.id.delStore:
+			i = new Intent(this, DeleteStore.class);
+			b.putString("parent", "StoreReviewActivity");
+			i.putExtras(b);
+			startActivityForResult(i, 1);
+			break;
 		default:
 			break;
 		}

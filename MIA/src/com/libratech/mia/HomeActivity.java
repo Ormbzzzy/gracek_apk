@@ -60,7 +60,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 	boolean unscanned = false;
 	boolean done = false;
 	String storeName = LoginActivity.storeName;
-	public static String storeID;
+	public static String storeID = LoginActivity.storeID;
 	public static String empID = LoginActivity.empID;
 	String dateString = "";
 	private ProgressBar listLoad;
@@ -79,6 +79,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_activity);
+		empID = LoginActivity.empID;
 		storeID = LoginActivity.storeID;
 		Date date = new Date();
 		dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
@@ -298,7 +299,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 			listLoad.setVisibility(View.GONE);
 			// listview.setVisibility(View.VISIBLE);
 		}
-		//EasyTracker.getInstance(this).activityStart(this);
+		// EasyTracker.getInstance(this).activityStart(this);
 	}
 
 	@Override
@@ -402,7 +403,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		super.onActivityResult(requestCode, resultCode, data);
-		if (updated){
+		if (updated) {
 			updated = !updated;
 			if (isConnected()) {
 				all = true;

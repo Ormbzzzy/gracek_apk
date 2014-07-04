@@ -69,7 +69,7 @@ public class UpdateProductActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.update);
 		img = (ImageView) findViewById(R.id.updateImage);
@@ -108,7 +108,7 @@ public class UpdateProductActivity extends Activity {
 							s.getUpcCode())) {
 						scan = true;
 						price.setText(String.valueOf(s.getPrice()));
-						gct=s.getGct();
+						gct = s.getGct();
 						break;
 					}
 				}
@@ -146,7 +146,7 @@ public class UpdateProductActivity extends Activity {
 		gctBox.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
+
 				if (gctBox.isChecked()) {
 					gct = "yes";
 				} else {
@@ -159,7 +159,7 @@ public class UpdateProductActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				
+
 				imgDown.cancel(true);
 				finish();
 			}
@@ -168,7 +168,7 @@ public class UpdateProductActivity extends Activity {
 		update.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
+
 				if (Double.parseDouble(price.getText().toString()) == 0.0) {
 					Toast.makeText(UpdateProductActivity.this,
 							"Price cannot be zero.", Toast.LENGTH_LONG).show();
@@ -259,7 +259,7 @@ public class UpdateProductActivity extends Activity {
 			try {
 				f.createNewFile();
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
 		}
@@ -302,7 +302,7 @@ public class UpdateProductActivity extends Activity {
 			if (result) {
 				message = "Product updated.";
 				HomeActivity.updated = true;
-				setResult(RESULT_OK,new Intent().putExtra("updated", true));
+				setResult(RESULT_OK, new Intent().putExtra("updated", true));
 			} else {
 				message = "Error while updating product.";
 			}
@@ -315,7 +315,7 @@ public class UpdateProductActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		
+
 		imgDown.cancel(true);
 		super.onBackPressed();
 	}
@@ -331,7 +331,7 @@ public class UpdateProductActivity extends Activity {
 				if (isCancelled())
 					cancel(true);
 			} catch (MalformedURLException e) {
-				
+
 				e.printStackTrace();
 			}
 			try {
@@ -354,7 +354,7 @@ public class UpdateProductActivity extends Activity {
 				return BitmapFactory.decodeStream(is);
 
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
 			return null;
@@ -362,14 +362,14 @@ public class UpdateProductActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			
+
 			if (isCancelled())
 				cancel(true);
 		}
 
 		@Override
 		protected void onPostExecute(Bitmap result) {
-			
+
 			if (result == null) {
 				img.setImageDrawable(getResources().getDrawable(
 						R.drawable.no_image));
