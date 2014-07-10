@@ -26,20 +26,20 @@
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="19" />
--
+-
     <application
         android:allowBackup="true"
         android:icon="@drawable/gklogo"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:theme="@style/AppTheme" >
--
+-
         <activity
             android:name="com.libratech.mia.LoginActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
--
+-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -82,7 +82,7 @@
             android:label="Store Review"
             android:screenOrientation="portrait" >
         </activity>
--
+-
         <activity
             android:name="com.libratech.mia.UserControl"
             android:label="@string/title_activity_user_control"
@@ -91,7 +91,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.libratech.mia.Settings" />
         </activity>
--
+-
         <activity
             android:name="com.libratech.mia.ProductControl"
             android:label="@string/title_activity_product_control"
@@ -100,7 +100,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.libratech.mia.Settings" />
         </activity>
--
+-
         <activity
             android:name="com.libratech.mia.StoreControl"
             android:label="@string/title_activity_store_control"
@@ -109,7 +109,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.libratech.mia.Settings" />
         </activity>
--
+-
         <activity
             android:name="com.libratech.mia.AddProduct"
             android:label="@string/title_activity_add_product"
@@ -126,6 +126,18 @@
         <activity
             android:name="com.libratech.mia.AddStore"
             android:label="@string/title_activity_add_store" >
+        </activity>
+        <activity
+            android:name="com.libratech.mia.AddDiscountProductActivity"
+            android:label="@string/title_activity_add_discount_product" >
+        </activity>
+        <activity
+            android:name="com.libratech.mia.AddBandedOffer"
+            android:label="@string/title_activity_add_banded_offer" >
+        </activity>
+        <activity
+            android:name="com.libratech.mia.InStoreSampling"
+            android:label="@string/title_activity_in_store_sampling" >
         </activity>
     </application>
 
