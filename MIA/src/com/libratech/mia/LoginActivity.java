@@ -154,11 +154,9 @@ public class LoginActivity extends Activity {
 
 		});
 		sp.setOnItemSelectedListener(new OnItemSelectedListener() {
-
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-
 				if (arg2 != 0)
 					storeID = stores.get(arg2 - 1).getStoreID();
 			}
@@ -298,12 +296,11 @@ public class LoginActivity extends Activity {
 						e.printStackTrace();
 					}
 				} else {
-					// new getStoreInfo()
-					// .execute("http://holycrosschurchjm.com/MIA_mysql.php?workLoc=yes&merch_id="
-					// + user[0]);
-					new getStores()
-							.execute("http://holycrosschurchjm.com/MIA_mysql.php?allStores=yes");
-					dg.show();
+					new getStoreInfo()
+							.execute("http://holycrosschurchjm.com/MIA_mysql.php?workLoc=yes&merch_id="
+									+ user[0]);
+					// new getStores()
+					// .execute("http://holycrosschurchjm.com/MIA_mysql.php?allStores=yes");
 				}
 			} else {
 				pass.setError("Invalid username or password.");
@@ -401,15 +398,15 @@ public class LoginActivity extends Activity {
 				e.printStackTrace();
 				new getLocation().execute(tempStores);
 			}
-			spinList.add(0, "- Please select a store -");
+			// spinList.add(0, "- Please select a store -");
 			return store[0];
 		}
 
 		protected void onPostExecute(ArrayList<Store> store) {
-			adapter = new SpinnerAdapter(LoginActivity.this,
-					android.R.layout.simple_spinner_item, spinList);
-			sp.setAdapter(adapter);
-			adapter.notifyDataSetChanged();
+			// adapter = new SpinnerAdapter(LoginActivity.this,
+			// android.R.layout.simple_spinner_item, spinList);
+			// sp.setAdapter(adapter);
+			// adapter.notifyDataSetChanged();
 		}
 	}
 
@@ -420,17 +417,31 @@ public class LoginActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(JSONArray result) {
+			String tempID, tempName;
+			tempID = tempName = "";
 			if (result != null) {
-				try {
-					empID = result.getJSONArray(0).getString(0);
-					storeID = result.getJSONArray(0).getString(1);
-					storeName = result.getJSONArray(0).getString(2);
-					startActivity(new Intent(LoginActivity.this,
-							Class.forName("com.libratech.mia.HomeActivity")));
-				} catch (Exception e) {
-					e.printStackTrace();
+				spinList.clear();
+				for (int i = 0; i < result.length(); i++) {
+					try {
+						empID = result.getJSONArray(i).getString(0);
+						tempID = result.getJSONArray(i).getString(1);
+						tempName = result.getJSONArray(i).getString(2);
+						spinList.add(tempName);
+						stores.add(new Store(tempID, tempName));
+						Log.d("Stores", "" + i + tempName);
+						// startActivity(new Intent(LoginActivity.this,
+						// Class.forName("com.libratech.mia.HomeActivity")));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
+			spinList.add(0, "- Please select a store -");
+			adapter = new SpinnerAdapter(LoginActivity.this,
+					android.R.layout.simple_spinner_item, spinList);
+			sp.setAdapter(adapter);
+			adapter.notifyDataSetChanged();
+			dg.show();
 		}
 	}
 

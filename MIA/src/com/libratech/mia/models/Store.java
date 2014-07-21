@@ -24,6 +24,11 @@ public class Store {
 		this.city = city;
 	}
 
+	public Store(String storeID, String companyName) {
+		this.storeID = storeID;
+		this.companyName = companyName;
+	}
+
 	public String getStoreID() {
 		return storeID;
 	}
