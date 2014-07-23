@@ -4,12 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/dialogText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Please select your location" />
+    <!-- <TextView -->
+    <!-- android:id="@+id/dialogText" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_gravity="center" -->
+    <!-- android:text="Please select your location" /> -->
+
 
     <com.libratech.mia.MySpinner
         android:id="@+id/storeSpinner"
