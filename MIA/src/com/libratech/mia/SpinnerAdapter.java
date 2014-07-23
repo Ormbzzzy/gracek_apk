@@ -23,6 +23,12 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
 	}
 
 	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return data.size();
+	}
+
+	@Override
 	public View getDropDownView(int position, View cnvtView, ViewGroup prnt) {
 		return getCustomView(position, cnvtView, prnt);
 	}

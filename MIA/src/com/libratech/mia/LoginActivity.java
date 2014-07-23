@@ -48,10 +48,10 @@ public class LoginActivity extends Activity {
 	private DatabaseConnector db = new DatabaseConnector();
 	public static String empID;
 	private String empPass;
-	private ArrayAdapter<String> adapter;
 	private ArrayList<Store> stores = new ArrayList<Store>();
 	private ArrayList<Store> tempStores = new ArrayList<Store>();
-	private ArrayList<String> spinList = new ArrayList<String>();
+	public ArrayList<String> spinList = new ArrayList<String>();
+	private ArrayAdapter<String> adapter;
 	public static String storeID = "";
 	private Bundle b = new Bundle();
 	private Location curLoc, storeLoc;
@@ -106,6 +106,9 @@ public class LoginActivity extends Activity {
 	private void startUp() {
 		storeLoc = new Location(LocationManager.GPS_PROVIDER);
 		curLoc = getBestLocation();
+		adapter = new SpinnerAdapter(LoginActivity.this,
+				android.R.layout.simple_spinner_item, spinList);
+		adapter.setNotifyOnChange(true);
 		// Log.d("curLoc", "" + curLoc.getLatitude() + " " +
 		// curLoc.getLongitude());
 		dg = new Dialog(LoginActivity.this);
@@ -148,7 +151,6 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-
 				dg.dismiss();
 			}
 
@@ -157,8 +159,12 @@ public class LoginActivity extends Activity {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				if (arg2 != 0)
+				if (arg2 == 0) {
+					storeID = "";
+				} else {
 					storeID = stores.get(arg2 - 1).getStoreID();
+				}
+
 			}
 
 			@Override
@@ -299,6 +305,7 @@ public class LoginActivity extends Activity {
 					new getStoreInfo()
 							.execute("http://holycrosschurchjm.com/MIA_mysql.php?workLoc=yes&merch_id="
 									+ user[0]);
+					dg.show();
 					// new getStores()
 					// .execute("http://holycrosschurchjm.com/MIA_mysql.php?allStores=yes");
 				}
@@ -421,6 +428,8 @@ public class LoginActivity extends Activity {
 			tempID = tempName = "";
 			if (result != null) {
 				spinList.clear();
+				stores.clear();
+				spinList.add(0, "- Please select a store -");
 				for (int i = 0; i < result.length(); i++) {
 					try {
 						empID = result.getJSONArray(i).getString(0);
@@ -428,21 +437,20 @@ public class LoginActivity extends Activity {
 						tempName = result.getJSONArray(i).getString(2);
 						spinList.add(tempName);
 						stores.add(new Store(tempID, tempName));
-						Log.d("Stores", "" + i + tempName);
-						// startActivity(new Intent(LoginActivity.this,
-						// Class.forName("com.libratech.mia.HomeActivity")));
+						Log.d("Stores", "" + i + tempName + spinList.size());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+
 				}
+				setUpDg();
 			}
-			spinList.add(0, "- Please select a store -");
-			adapter = new SpinnerAdapter(LoginActivity.this,
-					android.R.layout.simple_spinner_item, spinList);
-			sp.setAdapter(adapter);
-			adapter.notifyDataSetChanged();
-			dg.show();
 		}
+	}
+
+	public void setUpDg() {
+		sp.setAdapter(adapter);
+		sp.setSelection(0);
 	}
 
 	private void setupLoginForm() {
@@ -461,8 +469,8 @@ public class LoginActivity extends Activity {
 								"No network connection. Please check your connection and try again.",
 								Toast.LENGTH_LONG).show();
 					} else {
-						if (requestLocation())
-							attemptLogin();
+						// if (requestLocation())
+						attemptLogin();
 					}
 					return true;
 				}
@@ -484,8 +492,8 @@ public class LoginActivity extends Activity {
 									"No network connection. Please check your connection and try again.",
 									Toast.LENGTH_LONG).show();
 						} else {
-							if (requestLocation())
-								attemptLogin();
+							// if (requestLocation())
+							attemptLogin();
 						}
 					}
 				});
@@ -582,16 +590,18 @@ public class LoginActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		spinList.clear();
-		sp.setAdapter(new SpinnerAdapter(LoginActivity.this,
-				android.R.layout.simple_spinner_item, spinList));
-		requestLocation();
+		storeID = "";
+		storeName = "";
+		// sp.setAdapter(new SpinnerAdapter(LoginActivity.this,
+		// android.R.layout.simple_spinner_item, spinList));
+		// requestLocation();
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		super.onActivityResult(requestCode, resultCode, data);
-		requestLocation();
+		// requestLocation();
 	}
 
 }
