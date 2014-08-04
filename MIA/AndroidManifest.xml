@@ -127,6 +127,10 @@
             android:name="com.libratech.mia.AddStore"
             android:label="@string/title_activity_add_store" >
         </activity>
+        <activity
+            android:name="com.libratech.mia.DeleteStore"
+            android:label="@string/title_activity_add_store" >
+        </activity>
     </application>
 
 </manifest>
