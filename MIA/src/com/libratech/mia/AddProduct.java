@@ -1,10 +1,13 @@
 package com.libratech.mia;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
 import org.jibble.simpleftp.SimpleFTP;
 
 import android.app.Activity;
@@ -21,6 +24,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -193,19 +197,48 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 		@Override
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
-
-			new DatabaseConnector().DBPush(params[0]);
 			SimpleFTP ftp = new SimpleFTP();
+			new DatabaseConnector().DBPush(params[0]);
+			FTPClient con = null;
+
 			try {
-				ftp.connect("holycrosschurchjm.com", 21, "picupload@holycrosschurchjm.com", "picupload123");;
-				ftp.bin();
-				ftp.cwd("/");
-				ftp.stor(img);
-				ftp.disconnect();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				con = new FTPClient();
+				con.connect("ftp.holycrosschurchjm.com");
+
+				if (con.login("picupload@holycrosschurchjm.com", "picupload123")) {
+					con.enterLocalPassiveMode();
+					con.setFileType(FTP.BINARY_FILE_TYPE);
+					String data = img.getAbsolutePath();
+
+					FileInputStream in = new FileInputStream(new File(data));
+					boolean result = con.storeFile(img.getName(), in);
+					in.close();
+					if (result)
+						Log.v("upload result", "succeeded");
+					con.logout();
+					con.disconnect();
+				}
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
+			// try {
+			// ftp.connect("ftp.holycrosschurchjm.com", 21,
+			// "picupload@holycrosschurchjm.com", "picupload123");
+			//
+			// } catch (IOException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// try {
+			// ftp.bin();
+			// // ftp.cwd("/");
+			// ftp.stor(img);
+			// ftp.disconnect();
+			// } catch (Exception e) {
+			//
+			// }
+			// }
+
 			return "";
 		}
 
@@ -329,6 +362,7 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 			break;
 		}
 	}
+
 	public class DecimalDigitsInputFilter implements InputFilter {
 
 		Pattern mPattern;
