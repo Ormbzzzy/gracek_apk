@@ -76,7 +76,7 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 				Product p = ((AllAdapter) listview.getExpandableListAdapter())
 						.getProduct(groupPosition, childPosition);
 				upc = (TextView) findViewById(R.id.upc);
-				update = (Button) findViewById(R.id.update);
+				update = (Button) findViewById(R.id.confirm);
 				update.setText("Delete");
 				brand = (TextView) findViewById(R.id.Brand);
 				name = (TextView) findViewById(R.id.Name);
@@ -163,6 +163,9 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 		@Override
 		protected void onPostExecute(Boolean result) {
 			// TODO Auto-generated method stub
+			Toast.makeText(getApplicationContext(),
+					"Product successfuly deleted", Toast.LENGTH_LONG).show();
+
 			new getProducts()
 					.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
 		}
@@ -188,6 +191,8 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 			name = desc = brand = category = uom = gct = photo = upc = weight = "";
 			float price = (float) 0.00;
 			pList.clear();
+			ad = new AllAdapter(DeleteProduct.this, pList);
+			listview.setAdapter(ad);
 			for (int i = 0; i < result.length(); i++) {
 				try {
 					upc = result.getJSONArray(i).getString(0);
@@ -206,7 +211,9 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 			}
 			Toast.makeText(DeleteProduct.this, "Products loaded.",
 					Toast.LENGTH_SHORT).show();
-			listview.setAdapter(new AllAdapter(DeleteProduct.this, pList));
+			ad = new AllAdapter(DeleteProduct.this, pList);
+			ad.notifyDataSetChanged();
+			listview.setAdapter(ad);
 		}
 	}
 
@@ -245,7 +252,7 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 		Intent i = new Intent();
 		switch (itemId) {
 		case R.id.HomeActivity:
-			i = new Intent(this, HomeActivity.class);
+			i = new Intent(this, StoreReviewActivity.class);
 			b.putString("parent", "StoreReviewActivity");
 			i.putExtras(b);
 			startActivityForResult(i, 1);
@@ -266,13 +273,14 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 		// i = new Intent(this, FeedbackActivity.class);
 		// break;
 		case R.id.StoreReviewActivity:
-			rbmView.toggleMenu();
-			break;
-		case R.id.delProduct:
-			i = new Intent(this, DeleteProduct.class);
+			i = new Intent(this, StoreReviewActivity.class);
 			b.putString("parent", "StoreReviewActivity");
 			i.putExtras(b);
 			startActivityForResult(i, 1);
+
+			break;
+		case R.id.delProduct:
+			rbmView.toggleMenu();
 			break;
 		case R.id.addUser:
 			i = new Intent(this, AddUser.class);
