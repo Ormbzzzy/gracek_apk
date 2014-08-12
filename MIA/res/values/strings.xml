@@ -62,4 +62,9 @@
        <item>Manager</item>
        <item>Merchandiser</item>
    </string-array>
+   
+    <string name="title_activity_add_discount_product">Add Discount Product</string>
+    <string name="title_activity_add_banded_offer">Add Banded Offer</string>
+    <string name="title_activity_in_store_sampling">Add Product Sampling</string>
+    <string name="title_activity_suggestion_box">Suggestions</string>
 </resources>

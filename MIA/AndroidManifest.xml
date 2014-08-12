@@ -135,6 +135,22 @@
             android:name="com.libratech.mia.DeleteStore"
             android:label="@string/delete_store" >
         </activity>
+        <activity
+            android:name="com.libratech.mia.AddDiscountProductActivity"
+            android:label="@string/title_activity_add_discount_product" >
+        </activity>
+        <activity
+            android:name="com.libratech.mia.AddBandedOffer"
+            android:label="@string/title_activity_add_banded_offer" >
+        </activity>
+        <activity
+            android:name="com.libratech.mia.InStoreSampling"
+            android:label="@string/title_activity_in_store_sampling" >
+        </activity>
+        <activity
+            android:name="com.libratech.mia.SuggestionBox"
+            android:label="@string/title_activity_suggestion_box" >
+        </activity>
     </application>
 
 </manifest>

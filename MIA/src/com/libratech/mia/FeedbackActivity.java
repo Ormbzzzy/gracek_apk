@@ -12,7 +12,7 @@ import com.darvds.ribbonmenu.iRibbonMenuCallback;
 public class FeedbackActivity extends Activity implements iRibbonMenuCallback {
 
 	RibbonMenuView rbmView;
-	Spinner spin;
+	//Spinner spin;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +22,8 @@ public class FeedbackActivity extends Activity implements iRibbonMenuCallback {
 		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 		rbmView.setMenuClickCallback(this);
 		rbmView.setMenuItems(R.menu.home);
-		spin = (Spinner) findViewById(R.id.topic);
-		spin.setAdapter(new FeedbackAdapter());
+		//spin = (Spinner) findViewById(R.id.topic);
+		//spin.setAdapter(new FeedbackAdapter());
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
