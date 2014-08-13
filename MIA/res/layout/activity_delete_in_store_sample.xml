@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -79,27 +78,7 @@
                     android:textSize="20sp"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" 
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Brand: " 
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/Brand"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Brand" 
-                    android:textSize="20sp"/>
-            </LinearLayout>
+            
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -131,97 +110,78 @@
                     android:textSize="20sp"/>
             </LinearLayout>
 
-          <!--   <LinearLayout
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" 
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Price: " 
+                    android:text="Date of Sampling: " 
                     android:textSize="20sp"
                     android:textStyle="bold"/>
 
-                <EditText
-                    android:id="@+id/Price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:inputType="numberDecimal"
-                    android:hint="Price" 
-                    android:textSize="20sp"/>
-                
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="GCT: " 
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
-
-                <CheckBox
-                    android:id="@+id/gct"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:gravity="center" />
-            </LinearLayout> -->
-            
-            
-             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" 
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Discount: " 
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
-
-                <EditText
-                    android:id="@+id/Value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:hint="Enter Value" 
-                    android:textSize="20sp"/>
-                
-                <Spinner
-			       android:id="@+id/discSpinner"
-			       android:layout_width="wrap_content"
-			       android:layout_height="wrap_content"
-			       />
-                
+               <DatePicker
+            android:id="@+id/sampleDate"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            />
+               
             </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" 
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Coments: " 
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/comments"
+                    android:layout_width="0dp" 
+                    android:layout_weight="1"                   
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLength="160"
+                    android:text="Comments" 
+                    android:textSize="20sp"/>
+            </LinearLayout>
+           
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:weightSum="100" >               
+                android:weightSum="100" >
 
-                 <Button
+                <Button
                     android:id="@+id/cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="40"
                     android:text="Cancel" 
                     android:textSize="20sp"/>
-                
+
                 <Button
-                    android:id="@+id/addProd"
+                    android:id="@+id/add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="40"
-                    android:text="Add" 
-                    android:textSize="20sp"/>                                
+                    android:text="Delete" 
+                    android:textSize="20sp"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -230,7 +190,6 @@
         android:id="@+id/ribbonMenuView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >        
-
     </com.darvds.ribbonmenu.RibbonMenuView>
 
 </FrameLayout>

@@ -110,7 +110,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Weight: " 
+                    android:text="Brand: " 
                     android:textSize="20sp"
                     android:textStyle="bold"/>
 
@@ -119,15 +119,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:text="Weight" 
+                    android:text="Brand" 
                     android:textSize="20sp"/>
-
-                <TextView
-                    android:id="@+id/uom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="UOM" 
-                    android:textSize="20sp"/>
+              
             </LinearLayout>
 
             <LinearLayout
