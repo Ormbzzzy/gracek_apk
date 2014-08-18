@@ -57,12 +57,10 @@
         <item>Spanish Town</item>
         <item>Portmore</item>
     </string-array>
-    
     <string-array name="userRoles_array">
         <item>Manager</item>
         <item>Merchandiser</item>
     </string-array>
-    
     <string-array name="discValues_array">
         <item>% Off Item</item>
         <item>$ Off Item</item>
@@ -75,5 +73,12 @@
     <string name="title_activity_delete_in_store_sample">Delete Product Sampling</string>
     <string name="title_activity_delete_discount_product">Delete Discounted Product</string>
     <string name="title_activity_delete_suggestion_box">Delete Suggestion</string>
+    <string name="title_activity_promotions">Store Promotions</string>
+    <string name="title_activity_new_products_control">New Product Options</string>
+    <string name="title_activity_discounted_products_control">Discounted Product Options</string>
+    <string name="title_activity_banded_products_control">Banded Products Options</string>
+    <string name="title_activity_instore_sampling_control">Instore Sampling Options</string>
+    <string name="title_activity_feedback_control">Expired Product Options</string>
+    <string name="title_activity_suggestion_control">Suggestion Options</string>
 
 </resources>
