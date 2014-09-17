@@ -128,8 +128,20 @@
             android:label="@string/title_activity_add_store" >
         </activity>
         <activity
+            android:name="com.libratech.mia.AddUser"
+            android:label="@string/create_user" >
+        </activity>
+        <activity
             android:name="com.libratech.mia.DeleteStore"
-            android:label="@string/title_activity_add_store" >
+            android:label="@string/delete_store" >
+        </activity>
+        <activity
+            android:name="com.libratech.mia.AddBandedOffer"
+            android:label="@string/delete_store" >
+        </activity>
+        <activity
+            android:name="com.libratech.mia.AddDiscountProductActivity"
+            android:label="@string/delete_store" >
         </activity>
     </application>
 

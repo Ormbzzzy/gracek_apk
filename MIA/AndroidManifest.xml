@@ -135,6 +135,14 @@
             android:name="com.libratech.mia.DeleteStore"
             android:label="@string/delete_store" >
         </activity>
+        <activity
+            android:name="com.libratech.mia.AddBandedOffer"
+            android:label="@string/delete_store" >
+        </activity>
+        <activity
+            android:name="com.libratech.mia.AddDiscountProductActivity"
+            android:label="@string/delete_store" >
+        </activity>
     </application>
 
 </manifest>

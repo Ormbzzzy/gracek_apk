@@ -13,10 +13,22 @@
         android:orderInCategory="1"
         android:title="Scan Item">
     </item>
+ <item
+        android:id="@+id/AddBanded"
+        android:icon="@drawable/ic_action_new"
+        android:orderInCategory="3"
+        android:title="Banded Offers">
+    </item>
+    <item
+        android:id="@+id/AddDiscount"
+        android:icon="@drawable/ic_action_new"
+        android:orderInCategory="4"
+        android:title="Discounted Products">
+    </item>
     <item
         android:id="@+id/AllProducts"
         android:icon="@drawable/ic_action_select_all"
-        android:orderInCategory="3"
+        android:orderInCategory="5"
         android:title="All Products">
     </item>
 
