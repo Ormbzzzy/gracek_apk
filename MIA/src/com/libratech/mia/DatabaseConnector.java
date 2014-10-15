@@ -76,10 +76,10 @@ public class DatabaseConnector {
 		return jArray;
 	}
 
-	public boolean DBPush(String fields) {
+	public boolean DBPush(String url) {
 
 		DefaultHttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost(fields);
+		HttpPost httppost = new HttpPost(url);
 		// HttpPost httppost = new HttpPost(
 		// "http://www.holycrosschurchjm.com/MIA_mysql.php");
 		try {
@@ -92,17 +92,14 @@ public class DatabaseConnector {
 		}
 	}
 
-	public JSONArray DBLogin(String id, String pass) {
+	public JSONArray DBSubmit(ArrayList<NameValuePair> nvp) {
 		// Download JSON data from URLs
-		ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-		nameValuePairs.add(new BasicNameValuePair("userLogin", "yes"));
-		nameValuePairs.add(new BasicNameValuePair("username", "" + id));
-		nameValuePairs.add(new BasicNameValuePair("password", "" + pass));
+	
 		try {
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpPost httppost = new HttpPost(
 					"http://holycrosschurchjm.com/MIA_mysql.php");
-			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			httppost.setEntity(new UrlEncodedFormEntity(nvp));
 			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();
 			is = entity.getContent();

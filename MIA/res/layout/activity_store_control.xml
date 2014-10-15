@@ -1,9 +1,14 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    		xmlns:tools="http://schemas.android.com/tools"
+    		android:layout_width="match_parent"
+    		android:layout_height="match_parent"  
+    		 tools:context=".StoreControl">
+
+<LinearLayout 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".StoreControl" >
+    >
 
     <Button android:drawableLeft= "@drawable/ic_action_person"        	
         	android:layout_width="match_parent"
@@ -11,11 +16,11 @@
         	android:id="@+id/addstorebutton"
         	android:text="@string/add_store" 
         	android:background="#ffffff"        	
-        	android:paddingLeft="30dp"
+        	android:paddingLeft="-155dp"
         	android:paddingRight="16dp"
         	android:paddingTop="16dp"
-        	android:paddingBottom="16dp"         	       	        	
-        	android:drawablePadding="-155dp"/>
+        	android:paddingBottom="16dp"         	       	        	        	
+        	android:textSize="20sp"/>
     
     <View
              android:layout_width="match_parent"
@@ -30,11 +35,11 @@
         	android:id="@+id/deletestorebutton"
         	android:text="@string/delete_store" 
         	android:background="#ffffff"
-        	android:paddingLeft="30dp"
+        	android:paddingLeft="-140dp"
         	android:paddingRight="16dp"
         	android:paddingTop="16dp"
-        	android:paddingBottom="16dp"
-        	android:drawablePadding="-140dp"/>
+        	android:paddingBottom="16dp"        	
+        	android:textSize="20sp"/>
     
      <View
              android:layout_width="match_parent"
@@ -49,11 +54,11 @@
         	android:id="@+id/viewallstoreslbutton"
         	android:text="@string/view_all_stores" 
         	android:background="#ffffff"
-        	android:paddingLeft="30dp"
+        	android:paddingLeft="-135dp"
         	android:paddingRight="16dp"
         	android:paddingTop="16dp"
-        	android:paddingBottom="16dp"
-        	android:drawablePadding="-135dp"/>
+        	android:paddingBottom="16dp"        	
+        	android:textSize="20sp"/>
     
      <View
              android:layout_width="match_parent"
@@ -63,3 +68,10 @@
              android:layout_marginRight="16dp"/>
 
 </LinearLayout>
+
+<com.darvds.ribbonmenu.RibbonMenuView
+        android:id="@+id/ribbonMenuView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>

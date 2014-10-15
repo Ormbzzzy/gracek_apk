@@ -502,73 +502,8 @@ public class StoreReviewActivity extends Activity implements
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 
-		Bundle b = new Bundle();
-		Intent i = new Intent();
-		switch (itemId) {
-		case R.id.HomeActivity:
-			i = new Intent(this, HomeActivity.class);
-			b.putString("parent", "StoreReviewActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.AllProducts:
-			i = new Intent(this, AllProductsActivity.class);
-			b.putString("parent", "StoreReviewActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.ScanItemActivity:
-			i = new Intent(this, ScanActivity.class);
-			b.putString("parent", "StoreReviewActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		// case R.id.Feedback:
-		// i = new Intent(this, FeedbackActivity.class);
-		// break;
-		case R.id.StoreReviewActivity:
-			rbmView.toggleMenu();
-			break;
-		case R.id.delProduct:
-			i = new Intent(this, DeleteProduct.class);
-			b.putString("parent", "StoreReviewActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.addUser:
-			i = new Intent(this, AddUser.class);
-			b.putString("parent", "StoreReviewActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.addProduct:
-			i = new Intent(this, AddProduct.class);
-			b.putString("parent", "StoreReviewActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.delUser:
-			i = new Intent(this, DeleteUser.class);
-			b.putString("parent", "StoreReviewActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.addStore:
-			i = new Intent(this, AddStore.class);
-			b.putString("parent", "StoreReviewActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-
-		case R.id.delStore:
-			i = new Intent(this, DeleteStore.class);
-			b.putString("parent", "StoreReviewActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		default:
-			break;
-		}
+		ActivityControl.changeActivity(this, itemId, position, rbmView,
+				"StoreReviewActivity");
 	}
 
 	public boolean isConnected() {

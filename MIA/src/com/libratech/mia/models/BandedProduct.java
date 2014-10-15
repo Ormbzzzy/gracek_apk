@@ -1,4 +1,5 @@
 package com.libratech.mia.models;
+
 import java.util.ArrayList;
 
 //
@@ -12,16 +13,18 @@ import java.util.ArrayList;
 //
 //
 
-
-public class BandedProduct 
-{
+public class BandedProduct {
 	private float totalPrice;
-	private ArrayList <Product> products;
-	
-	public BandedProduct(float totalPrice, ArrayList<Product> products) 
-	{		
+	private ArrayList<Product> products;
+
+	public BandedProduct(float totalPrice, ArrayList<Product> products) {
 		this.totalPrice = totalPrice;
 		this.products = products;
+	}
+
+	public BandedProduct() {
+		this.totalPrice = (float) 0.00;
+		this.products = new ArrayList<Product>();
 	}
 
 	public float gettotalPrice() {

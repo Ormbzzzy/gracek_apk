@@ -48,5 +48,12 @@
         android:orderInCategory="8"
         android:title="Delete Store">
     </item>
+    
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_launcher"
+        android:orderInCategory="9"
+        android:title="Settings">
+    </item>
 
 </menu>

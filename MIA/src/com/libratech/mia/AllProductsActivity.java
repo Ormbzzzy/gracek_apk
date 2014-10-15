@@ -289,7 +289,7 @@ public class AllProductsActivity extends Activity implements
 
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
-	
+
 		Bundle b = new Bundle();
 		Intent i = new Intent();
 		switch (itemId) {

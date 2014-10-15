@@ -51,7 +51,9 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 	static final int REQUEST_IMAGE_CAPTURE = 3;
 	static final int REQUEST_TAKE_PHOTO = 4;
 	String timeStamp = "";
+	Boolean imageSet = false;
 	File photoFile = null;
+	Bitmap bmp, scaled;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,7 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 				startActivityForResult(i, 1);
 			}
 		});
+		String s = "";
 		image.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -100,7 +103,7 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 							takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
 									Uri.fromFile(photoFile));
 							startActivityForResult(takePictureIntent,
-									REQUEST_TAKE_PHOTO);
+									REQUEST_IMAGE_CAPTURE);
 						}
 					}
 				} else {
@@ -131,7 +134,7 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 							Toast.LENGTH_SHORT).show();
 				} else {
 					new addProduct()
-							.execute("http://holycrosschurchjm.com/MIA_mysql.php?addProduct=yes&upc_code="
+							.execute(("http://holycrosschurchjm.com/MIA_mysql.php?addProduct=yes&upc_code="
 									+ upc.getText()
 									+ "&product_name="
 									+ name.getText()
@@ -144,7 +147,8 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 									+ "&weight="
 									+ weight.getText()
 									+ "&uom="
-									+ uom.getText() + "&photo=no_image.jpg");
+									+ uom.getText() + "&photo=" + upc.getText() + ".jpg")
+									.replace(" ", "%20"));
 				}
 			}
 		});
@@ -195,6 +199,18 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 	private class addProduct extends AsyncTask<String, Void, String> {
 
 		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			Toast.makeText(getApplicationContext(),
+					"Product successfully added", Toast.LENGTH_LONG).show();
+			bmp.recycle();
+			scaled.recycle();
+			bmp = scaled = null;
+			AddProduct.this.finish();
+		}
+
+		@Override
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			SimpleFTP ftp = new SimpleFTP();
@@ -221,24 +237,6 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-			// try {
-			// ftp.connect("ftp.holycrosschurchjm.com", 21,
-			// "picupload@holycrosschurchjm.com", "picupload123");
-			//
-			// } catch (IOException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// try {
-			// ftp.bin();
-			// // ftp.cwd("/");
-			// ftp.stor(img);
-			// ftp.disconnect();
-			// } catch (Exception e) {
-			//
-			// }
-			// }
-
 			return "";
 		}
 
@@ -263,21 +261,28 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 			e.printStackTrace();
 		}
 		if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-			Bundle extras = data.getExtras();
-			Bitmap b = (Bitmap) extras.get("data");
-			image.setImageBitmap(b);
 
+			BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
+			bmpFactoryOptions.inJustDecodeBounds = false;
+			bmp = BitmapFactory.decodeFile(photoFile.getAbsolutePath(),
+					bmpFactoryOptions);
+
+			// Bitmap bmp = (Bitmap) data.getExtras().get("data");
+			int nh = (int) (bmp.getHeight() / (bmp.getWidth() / 200));
+			scaled = Bitmap.createScaledBitmap(bmp, 200, nh, true);
+			image.setImageBitmap(scaled);
 		}
 	}
 
 	private File createImageFile() throws IOException {
 		// Create an image file name
+		if (!img.getParentFile().exists()) {
+			img.getParentFile().mkdirs();
+			img.createNewFile();
+		} else {
+			img.createNewFile();
+		}
 
-		img = new File(Environment.getExternalStorageDirectory().toString()
-				+ "/MIA/images", upc.getText() + ".jpg");
-
-		// Save a file: path for use with ACTION_VIEW intents
-		// mCurrentPhotoPath = "file:" + image.getAbsolutePath();
 		return img;
 	}
 

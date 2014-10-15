@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -264,8 +266,11 @@ public class LoginActivity extends Activity {
 	public class UserLoginTask extends AsyncTask<String, Void, JSONArray> {
 
 		protected JSONArray doInBackground(String... params) {
-
-			return new DatabaseConnector().DBLogin(params[0], params[1]);
+			ArrayList<NameValuePair> nvp = new ArrayList<NameValuePair>();
+			nvp.add(new BasicNameValuePair("userLogin", "yes"));
+			nvp.add(new BasicNameValuePair("username", "" + params[0]));
+			nvp.add(new BasicNameValuePair("password", "" + params[1]));
+			return new DatabaseConnector().DBSubmit(nvp);
 		}
 
 		protected void onPostExecute(JSONArray success) {
@@ -443,14 +448,10 @@ public class LoginActivity extends Activity {
 					}
 
 				}
-				setUpDg();
+				sp.setAdapter(adapter);
+				sp.setSelection(0);
 			}
 		}
-	}
-
-	public void setUpDg() {
-		sp.setAdapter(adapter);
-		sp.setSelection(0);
 	}
 
 	private void setupLoginForm() {

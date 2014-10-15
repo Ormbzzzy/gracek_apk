@@ -32,6 +32,7 @@ iRibbonMenuCallback {
 	Button cancel, confirm;
 	String userRole;
 	Spinner role;
+	
 	RibbonMenuView rbmView;
 
 	@Override

@@ -6,26 +6,33 @@
     <LinearLayout
         android:id="@+id/AllDiscountListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
         <ExpandableListView
-            android:id="@+id/DiscountList"
+            android:id="@+id/AllDiscountList"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/DiscountList"
+        android:id="@+id/discounts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
         <ListView
-            android:id="@+id/discounts"
+            android:id="@+id/discountList"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-		<ImageButton android:id="@+id/newDiscount"/>
-      </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/addDiscount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_new" >
+        </ImageButton>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/discountDetail"
@@ -146,35 +153,36 @@
                     android:textSize="20sp" />
             </LinearLayout>
 
+            <!--
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal" 
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:orientation="horizontal" >
+                android:layout_marginLeft="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Price: "
+                    android:text="Price: " 
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <EditText
                     android:id="@+id/Price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
-                    android:hint="Price"
                     android:inputType="numberDecimal"
-                    android:textSize="20sp" />
-
+                    android:hint="Price" 
+                    android:textSize="20sp"/>
+                
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="GCT: "
+                    android:text="GCT: " 
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <CheckBox
                     android:id="@+id/gct"
@@ -183,6 +191,13 @@
                     android:focusable="false"
                     android:gravity="center" />
             </LinearLayout>
+
+
+
+
+
+
+            -->
 
             <LinearLayout
                 android:layout_width="wrap_content"

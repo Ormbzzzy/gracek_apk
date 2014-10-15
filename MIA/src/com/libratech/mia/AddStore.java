@@ -2,10 +2,6 @@ package com.libratech.mia;
 
 import org.json.JSONArray;
 
-import com.darvds.ribbonmenu.RibbonMenuView;
-import com.darvds.ribbonmenu.iRibbonMenuCallback;
-import com.google.analytics.tracking.android.EasyTracker;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -15,17 +11,24 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-public class AddStore extends Activity implements
-iRibbonMenuCallback {
+import com.darvds.ribbonmenu.RibbonMenuView;
+import com.darvds.ribbonmenu.iRibbonMenuCallback;
+import com.google.analytics.tracking.android.EasyTracker;
+
+public class AddStore extends Activity implements iRibbonMenuCallback {
 
 	EditText name, address;
 	Spinner city;
 	Button confirm, cancel;
 	RibbonMenuView rbmView;
+	ArrayAdapter<CharSequence> adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,9 @@ iRibbonMenuCallback {
 		city = (Spinner) findViewById(R.id.citySpinner);
 		cancel = (Button) findViewById(R.id.cancel);
 		confirm = (Button) findViewById(R.id.confirmaddStore);
-
+		adapter = ArrayAdapter.createFromResource(this, R.array.capitals_array,
+				android.R.layout.simple_spinner_item);
+		city.setAdapter(adapter);
 		cancel.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -51,17 +56,15 @@ iRibbonMenuCallback {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				new pushStore()
-						.execute("http://holycrosschurchjm.com/MIA_mysql.php?addStore=yes&comp_id=COMP-00003&company_name="
-								+ name
-								+ "&address="
-								+ address
-								+ "&city="
-								+ city.getItemIdAtPosition(city
-										.getSelectedItemPosition()));
+						.execute(("http://holycrosschurchjm.com/MIA_mysql.php?addStore=yes&comp_id=COMP-00003&company_name="
+								+ name + "&address=" + address + "&city=" + city
+								.getItemIdAtPosition(city
+										.getSelectedItemPosition())).replace(
+								" ", "%20"));
 			}
 
 		});
-	setupMenu();
+		setupMenu();
 	}
 
 	private void setupMenu() {
@@ -69,13 +72,12 @@ iRibbonMenuCallback {
 		rbmView.setMenuClickCallback(this);
 		rbmView.setMenuItems(R.menu.manager_menu);
 	}
-	
+
 	class pushStore extends AsyncTask<String, Void, JSONArray> {
 		protected JSONArray doInBackground(String... url) {
 			return new DatabaseConnector().dbPull(url[0]);
 		}
 	}
-	
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -113,7 +115,6 @@ iRibbonMenuCallback {
 
 	}
 
-	
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 
@@ -169,10 +170,7 @@ iRibbonMenuCallback {
 			startActivityForResult(i, 1);
 			break;
 		case R.id.addStore:
-			i = new Intent(this, AddStore.class);
-			b.putString("parent", "StoreReviewActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
+			rbmView.toggleMenu();
 			break;
 
 		case R.id.delStore:

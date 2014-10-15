@@ -12,10 +12,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+
 import com.google.analytics.tracking.android.EasyTracker;
+
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +29,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -36,6 +40,7 @@ import android.widget.Toast;
 
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
+import com.libratech.mia.LoginActivity.getStoreInfo;
 import com.libratech.mia.models.Product;
 import com.libratech.mia.models.Scanned;
 import com.libratech.mia.models.Store;
@@ -51,7 +56,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 	ProgressBar pb;
 	Spinner sp;
 	Dialog dg;
-	Button confirm;
+	Button cancel, confirm;
 
 	float downX = 0;
 	boolean listReady = false;
@@ -73,12 +78,67 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 	HomeAdapter sAdapter = new HomeAdapter(this, sProducts);
 	HomeAdapter uAdapter = new HomeAdapter(this, uProducts);
 	ArrayAdapter<String> adapter;
+	String user = LoginActivity.empID;
 	ArrayList<String> spinList = new ArrayList<String>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_activity);
+		dg = new Dialog(HomeActivity.this);
+		dg.setContentView(R.layout.dialog);
+		dg.setTitle("Select Store");
+		dg.setCanceledOnTouchOutside(false);
+		adapter = new SpinnerAdapter(HomeActivity.this,
+				android.R.layout.simple_spinner_item, spinList);
+		sp = (MySpinner) dg.findViewById(R.id.storeSpinner);
+		confirm = (Button) dg.findViewById(R.id.spinnerButton);
+		confirm.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				if (!storeID.equals("")) {
+					for (Store s : stores) {
+						if (s.getStoreID().equals(storeID))
+							storeName = s.getCompanyName();
+					}
+					aProducts.clear();
+					listLoad.setVisibility(View.VISIBLE);
+					new getProducts()
+							.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
+					dg.dismiss();
+				} else {
+					Toast.makeText(getApplicationContext(),
+							"Please select a store.", Toast.LENGTH_SHORT)
+							.show();
+				}
+			}
+		});
+		cancel = (Button) dg.findViewById(R.id.spinnerCancel);
+		cancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dg.dismiss();
+			}
+
+		});
+		sp.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				if (arg2 == 0) {
+					storeID = "";
+				} else {
+					storeID = stores.get(arg2 - 1).getStoreID();
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+
+			}
+		});
 		empID = LoginActivity.empID;
 		storeID = LoginActivity.storeID;
 		Date date = new Date();
@@ -302,6 +362,37 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 		// EasyTracker.getInstance(this).activityStart(this);
 	}
 
+	class getStoreInfo extends AsyncTask<String, Void, JSONArray> {
+		protected JSONArray doInBackground(String... url) {
+			return db.dbPull(url[0]);
+		}
+
+		@Override
+		protected void onPostExecute(JSONArray result) {
+			String tempID, tempName;
+			tempID = tempName = "";
+			if (result != null) {
+				spinList.clear();
+				stores.clear();
+				spinList.add(0, "- Please select a store -");
+				for (int i = 0; i < result.length(); i++) {
+					try {
+						empID = result.getJSONArray(i).getString(0);
+						tempID = result.getJSONArray(i).getString(1);
+						tempName = result.getJSONArray(i).getString(2);
+						spinList.add(tempName);
+						stores.add(new Store(tempID, tempName));
+						Log.d("Stores", "" + i + tempName + spinList.size());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+				}
+				sp.setAdapter(adapter);
+			}
+		}
+	}
+
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 		Bundle b = new Bundle();
@@ -322,9 +413,12 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 			i.putExtras(b);
 			startActivityForResult(i, 1);
 			break;
-		// case R.id.Feedback:
-		// i = new Intent(this, FeedbackActivity.class);
-		// break;
+		case R.id.Feedback:
+			i = new Intent(this, FeedbackActivity.class);
+			b.putString("parent", "HomeActivity");
+			i.putExtras(b);
+			startActivityForResult(i, 1);
+			break;
 		case R.id.StoreReviewActivity:
 			i = new Intent(this, StoreReviewActivity.class);
 			b.putString("parent", "HomeActivity");
@@ -355,7 +449,18 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 		// i.putExtras(b);
 		// startActivityForResult(i, 1);
 		// break;
-
+		case R.id.AddBanded:
+			i = new Intent(this, AddBandedOffer.class);
+			// rbmView.toggleMenu();
+			b.putString("parent", "HomeActivity");
+			i.putExtras(b);
+			startActivityForResult(i, 1);
+		case R.id.AddDiscount:
+			i = new Intent(this, AddDiscountProductActivity.class);
+			// rbmView.toggleMenu();
+			b.putString("parent", "HomeActivity");
+			i.putExtras(b);
+			startActivityForResult(i, 1);
 		default:
 			break;
 		}
@@ -380,6 +485,13 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 			rbmView.toggleMenu();
 			return true;
 
+		case R.id.change:
+			new getStoreInfo()
+					.execute("http://holycrosschurchjm.com/MIA_mysql.php?workLoc=yes&merch_id="
+							+ user);
+			dg.show();
+			return true;
+
 		case R.id.logout:
 			EasyTracker.getInstance(this).activityStop(this);
 			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
@@ -395,7 +507,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.logout, menu);
+		inflater.inflate(R.menu.logout_with_change, menu);
 		return true;
 	}
 

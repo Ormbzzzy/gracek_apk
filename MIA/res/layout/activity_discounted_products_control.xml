@@ -1,0 +1,104 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    		xmlns:tools="http://schemas.android.com/tools"
+    		android:layout_width="match_parent"
+    		android:layout_height="match_parent"  
+    		tools:context=".DiscountedProductsControl">
+
+<LinearLayout    
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"    
+    android:orientation="vertical"
+    >    
+
+    <Button android:drawableLeft= "@drawable/ic_action_person"        	
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:id="@+id/addDiscProduct"
+        	android:text="Add Discount Product" 
+        	android:background="#ffffff" 
+        	android:textSize="20sp"        	       	
+        	android:paddingLeft="-90dp"
+        	android:paddingRight="16dp"
+        	android:paddingTop="16dp"
+        	android:paddingBottom="16dp"
+        	android:onClick="addDiscProdNav"/>         	       	        	
+        	<!-- android:drawablePadding="-155dp" -->
+    
+    <View
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:background="#c0c0c0"
+             android:layout_marginLeft="16dp"
+             android:layout_marginRight="16dp"/>
+    
+    <Button android:drawableLeft= "@drawable/ic_action_person"
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"       	 	
+        	android:id="@+id/editDiscProduct"
+        	android:text="Update Discount Product"
+        	android:textSize="20sp" 
+        	android:background="#ffffff"
+        	android:paddingLeft="-65dp"
+        	android:paddingRight="16dp"
+        	android:paddingTop="16dp"
+        	android:paddingBottom="16dp"
+        	android:onClick="updateDiscProdNav"/>
+        	<!-- android:drawablePadding="-130dp" -->
+    
+     <View
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:background="#c0c0c0"
+             android:layout_marginLeft="16dp"
+             android:layout_marginRight="16dp"/>
+    
+    <Button android:drawableLeft= "@drawable/ic_action_person"
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"       	 	
+        	android:id="@+id/deleteDiscProduct"
+        	android:text="Delete Discount Product" 
+        	android:background="#ffffff"
+        	android:textSize="20sp"
+        	android:paddingLeft="-75dp"
+        	android:paddingRight="16dp"
+        	android:paddingTop="16dp"
+        	android:paddingBottom="16dp"
+        	android:onClick="deleteDiscProdNav"/>
+        	<!-- android:drawablePadding="-150dp" -->
+    
+     <View
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:background="#c0c0c0"
+             android:layout_marginLeft="16dp"
+             android:layout_marginRight="16dp"/>
+     
+     <Button android:drawableLeft= "@drawable/ic_action_person"
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"       	 	
+        	android:id="@+id/viewAllDiscProds"
+        	android:text="View All Discount Products" 
+        	android:background="#ffffff"
+        	android:textSize="20sp"
+        	android:paddingLeft="-50dp"
+        	android:paddingRight="16dp"
+        	android:paddingTop="16dp"
+        	android:paddingBottom="16dp"
+        	android:onClick="viewAllDiscProdsNav"/>
+        	<!--android:drawablePadding="-150dp"  -->
+    
+     <View
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:background="#c0c0c0"
+             android:layout_marginLeft="16dp"
+             android:layout_marginRight="16dp"/>
+    
+</LinearLayout>
+
+<com.darvds.ribbonmenu.RibbonMenuView
+        android:id="@+id/ribbonMenuView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>
