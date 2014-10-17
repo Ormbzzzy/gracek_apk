@@ -4,17 +4,6 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:id="@+id/AllbandedListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <ExpandableListView
-            android:id="@+id/AllBandedList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/bandedOffers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,11 +14,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <ImageButton
+        <Button
             android:id="@+id/newBandedOffer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/add_button" />
+            android:text="New Banded Offer" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/AllbandedListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ExpandableListView
+            android:id="@+id/AllBandedList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <LinearLayout
