@@ -3,6 +3,8 @@ package com.libratech.mia;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,7 +41,7 @@ import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import com.google.analytics.tracking.android.EasyTracker;
 
-public class AddProduct extends Activity implements iRibbonMenuCallback {
+public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 
 	ImageView image;
 	EditText upc, name, desc, brand, cat, weight, uom;
@@ -54,6 +56,8 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 	Boolean imageSet = false;
 	File photoFile = null;
 	Bitmap bmp, scaled;
+	String empId = HomeActivity.empID;
+	String compId = HomeActivity.storeID;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +82,7 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 			public void onClick(View v) {
 				Bundle b = new Bundle();
 				b.putString("parent", "AddProduct");
-				Intent i = new Intent(AddProduct.this, ScanActivity.class);
+				Intent i = new Intent(AddNewProduct.this, ScanActivity.class);
 				i.putExtras(b);
 				startActivityForResult(i, 1);
 			}
@@ -107,7 +111,7 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 						}
 					}
 				} else {
-					Toast.makeText(AddProduct.this,
+					Toast.makeText(AddNewProduct.this,
 							"Enter or scan a UPC before adding an image",
 							Toast.LENGTH_LONG).show();
 				}
@@ -119,7 +123,7 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 			public void onClick(View v) {
 				if (photoFile == null) {
 					Toast.makeText(
-							AddProduct.this,
+							AddNewProduct.this,
 							"Photo cannot be empty. Tap placeholder to take a photo.",
 							10000).show();
 				} else if (upc.getText().length() == 0
@@ -130,11 +134,21 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 						|| uom.getText().length() == 0
 						|| brand.getText().length() == 0
 						|| upc.getText().length() == 0) {
-					Toast.makeText(AddProduct.this, "No field can be empty.",
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(AddNewProduct.this,
+							"No field can be empty.", Toast.LENGTH_SHORT)
+							.show();
 				} else {
+					Date date = new Date();
+					String dateString = new SimpleDateFormat(
+							"yyyy-MM-dd HH:mm:ss").format(date);
 					new addProduct()
-							.execute(("http://holycrosschurchjm.com/MIA_mysql.php?addProduct=yes&upc_code="
+							.execute(("http://holycrosschurchjm.com/MIA_mysql.php?addNewProduct=yes&merch_id="
+									+ empId
+									+ "&comp_id="
+									+ compId
+									+ "&rec_date="
+									+ dateString
+									+ "upc_code="
 									+ upc.getText()
 									+ "&product_name="
 									+ name.getText()
@@ -207,7 +221,7 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 			bmp.recycle();
 			scaled.recycle();
 			bmp = scaled = null;
-			AddProduct.this.finish();
+			AddNewProduct.this.finish();
 		}
 
 		@Override

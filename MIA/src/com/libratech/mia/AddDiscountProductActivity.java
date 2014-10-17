@@ -69,9 +69,11 @@ public class AddDiscountProductActivity extends Activity implements
 		weight = (TextView) details.findViewById(R.id.weight);
 		uom = (TextView) details.findViewById(R.id.uom);
 		gct = (CheckBox) details.findViewById(R.id.gct);
-		price = (EditText) details.findViewById(R.id.Price);
+		// price = (EditText) details.findViewById(R.id.Price);
 		value = (EditText) details.findViewById(R.id.Value);
 		sp = (Spinner) details.findViewById(R.id.discSpinner);
+		cancel = (Button) details.findViewById(R.id.cancel);
+		confirm = (Button) details.findViewById(R.id.addProd);
 		List<String> type = new ArrayList<String>();
 		type.add("$");
 		type.add("%");
@@ -100,11 +102,11 @@ public class AddDiscountProductActivity extends Activity implements
 						break;
 					}
 				}
-				try {
-					price.setText(String.valueOf(s.getPrice()));
-				} catch (NullPointerException e) {
-					price.setText("0.00");
-				}
+				// try {
+				// price.setText(String.valueOf(s.getPrice()));
+				// } catch (NullPointerException e) {
+				// price.setText("0.00");
+				// }
 				return false;
 			}
 
@@ -117,22 +119,28 @@ public class AddDiscountProductActivity extends Activity implements
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Date date = new Date();
-				String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-						.format(date);
-				new AddDiscount()
-						.execute(("http://holycrosschurchjm.com/MIA_mysql.php?addDiscountedProduct=yes&merch_id="
-								+ empID
-								+ "&comp_id="
-								+ compID
-								+ "&rec_date="
-								+ dateString
-								+ "&upc_code="
-								+ upc.getText()
-								+ "&discValue=" + value.getText() + "&disType=" + (String) sp
-								.getSelectedItem()).replace(" ", "%20"));
+				if (!value.getText().equals("")) {
+					Date date = new Date();
+					String dateString = new SimpleDateFormat(
+							"yyyy-MM-dd HH:mm:ss").format(date);
+					new AddDiscount()
+							.execute(("http://holycrosschurchjm.com/MIA_mysql.php?addDiscountedProduct=yes&merch_id="
+									+ empID
+									+ "&comp_id="
+									+ compID
+									+ "&rec_date="
+									+ dateString
+									+ "&upc_code="
+									+ upc.getText()
+									+ "&discValue="
+									+ value.getText() + "&disType=" + (String) sp
+									.getSelectedItem()).replace(" ", "%20"));
+				} else {
+					Toast.makeText(getApplicationContext(),
+							"Please enter a discount value.", Toast.LENGTH_LONG)
+							.show();
+				}
 			}
-
 		});
 		getActionBar().setHomeButtonEnabled(true);
 	}
@@ -266,71 +274,77 @@ public class AddDiscountProductActivity extends Activity implements
 
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
-		Bundle b = new Bundle();
-		Intent i = new Intent();
-		switch (itemId) {
-		case R.id.HomeActivity:
-			rbmView.toggleMenu();
-			break;
-		case R.id.AllProducts:
-			i = new Intent(this, AllProductsActivity.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.ScanItemActivity:
-			i = new Intent(this, ScanActivity.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		// case R.id.Feedback:
-		// i = new Intent(this, FeedbackActivity.class);
-		// break;
-		case R.id.StoreReviewActivity:
-			i = new Intent(this, StoreReviewActivity.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		// case R.id.delProduct:
-		// i = new Intent(this, DeleteProduct.class);
-		// b.putString("parent", "HomeActivity");
-		// i.putExtras(b);
-		// startActivityForResult(i, 1);
-		// break;
-		case R.id.addUser:
-			i = new Intent(this, AddUser.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.addProduct:
-			i = new Intent(this, AddProduct.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		// case R.id.delUser:
-		// i = new Intent(this, DeleteUser.class);
-		// b.putString("parent", "HomeActivity");
-		// i.putExtras(b);
-		// startActivityForResult(i, 1);
-		// break;
-		case R.id.AddBanded:
-			i = new Intent(this, AddBandedOffer.class);
-			// rbmView.toggleMenu();
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-		case R.id.AddDiscount:
-			i = new Intent(this, AddDiscountProductActivity.class);
-			// rbmView.toggleMenu();
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-		default:
-			break;
-		}
+
+		ActivityControl.changeActivity(this, itemId, position, rbmView,
+				"HomeActivity");
 	}
+	// @Override
+	// public void RibbonMenuItemClick(int itemId, int position) {
+	// Bundle b = new Bundle();
+	// Intent i = new Intent();
+	// switch (itemId) {
+	// case R.id.HomeActivity:
+	// rbmView.toggleMenu();
+	// break;
+	// case R.id.AllProducts:
+	// i = new Intent(this, AllProductsActivity.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// case R.id.ScanItemActivity:
+	// i = new Intent(this, ScanActivity.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// // case R.id.Feedback:
+	// // i = new Intent(this, FeedbackActivity.class);
+	// // break;
+	// case R.id.StoreReviewActivity:
+	// i = new Intent(this, StoreReviewActivity.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// // case R.id.delProduct:
+	// // i = new Intent(this, DeleteProduct.class);
+	// // b.putString("parent", "HomeActivity");
+	// // i.putExtras(b);
+	// // startActivityForResult(i, 1);
+	// // break;
+	// case R.id.addUser:
+	// i = new Intent(this, AddUser.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// case R.id.addProduct:
+	// i = new Intent(this, AddProduct.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// // case R.id.delUser:
+	// // i = new Intent(this, DeleteUser.class);
+	// // b.putString("parent", "HomeActivity");
+	// // i.putExtras(b);
+	// // startActivityForResult(i, 1);
+	// // break;
+	// case R.id.AddBanded:
+	// i = new Intent(this, AddBandedOffer.class);
+	// // rbmView.toggleMenu();
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// case R.id.AddDiscount:
+	// i = new Intent(this, AddDiscountProductActivity.class);
+	// // rbmView.toggleMenu();
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// default:
+	// break;
+	// }
+	// }
 }

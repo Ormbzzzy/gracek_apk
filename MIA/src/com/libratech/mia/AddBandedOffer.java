@@ -50,23 +50,25 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_banded_offer);
 		allList = (View) findViewById(R.id.AllbandedListView);
+		exlv = (ExpandableListView) allList.findViewById(R.id.AllBandedList);
+		allList.setVisibility(View.GONE);
 		list = (View) findViewById(R.id.bandedListView);
+		lv = (ListView) list.findViewById(R.id.bandedList);
+		imgB = (ImageButton) list.findViewById(R.id.add);
+		submit = (Button) list.findViewById(R.id.submit);
+		list.setVisibility(View.GONE);
 		details = (View) findViewById(R.id.bandedDetail);
 		bandedList = (View) findViewById(R.id.bandedOffers);
 		blv = (ListView) bandedList.findViewById(R.id.banded);
-		exlv = (ExpandableListView) allList.findViewById(R.id.AllBandedList);
-		lv = (ListView) list.findViewById(R.id.bandedList);
+		bandedList.setVisibility(View.VISIBLE);
 		name = (TextView) details.findViewById(R.id.name);
 		brand = (TextView) details.findViewById(R.id.brand);
 		upc = (TextView) details.findViewById(R.id.upc);
 		uom = (TextView) details.findViewById(R.id.uom);
 		add = (Button) details.findViewById(R.id.addProd);
 		remove = (Button) details.findViewById(R.id.cancel);
-		imgB = (ImageButton) list.findViewById(R.id.add);
-		submit = (Button) list.findViewById(R.id.submit);
 		details.setVisibility(View.GONE);
-		allList.setVisibility(View.GONE);
-		list.setVisibility(View.VISIBLE);
+
 		exlv.setOnChildClickListener(new OnChildClickListener() {
 
 			@Override
@@ -315,76 +317,83 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 
-		Bundle b = new Bundle();
-		Intent i = new Intent();
-		switch (itemId) {
-		case R.id.HomeActivity:
-			i = new Intent(this, HomeActivity.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.AllProducts:
-			i = new Intent(this, AllProductsActivity.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.ScanItemActivity:
-			i = new Intent(this, ScanActivity.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		// case R.id.Feedback:
-		// i = new Intent(this, FeedbackActivity.class);
-		// break;
-		case R.id.delProduct:
-			i = new Intent(this, DeleteProduct.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.addUser:
-			i = new Intent(this, AddUser.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.addProduct:
-			i = new Intent(this, AddProduct.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.delUser:
-			i = new Intent(this, DeleteUser.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.addStore:
-			i = new Intent(this, AddStore.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-
-		case R.id.delStore:
-			i = new Intent(this, DeleteStore.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.AddBanded:
-			i = new Intent(this, AddBandedOffer.class);
-			rbmView.toggleMenu();
-			// b.putString("parent", "HomeActivity");
-			// i.putExtras(b);
-			// startActivityForResult(i, 1);
-			break;
-		default:
-			break;
-		}
+		ActivityControl.changeActivity(this, itemId, position, rbmView,
+				"HomeActivity");
 	}
+
+	// @Override
+	// public void RibbonMenuItemClick(int itemId, int position) {
+	//
+	// Bundle b = new Bundle();
+	// Intent i = new Intent();
+	// switch (itemId) {
+	// case R.id.HomeActivity:
+	// i = new Intent(this, HomeActivity.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// case R.id.AllProducts:
+	// i = new Intent(this, AllProductsActivity.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// case R.id.ScanItemActivity:
+	// i = new Intent(this, ScanActivity.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// // case R.id.Feedback:
+	// // i = new Intent(this, FeedbackActivity.class);
+	// // break;
+	// case R.id.delProduct:
+	// i = new Intent(this, DeleteProduct.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// case R.id.addUser:
+	// i = new Intent(this, AddUser.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// case R.id.addProduct:
+	// i = new Intent(this, AddProduct.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// case R.id.delUser:
+	// i = new Intent(this, DeleteUser.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// case R.id.addStore:
+	// i = new Intent(this, AddStore.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	//
+	// case R.id.delStore:
+	// i = new Intent(this, DeleteStore.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// case R.id.AddBanded:
+	// i = new Intent(this, AddBandedOffer.class);
+	// rbmView.toggleMenu();
+	// // b.putString("parent", "HomeActivity");
+	// // i.putExtras(b);
+	// // startActivityForResult(i, 1);
+	// break;
+	// default:
+	// break;
+	// }
+	// }
 }

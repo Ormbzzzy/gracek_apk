@@ -395,76 +395,82 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
-		Bundle b = new Bundle();
-		Intent i = new Intent();
-		switch (itemId) {
-		case R.id.HomeActivity:
-			rbmView.toggleMenu();
-			break;
-		case R.id.AllProducts:
-			i = new Intent(this, AllProductsActivity.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.ScanItemActivity:
-			i = new Intent(this, ScanActivity.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.Feedback:
-			i = new Intent(this, FeedbackActivity.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.StoreReviewActivity:
-			i = new Intent(this, StoreReviewActivity.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		// case R.id.delProduct:
-		// i = new Intent(this, DeleteProduct.class);
-		// b.putString("parent", "HomeActivity");
-		// i.putExtras(b);
-		// startActivityForResult(i, 1);
-		// break;
-		case R.id.addUser:
-			i = new Intent(this, AddUser.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		case R.id.addProduct:
-			i = new Intent(this, AddProduct.class);
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-			break;
-		// case R.id.delUser:
-		// i = new Intent(this, DeleteUser.class);
-		// b.putString("parent", "HomeActivity");
-		// i.putExtras(b);
-		// startActivityForResult(i, 1);
-		// break;
-		case R.id.AddBanded:
-			i = new Intent(this, AddBandedOffer.class);
-			// rbmView.toggleMenu();
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-		case R.id.AddDiscount:
-			i = new Intent(this, AddDiscountProductActivity.class);
-			// rbmView.toggleMenu();
-			b.putString("parent", "HomeActivity");
-			i.putExtras(b);
-			startActivityForResult(i, 1);
-		default:
-			break;
-		}
+
+		ActivityControl.changeActivity(this, itemId, position, rbmView,
+				"HomeActivity");
 	}
+	// @Override
+	// public void RibbonMenuItemClick(int itemId, int position) {
+	// Bundle b = new Bundle();
+	// Intent i = new Intent();
+	// switch (itemId) {
+	// case R.id.HomeActivity:
+	// rbmView.toggleMenu();
+	// break;
+	// case R.id.AllProducts:
+	// i = new Intent(this, AllProductsActivity.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// case R.id.ScanItemActivity:
+	// i = new Intent(this, ScanActivity.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// case R.id.Feedback:
+	// i = new Intent(this, FeedbackActivity.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// case R.id.StoreReviewActivity:
+	// i = new Intent(this, StoreReviewActivity.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// // case R.id.delProduct:
+	// // i = new Intent(this, DeleteProduct.class);
+	// // b.putString("parent", "HomeActivity");
+	// // i.putExtras(b);
+	// // startActivityForResult(i, 1);
+	// // break;
+	// case R.id.addUser:
+	// i = new Intent(this, AddUser.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// case R.id.addProduct:
+	// i = new Intent(this, AddProduct.class);
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// break;
+	// // case R.id.delUser:
+	// // i = new Intent(this, DeleteUser.class);
+	// // b.putString("parent", "HomeActivity");
+	// // i.putExtras(b);
+	// // startActivityForResult(i, 1);
+	// // break;
+	// case R.id.AddBanded:
+	// i = new Intent(this, AddBandedOffer.class);
+	// // rbmView.toggleMenu();
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// case R.id.AddDiscount:
+	// i = new Intent(this, AddDiscountProductActivity.class);
+	// // rbmView.toggleMenu();
+	// b.putString("parent", "HomeActivity");
+	// i.putExtras(b);
+	// startActivityForResult(i, 1);
+	// default:
+	// break;
+	// }
+	// }
 
 	@Override
 	public void onBackPressed() {
