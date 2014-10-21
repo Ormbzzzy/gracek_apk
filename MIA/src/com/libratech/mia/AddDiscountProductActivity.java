@@ -1,5 +1,7 @@
 package com.libratech.mia;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +32,7 @@ import android.widget.Toast;
 
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
+import com.libratech.mia.models.DiscountedProduct;
 import com.libratech.mia.models.Product;
 import com.libratech.mia.models.Scanned;
 
@@ -43,11 +46,12 @@ public class AddDiscountProductActivity extends Activity implements
 	EditText price, value;
 	Product p;
 	CheckBox gct;
-	Button confirm, cancel;
+	Button confirm, cancel, add;
 	Spinner sp;
 	RibbonMenuView rbmView;
 	ArrayList<Product> products = HomeActivity.aProducts;
 	ArrayList<Scanned> scanned = HomeActivity.sProducts;
+	ArrayList<DiscountedProduct> data = new ArrayList<DiscountedProduct>();
 	ListView dList;
 	String compID = HomeActivity.storeID;
 	String empID = HomeActivity.empID;
@@ -59,9 +63,10 @@ public class AddDiscountProductActivity extends Activity implements
 		setContentView(R.layout.add_discount_product);
 		listView = (View) findViewById(R.id.AllDiscountListView);
 		list = (ExpandableListView) listView.findViewById(R.id.AllDiscountList);
+		listView.setVisibility(View.GONE);
 		details = (View) findViewById(R.id.discountDetail);
 		discounts = (View) findViewById(R.id.discounts);
-		discounts.setVisibility(View.GONE);
+		discounts.setVisibility(View.VISIBLE);
 		upc = (TextView) details.findViewById(R.id.upc);
 		dList = (ListView) discounts.findViewById(R.id.discountList);
 		name = (TextView) details.findViewById(R.id.Name);
@@ -69,7 +74,7 @@ public class AddDiscountProductActivity extends Activity implements
 		weight = (TextView) details.findViewById(R.id.weight);
 		uom = (TextView) details.findViewById(R.id.uom);
 		gct = (CheckBox) details.findViewById(R.id.gct);
-		// price = (EditText) details.findViewById(R.id.Price);
+		add = (Button) discounts.findViewById(R.id.addDiscount);
 		value = (EditText) details.findViewById(R.id.Value);
 		sp = (Spinner) details.findViewById(R.id.discSpinner);
 		cancel = (Button) details.findViewById(R.id.cancel);
@@ -82,7 +87,16 @@ public class AddDiscountProductActivity extends Activity implements
 		dataAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		sp.setAdapter(dataAdapter);
+		add.setOnClickListener(new OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				discounts.setVisibility(View.GONE);
+				listView.setVisibility(View.VISIBLE);
+			}
+
+		});
 		list.setOnChildClickListener(new OnChildClickListener() {
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v,
@@ -90,8 +104,9 @@ public class AddDiscountProductActivity extends Activity implements
 				// TODO Auto-generated method stub
 				p = (Product) ((AllAdapter) list.getExpandableListAdapter())
 						.getProduct(groupPosition, childPosition);
-				list.setVisibility(View.GONE);
+				listView.setVisibility(View.GONE);
 				details.setVisibility(View.VISIBLE);
+				upc.setText(p.getUpcCode());
 				weight.setText(p.getWeight());
 				name.setText(p.getProductName());
 				brand.setText(p.getBrand());
@@ -123,6 +138,20 @@ public class AddDiscountProductActivity extends Activity implements
 					Date date = new Date();
 					String dateString = new SimpleDateFormat(
 							"yyyy-MM-dd HH:mm:ss").format(date);
+					// try {
+					// new AddDiscount().execute(URLEncoder.encode(
+					// "http://holycrosschurchjm.com/MIA_mysql.php?addDiscountedProduct=yes&merch_id="
+					// + empID + "&comp_id=" + compID
+					// + "&rec_date=" + dateString
+					// + "&upc_code=" + upc.getText()
+					// + "&discValue=" + value.getText()
+					// + "&disType="
+					// + (String) sp.getSelectedItem(),
+					// "UTF-8"));
+					// } catch (UnsupportedEncodingException e) {
+					// // TODO Auto-generated catch block
+					// e.printStackTrace();
+					// }
 					new AddDiscount()
 							.execute(("http://holycrosschurchjm.com/MIA_mysql.php?addDiscountedProduct=yes&merch_id="
 									+ empID
@@ -134,12 +163,23 @@ public class AddDiscountProductActivity extends Activity implements
 									+ upc.getText()
 									+ "&discValue="
 									+ value.getText() + "&disType=" + (String) sp
-									.getSelectedItem()).replace(" ", "%20"));
+									.getSelectedItem()).replace("%", "%25")
+									.replace("$", "%24").replace(" ", "%20"));
 				} else {
 					Toast.makeText(getApplicationContext(),
 							"Please enter a discount value.", Toast.LENGTH_LONG)
 							.show();
 				}
+			}
+		});
+
+		cancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				listView.setVisibility(View.VISIBLE);
+				details.setVisibility(View.GONE);
 			}
 		});
 		getActionBar().setHomeButtonEnabled(true);
@@ -211,6 +251,46 @@ public class AddDiscountProductActivity extends Activity implements
 		}
 	}
 
+	class getDiscounts extends AsyncTask<String, Void, JSONArray> {
+		protected JSONArray doInBackground(String... url) {
+			return new DatabaseConnector().dbPull(url[0]);
+		}
+
+		@Override
+		protected void onPreExecute() {
+
+			Toast.makeText(getApplicationContext(), "Loading products.",
+					Toast.LENGTH_SHORT).show();
+			super.onPreExecute();
+		}
+
+		@Override
+		protected void onPostExecute(JSONArray result) {
+			String upc, name, brand, weight, uom, photo, value, type;
+			name = brand = value = uom = type = photo = upc = weight = "";
+			float price = (float) 0.00;
+			for (int i = 0; i < result.length(); i++) {
+				try {
+					upc = result.getJSONArray(i).getString(0);
+					name = result.getJSONArray(i).getString(1);
+					brand = result.getJSONArray(i).getString(2);
+					weight = result.getJSONArray(i).getString(3);
+					uom = result.getJSONArray(i).getString(4);
+					value = result.getJSONArray(i).getString(5);
+					type = result.getJSONArray(i).getString(6);
+					photo = result.getJSONArray(i).getString(7);
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
+				data.add(new DiscountedProduct(upc, name, brand, weight, uom,
+						value, type, photo));
+			}
+			dList.setAdapter(new DiscountAdapter(data, getApplicationContext()));
+			Toast.makeText(getApplicationContext(), " loaded.",
+					Toast.LENGTH_SHORT).show();
+		}
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -219,46 +299,6 @@ public class AddDiscountProductActivity extends Activity implements
 		case android.R.id.home:
 			rbmView.toggleMenu();
 			return true;
-
-			// case R.id.name:
-			// if (nSort) {
-			// nSort = false;
-			// Collections.sort(products, Product.ascNameComparator);
-			// } else {
-			// nSort = true;
-			// Collections.sort(products, Product.desNameComparator);
-			// }
-			// ad = new AllAdapter(AllProductsActivity.this, products);
-			// listview.setAdapter(new AllAdapter(AllProductsActivity.this,
-			// new ArrayList<Product>()));
-			// listview.setAdapter(ad);
-			// break;
-			//
-			// case R.id.brand:
-			// if (bSort) {
-			// bSort = false;
-			// Collections.sort(products, Product.ascBrandComparator);
-			// } else {
-			// bSort = true;
-			// Collections.sort(products, Product.desBrandComparator);
-			// }
-			// ad = new AllAdapter(AllProductsActivity.this, products);
-			// listview.setAdapter(new AllAdapter(AllProductsActivity.this,
-			// new ArrayList<Product>()));
-			// listview.setAdapter(ad);
-			// break;
-			//
-			// case R.id.category:
-			// if (cSort) {
-			// cSort = false;
-			// Collections.sort(products, Product.ascCatComparator);
-			// } else {
-			// cSort = true;
-			// Collections.sort(products, Product.desCatComparator);
-			// }
-			// ad = new AllAdapter(AllProductsActivity.this, products);
-			// listview.setAdapter(ad);
-			// break;
 
 		case R.id.logout:
 			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
@@ -278,73 +318,5 @@ public class AddDiscountProductActivity extends Activity implements
 		ActivityControl.changeActivity(this, itemId, position, rbmView,
 				"HomeActivity");
 	}
-	// @Override
-	// public void RibbonMenuItemClick(int itemId, int position) {
-	// Bundle b = new Bundle();
-	// Intent i = new Intent();
-	// switch (itemId) {
-	// case R.id.HomeActivity:
-	// rbmView.toggleMenu();
-	// break;
-	// case R.id.AllProducts:
-	// i = new Intent(this, AllProductsActivity.class);
-	// b.putString("parent", "HomeActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// case R.id.ScanItemActivity:
-	// i = new Intent(this, ScanActivity.class);
-	// b.putString("parent", "HomeActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// // case R.id.Feedback:
-	// // i = new Intent(this, FeedbackActivity.class);
-	// // break;
-	// case R.id.StoreReviewActivity:
-	// i = new Intent(this, StoreReviewActivity.class);
-	// b.putString("parent", "HomeActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// // case R.id.delProduct:
-	// // i = new Intent(this, DeleteProduct.class);
-	// // b.putString("parent", "HomeActivity");
-	// // i.putExtras(b);
-	// // startActivityForResult(i, 1);
-	// // break;
-	// case R.id.addUser:
-	// i = new Intent(this, AddUser.class);
-	// b.putString("parent", "HomeActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// case R.id.addProduct:
-	// i = new Intent(this, AddProduct.class);
-	// b.putString("parent", "HomeActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// // case R.id.delUser:
-	// // i = new Intent(this, DeleteUser.class);
-	// // b.putString("parent", "HomeActivity");
-	// // i.putExtras(b);
-	// // startActivityForResult(i, 1);
-	// // break;
-	// case R.id.AddBanded:
-	// i = new Intent(this, AddBandedOffer.class);
-	// // rbmView.toggleMenu();
-	// b.putString("parent", "HomeActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// case R.id.AddDiscount:
-	// i = new Intent(this, AddDiscountProductActivity.class);
-	// // rbmView.toggleMenu();
-	// b.putString("parent", "HomeActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// default:
-	// break;
-	// }
-	// }
+
 }

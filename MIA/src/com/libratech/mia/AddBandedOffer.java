@@ -1,6 +1,8 @@
 package com.libratech.mia;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,37 +39,41 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 	View allList, list, details, bandedList;
 	ListView lv, blv;
 	ExpandableListView exlv;
-	ImageButton imgB;
+	Button imgB;
 	TextView name, price, weight, brand, uom, upc;
-	ArrayList<Product> banded = new ArrayList<Product>();
-	ArrayList<Product> allProd = new ArrayList<Product>();
+	ArrayList<Product> bandedProd = new ArrayList<Product>();
+	ArrayList<Product> allProd = HomeActivity.aProducts;
 	ArrayList<BandedProduct> bList = new ArrayList<BandedProduct>();
-	Button add, remove, submit;
-	Product p;
+	Button add, remove, submit, addB;
+	Product p = new Product();;
+	String compID = HomeActivity.storeID;
+	String empID = HomeActivity.empID;
+	boolean all, banded, mod;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		all = banded = mod = false;
 		setContentView(R.layout.add_banded_offer);
 		allList = (View) findViewById(R.id.AllbandedListView);
 		exlv = (ExpandableListView) allList.findViewById(R.id.AllBandedList);
-		allList.setVisibility(View.GONE);
+		// allList.setVisibility(View.GONE);
 		list = (View) findViewById(R.id.bandedListView);
 		lv = (ListView) list.findViewById(R.id.bandedList);
-		imgB = (ImageButton) list.findViewById(R.id.add);
+		imgB = (Button) list.findViewById(R.id.add);
 		submit = (Button) list.findViewById(R.id.submit);
-		list.setVisibility(View.GONE);
+		// list.setVisibility(View.GONE);
 		details = (View) findViewById(R.id.bandedDetail);
 		bandedList = (View) findViewById(R.id.bandedOffers);
 		blv = (ListView) bandedList.findViewById(R.id.banded);
-		bandedList.setVisibility(View.VISIBLE);
+		addB = (Button) bandedList.findViewById(R.id.newBandedOffer);
+		banded = true;
 		name = (TextView) details.findViewById(R.id.name);
 		brand = (TextView) details.findViewById(R.id.brand);
 		upc = (TextView) details.findViewById(R.id.upc);
 		uom = (TextView) details.findViewById(R.id.uom);
 		add = (Button) details.findViewById(R.id.addProd);
 		remove = (Button) details.findViewById(R.id.cancel);
-		details.setVisibility(View.GONE);
 
 		exlv.setOnChildClickListener(new OnChildClickListener() {
 
@@ -77,7 +83,9 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 				// TODO Auto-generated method stub
 				p = ((AllAdapter) exlv.getExpandableListAdapter()).getProduct(
 						groupPosition, childPosition);
-				list.setVisibility(View.GONE);
+				all = false;
+				mod = true;
+				allList.setVisibility(View.GONE);
 				details.setVisibility(View.VISIBLE);
 				name.setText(p.getProductName());
 				brand.setText(p.getBrand());
@@ -86,15 +94,29 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 			}
 
 		});
+
+		addB.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				banded = false;
+				all = true;
+				bandedList.setVisibility(View.GONE);
+				allList.setVisibility(View.VISIBLE);
+			}
+		});
+
 		add.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				mod = true;
 				list.setVisibility(View.GONE);
 				details.setVisibility(View.VISIBLE);
 				if (p != null) {
-					banded.add(p);
+					bandedProd.add(p);
 				} else {
 					Toast.makeText(getApplicationContext(),
 							"No product selected", Toast.LENGTH_SHORT).show();
@@ -102,11 +124,10 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 			}
 		});
 		remove.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (banded.remove(p)) {
+				if (bandedProd.remove(p)) {
 					details.setVisibility(View.GONE);
 					list.setVisibility(View.VISIBLE);
 				} else {
@@ -132,7 +153,7 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 				Builder dg = new Builder(getApplicationContext());
 				dg.setTitle("Confirm Submission");
 				String s = "Confirm bundle of:\n";
-				for (Product p : banded) {
+				for (Product p : bandedProd) {
 					s += p.getProductName() + "\n";
 				}
 				dg.setMessage(s);
@@ -143,9 +164,9 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								// TODO Auto-generated method stub
-								String s = banded.get(0).getUpcCode();
-								for (int i = 1; i < banded.size(); i++) {
-									s += "-" + banded.get(i).getUpcCode();
+								String s = bandedProd.get(0).getUpcCode();
+								for (int i = 1; i < bandedProd.size(); i++) {
+									s += "-" + bandedProd.get(i).getUpcCode();
 								}
 								new PushBanded().execute("");
 							}
@@ -158,13 +179,13 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				banded = bList.get(position).getProducts();
-				lv.setAdapter(new BandedAdapter(AddBandedOffer.this, banded));
+				bandedProd = bList.get(position).getProducts();
+				lv.setAdapter(new BandedAdapter(AddBandedOffer.this, bandedProd));
 				bandedList.setVisibility(View.GONE);
 				list.setVisibility(View.VISIBLE);
 			}
 		});
-		lv.setAdapter(new BandedAdapter(this, banded));
+		lv.setAdapter(new BandedAdapter(this, bandedProd));
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -172,15 +193,22 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 				// TODO Auto-generated method stub
 				list.setVisibility(View.GONE);
 				details.setVisibility(View.VISIBLE);
-				p = banded.get(position);
+				p = bandedProd.get(position);
 				name.setText(p.getProductName());
 				brand.setText(p.getBrand());
 				uom.setText(p.getUom());
 				p = null;
 			}
 		});
-
-		getActionBar().setDisplayShowHomeEnabled(true);
+		Date date = new Date();
+		String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+				.format(date);
+		new getBandedProducts()
+				.execute(("http://holycrosschurchjm.com/MIA_mysql.php?bandedProducts=yes&comp_id="
+						+ compID + "&rec_date=" + dateString).replace(" ",
+						"%20"));
+		exlv.setAdapter(new AllAdapter(getApplicationContext(), allProd));
+		getActionBar().setHomeButtonEnabled(true);
 	}
 
 	class PushBanded extends AsyncTask<String, Void, Boolean> {

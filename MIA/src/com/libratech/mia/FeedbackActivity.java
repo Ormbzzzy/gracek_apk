@@ -136,6 +136,10 @@ public class FeedbackActivity extends Activity implements iRibbonMenuCallback {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if (day != 0 && !brand.getText().equals("Brand")) {
+					if (urg.equals("")) {
+						if (!urgent.isChecked())
+							urg = "no";
+					}
 					String dateString = new SimpleDateFormat(
 							"yyyy-MM-dd HH:mm:ss").format(new Date());
 					String expString = new SimpleDateFormat("yyyy-MM-dd")
@@ -178,6 +182,7 @@ public class FeedbackActivity extends Activity implements iRibbonMenuCallback {
 			Toast.makeText(getApplicationContext(),
 					"Expiration feedback submitted.", Toast.LENGTH_SHORT)
 					.show();
+			finish();
 		}
 	}
 

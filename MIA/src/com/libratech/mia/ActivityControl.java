@@ -103,6 +103,12 @@ public class ActivityControl {
 			i.putExtras(b);
 			ctx.startActivity(i);
 			break;
+		case R.id.Sample:
+			i = new Intent(ctx.getApplicationContext(), InStoreSampling.class);
+			b.putString("parent", parent);
+			i.putExtras(b);
+			ctx.startActivity(i);
+			break;
 		// case R.id.PromoNav:
 		// i = new Intent(ctx.getApplicationContext(), DeleteStore.class);
 		// b.putString("parent", parent);

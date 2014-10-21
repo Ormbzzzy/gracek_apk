@@ -40,6 +40,12 @@ public class Product {
 		this.photo = photo;
 	}
 
+	public Product() {
+		// TODO Auto-generated constructor stub
+		this.upcCode = this.weight = this.productName = this.description = this.brand = this.category = this.uom = this.gct = this.photo = "";
+		this.price = (float) 0.00;
+	}
+
 	public String getUpcCode() {
 		return upcCode;
 	}
