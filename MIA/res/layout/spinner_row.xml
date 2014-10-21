@@ -6,11 +6,10 @@
     android:orientation="vertical" >
 
     <TextView
+
         android:id="@+id/spinText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="20dp"/>
-        <!-- android:minHeight="?android:attr/listPreferredItemHeight" --> 
-        
+        android:minHeight="20dp"/>        
 
 </LinearLayout>

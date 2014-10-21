@@ -14,6 +14,12 @@
         android:title="Scan Item">
     </item>
     <item
+        android:id="@+id/AllProducts"
+        android:icon="@drawable/ic_action_select_all"
+        android:orderInCategory="5"
+        android:title="All Products">
+    </item>
+    <item
         android:id="@+id/AddBanded"
         android:icon="@drawable/ic_action_new"
         android:orderInCategory="3"
@@ -26,10 +32,10 @@
         android:title="Discounted Products">
     </item>
     <item
-        android:id="@+id/AllProducts"
+        android:id="@+id/Sample"
         android:icon="@drawable/ic_action_select_all"
         android:orderInCategory="5"
-        android:title="All Products">
+        android:title="Samples">
     </item>
     <item
         android:id="@+id/Suggestion"
@@ -37,7 +43,6 @@
         android:orderInCategory="5"
         android:title="Suggestions">
     </item>
-
     <item
         android:id="@+id/Feedback"
         android:icon="@drawable/ic_action_select_all"
