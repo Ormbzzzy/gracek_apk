@@ -188,14 +188,6 @@ public class AllProductsActivity extends Activity implements
 		}
 
 		@Override
-		protected void onPreExecute() {
-
-			Toast.makeText(AllProductsActivity.this, "Loading products.",
-					Toast.LENGTH_SHORT).show();
-			super.onPreExecute();
-		}
-
-		@Override
 		protected void onPostExecute(JSONArray result) {
 			String upc, name, desc, brand, category, uom, gct, photo, weight;
 			name = desc = brand = category = uom = gct = photo = upc = weight = "";
@@ -290,8 +282,7 @@ public class AllProductsActivity extends Activity implements
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 
-		ActivityControl.changeActivity(this, itemId, position, rbmView,
-				getIntent().getStringExtra("parent"));
+		ActivityControl.changeActivity(this, itemId, getIntent().getStringExtra("parent"));
 	}
 
 	// @Override

@@ -72,6 +72,7 @@ public class AllAdapter extends BaseExpandableListAdapter {
 		}
 		TextView name = (TextView) vi.findViewById(R.id.allName);
 		TextView brand = (TextView) vi.findViewById(R.id.allBrand);
+		brand.setVisibility(View.GONE);
 		name.setText(pList.get(groupPosition).getList().get(childPosition)
 				.getProductName());
 		brand.setText(pList.get(groupPosition).getList().get(childPosition)

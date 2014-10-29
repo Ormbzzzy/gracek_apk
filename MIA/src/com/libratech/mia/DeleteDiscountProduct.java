@@ -179,7 +179,6 @@ public class DeleteDiscountProduct extends Activity implements
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 
-		ActivityControl.changeActivity(this, itemId, position, rbmView,
-				"HomeActivity");
+		ActivityControl.changeActivity(this, itemId, "HomeActivity");
 	}
 }

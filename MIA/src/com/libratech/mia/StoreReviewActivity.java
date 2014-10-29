@@ -421,8 +421,9 @@ public class StoreReviewActivity extends Activity implements
 
 	@Override
 	protected void onResume() {
-
 		super.onResume();
+		if (storeList.size() != 0)
+			listLoad.setVisibility(ProgressBar.GONE);
 	}
 
 	@Override
@@ -452,6 +453,10 @@ public class StoreReviewActivity extends Activity implements
 			LayoutInflater inflater = (LayoutInflater) StoreReviewActivity.this
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			inflater.inflate(R.layout.store_review, null);
+			listLoad = (ProgressBar) findViewById(R.id.allstorereview_progress);
+			if (storeList.size() != 0) {
+				listLoad.setVisibility(View.GONE);
+			}
 			setupMenu();
 			setupList();
 			lv.setAdapter(adapter);
@@ -502,8 +507,7 @@ public class StoreReviewActivity extends Activity implements
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 
-		ActivityControl.changeActivity(this, itemId, position, rbmView,
-				"StoreReviewActivity");
+		ActivityControl.changeActivity(this, itemId, "StoreReviewActivity");
 	}
 
 	public boolean isConnected() {

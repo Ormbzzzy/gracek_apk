@@ -5,11 +5,13 @@ public class User {
 	String id;
 	String fName;
 	String lName;
+	String role;
 
-	public User(String id, String fName, String lName) {
+	public User(String id, String fName, String lName, String role) {
 		this.fName = fName;
 		this.lName = lName;
 		this.id = id;
+		this.role = role;
 	}
 
 	public String getId() {
@@ -24,4 +26,7 @@ public class User {
 		return lName;
 	}
 
+	public String getRole() {
+		return role;
+	}
 }

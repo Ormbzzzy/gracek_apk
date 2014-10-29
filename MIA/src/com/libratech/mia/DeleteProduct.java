@@ -78,6 +78,7 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 						.getProduct(groupPosition, childPosition);
 				upc = (TextView) findViewById(R.id.upc);
 				update = (Button) findViewById(R.id.confirm);
+				cancel = (Button) findViewById(R.id.cancel);
 				update.setText("Delete");
 				brand = (TextView) findViewById(R.id.Brand);
 				name = (TextView) findViewById(R.id.Name);
@@ -93,6 +94,13 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 				price.setText(String.valueOf(p.getPrice()));
 				weight.setText(p.getWeight());
 				uom.setText(p.getUom());
+				cancel.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						finish();
+					}
+				});
 				update.setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -194,6 +202,7 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 			pList.clear();
 			ad = new AllAdapter(DeleteProduct.this, pList);
 			listview.setAdapter(ad);
+			ad.notifyDataSetChanged();
 			for (int i = 0; i < result.length(); i++) {
 				try {
 					upc = result.getJSONArray(i).getString(0);
@@ -256,81 +265,7 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 
-		ActivityControl.changeActivity(this, itemId, position, rbmView,
-				"StoreReviewActivity");
+		ActivityControl.changeActivity(this, itemId, "StoreReviewActivity");
 	}
-	//
-	// @Override
-	// public void RibbonMenuItemClick(int itemId, int position) {
-	//
-	// Bundle b = new Bundle();
-	// Intent i = new Intent();
-	// switch (itemId) {
-	// case R.id.HomeActivity:
-	// i = new Intent(this, StoreReviewActivity.class);
-	// b.putString("parent", "StoreReviewActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// case R.id.AllProducts:
-	// i = new Intent(this, AllProductsActivity.class);
-	// b.putString("parent", "StoreReviewActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// case R.id.ScanItemActivity:
-	// i = new Intent(this, ScanActivity.class);
-	// b.putString("parent", "StoreReviewActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// // case R.id.Feedback:
-	// // i = new Intent(this, FeedbackActivity.class);
-	// // break;
-	// case R.id.StoreReviewActivity:
-	// i = new Intent(this, StoreReviewActivity.class);
-	// b.putString("parent", "StoreReviewActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	//
-	// break;
-	// case R.id.delProduct:
-	// rbmView.toggleMenu();
-	// break;
-	// case R.id.addUser:
-	// i = new Intent(this, AddUser.class);
-	// b.putString("parent", "StoreReviewActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// case R.id.addProduct:
-	// i = new Intent(this, AddProduct.class);
-	// b.putString("parent", "StoreReviewActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// case R.id.delUser:
-	// i = new Intent(this, DeleteUser.class);
-	// b.putString("parent", "StoreReviewActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// case R.id.addStore:
-	// i = new Intent(this, AddStore.class);
-	// b.putString("parent", "StoreReviewActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	//
-	// case R.id.delStore:
-	// i = new Intent(this, DeleteStore.class);
-	// b.putString("parent", "StoreReviewActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// default:
-	// break;
-	// }
-	// }
 
 }

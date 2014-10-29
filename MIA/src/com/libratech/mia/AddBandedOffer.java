@@ -57,12 +57,10 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 		setContentView(R.layout.add_banded_offer);
 		allList = (View) findViewById(R.id.AllbandedListView);
 		exlv = (ExpandableListView) allList.findViewById(R.id.AllBandedList);
-		// allList.setVisibility(View.GONE);
 		list = (View) findViewById(R.id.bandedListView);
 		lv = (ListView) list.findViewById(R.id.bandedList);
 		imgB = (Button) list.findViewById(R.id.add);
 		submit = (Button) list.findViewById(R.id.submit);
-		// list.setVisibility(View.GONE);
 		details = (View) findViewById(R.id.bandedDetail);
 		bandedList = (View) findViewById(R.id.bandedOffers);
 		blv = (ListView) bandedList.findViewById(R.id.banded);
@@ -85,6 +83,8 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 						groupPosition, childPosition);
 				all = false;
 				mod = true;
+				Toast.makeText(getApplicationContext(), p.getProductName(),
+						Toast.LENGTH_SHORT).show();
 				allList.setVisibility(View.GONE);
 				details.setVisibility(View.VISIBLE);
 				name.setText(p.getProductName());
@@ -345,8 +345,7 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 
-		ActivityControl.changeActivity(this, itemId, position, rbmView,
-				"HomeActivity");
+		ActivityControl.changeActivity(this, itemId, "HomeActivity");
 	}
 
 	// @Override

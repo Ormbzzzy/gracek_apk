@@ -21,6 +21,7 @@ public class UserAdapter extends BaseAdapter {
 
 	public UserAdapter(Context ctx, ArrayList<User> emp) {
 		this.emp = emp;
+		context = ctx;
 	}
 
 	@Override

@@ -1,12 +1,12 @@
 package com.libratech.mia;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -18,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -64,6 +66,9 @@ public class AddDiscountProductActivity extends Activity implements
 		listView = (View) findViewById(R.id.AllDiscountListView);
 		list = (ExpandableListView) listView.findViewById(R.id.AllDiscountList);
 		listView.setVisibility(View.GONE);
+		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
+		rbmView.setMenuClickCallback(this);
+		rbmView.setMenuItems(R.menu.home);
 		details = (View) findViewById(R.id.discountDetail);
 		discounts = (View) findViewById(R.id.discounts);
 		discounts.setVisibility(View.VISIBLE);
@@ -80,8 +85,8 @@ public class AddDiscountProductActivity extends Activity implements
 		cancel = (Button) details.findViewById(R.id.cancel);
 		confirm = (Button) details.findViewById(R.id.addProd);
 		List<String> type = new ArrayList<String>();
-		type.add("$");
-		type.add("%");
+		type.add("$ Off item");
+		type.add("% Off item");
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, type);
 		dataAdapter
@@ -127,8 +132,6 @@ public class AddDiscountProductActivity extends Activity implements
 
 		});
 		details.setVisibility(View.GONE);
-		new getProducts()
-				.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");
 		confirm.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -138,33 +141,20 @@ public class AddDiscountProductActivity extends Activity implements
 					Date date = new Date();
 					String dateString = new SimpleDateFormat(
 							"yyyy-MM-dd HH:mm:ss").format(date);
-					// try {
-					// new AddDiscount().execute(URLEncoder.encode(
-					// "http://holycrosschurchjm.com/MIA_mysql.php?addDiscountedProduct=yes&merch_id="
-					// + empID + "&comp_id=" + compID
-					// + "&rec_date=" + dateString
-					// + "&upc_code=" + upc.getText()
-					// + "&discValue=" + value.getText()
-					// + "&disType="
-					// + (String) sp.getSelectedItem(),
-					// "UTF-8"));
-					// } catch (UnsupportedEncodingException e) {
-					// // TODO Auto-generated catch block
-					// e.printStackTrace();
-					// }
-					new AddDiscount()
-							.execute(("http://holycrosschurchjm.com/MIA_mysql.php?addDiscountedProduct=yes&merch_id="
-									+ empID
-									+ "&comp_id="
-									+ compID
-									+ "&rec_date="
-									+ dateString
-									+ "&upc_code="
-									+ upc.getText()
-									+ "&discValue="
-									+ value.getText() + "&disType=" + (String) sp
-									.getSelectedItem()).replace("%", "%25")
-									.replace("$", "%24").replace(" ", "%20"));
+
+					ArrayList<NameValuePair> nvp = new ArrayList<NameValuePair>();
+					nvp.add(new BasicNameValuePair("addDiscountedProduct",
+							"yes"));
+					nvp.add(new BasicNameValuePair("merch_id", empID));
+					nvp.add(new BasicNameValuePair("comp_id", compID));
+					nvp.add(new BasicNameValuePair("rec_date", dateString));
+					nvp.add(new BasicNameValuePair("upc_code", upc.getText()
+							.toString()));
+					nvp.add(new BasicNameValuePair("discValue", value.getText()
+							.toString()));
+					nvp.add(new BasicNameValuePair("discType", (String) sp
+							.getSelectedItem()));
+					new AddDiscount().execute(nvp);
 				} else {
 					Toast.makeText(getApplicationContext(),
 							"Please enter a discount value.", Toast.LENGTH_LONG)
@@ -172,7 +162,29 @@ public class AddDiscountProductActivity extends Activity implements
 				}
 			}
 		});
+		dList.setOnItemClickListener(new OnItemClickListener() {
 
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				discounts.setVisibility(View.GONE);
+				details.setVisibility(View.VISIBLE);
+				DiscountedProduct d = data.get(position);
+				upc.setText(d.getUpc());
+				weight.setText(d.getWeight());
+				name.setText(d.getName());
+				brand.setText(d.getBrand());
+				uom.setText(d.getUom());
+				value.setText(d.getDiscValue());
+				if (d.getDiscType().contains("%")) {
+					sp.setSelection(1);
+				} else {
+					sp.setSelection(0);
+				}
+			}
+
+		});
 		cancel.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -180,14 +192,24 @@ public class AddDiscountProductActivity extends Activity implements
 				// TODO Auto-generated method stub
 				listView.setVisibility(View.VISIBLE);
 				details.setVisibility(View.GONE);
+
 			}
 		});
-		getActionBar().setHomeButtonEnabled(true);
+		Date date = new Date();
+		String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+				.format(date);
+		new getDiscounts()
+				.execute(("http://holycrosschurchjm.com/MIA_mysql.php?discountedProducts=yes&comp_id="
+						+ compID + "&rec_date=" + dateString).replace(" ",
+						"%20"));
+		list.setAdapter(new AllAdapter(AddDiscountProductActivity.this,
+				products));
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
-	class AddDiscount extends AsyncTask<String, Void, String> {
-		protected String doInBackground(String... url) {
-			new DatabaseConnector().DBPush(url[0]);
+	class AddDiscount extends AsyncTask<ArrayList<NameValuePair>, Void, String> {
+		protected String doInBackground(ArrayList<NameValuePair>... url) {
+			new DatabaseConnector().DBSubmit(url[0]);
 			return "";
 		}
 
@@ -199,6 +221,7 @@ public class AddDiscountProductActivity extends Activity implements
 					Toast.LENGTH_SHORT).show();
 			finish();
 		}
+
 	}
 
 	@Override
@@ -209,48 +232,6 @@ public class AddDiscountProductActivity extends Activity implements
 		return true;
 	}
 
-	class getProducts extends AsyncTask<String, Void, JSONArray> {
-		protected JSONArray doInBackground(String... url) {
-			return new DatabaseConnector().dbPull(url[0]);
-		}
-
-		@Override
-		protected void onPreExecute() {
-
-			Toast.makeText(AddDiscountProductActivity.this,
-					"Loading products.", Toast.LENGTH_SHORT).show();
-			super.onPreExecute();
-		}
-
-		@Override
-		protected void onPostExecute(JSONArray result) {
-			String upc, name, desc, brand, category, uom, gct, photo, weight;
-			name = desc = brand = category = uom = gct = photo = upc = weight = "";
-			float price = (float) 0.00;
-			for (int i = 0; i < result.length(); i++) {
-				try {
-					upc = result.getJSONArray(i).getString(0);
-					name = result.getJSONArray(i).getString(1);
-					desc = result.getJSONArray(i).getString(2);
-					brand = result.getJSONArray(i).getString(3);
-					category = result.getJSONArray(i).getString(4);
-					weight = result.getJSONArray(i).getString(5);
-					uom = result.getJSONArray(i).getString(6);
-					photo = result.getJSONArray(i).getString(7);// price
-				} catch (JSONException e1) {
-					e1.printStackTrace();
-				}
-				products.add(new Product(upc, weight, name, desc, brand,
-						category, uom, price, gct, photo));
-
-			}
-			Toast.makeText(AddDiscountProductActivity.this, "Products loaded.",
-					Toast.LENGTH_SHORT).show();
-			list.setAdapter(new AllAdapter(AddDiscountProductActivity.this,
-					products));
-		}
-	}
-
 	class getDiscounts extends AsyncTask<String, Void, JSONArray> {
 		protected JSONArray doInBackground(String... url) {
 			return new DatabaseConnector().dbPull(url[0]);
@@ -259,7 +240,7 @@ public class AddDiscountProductActivity extends Activity implements
 		@Override
 		protected void onPreExecute() {
 
-			Toast.makeText(getApplicationContext(), "Loading products.",
+			Toast.makeText(getApplicationContext(), "Loading discounts.",
 					Toast.LENGTH_SHORT).show();
 			super.onPreExecute();
 		}
@@ -286,8 +267,6 @@ public class AddDiscountProductActivity extends Activity implements
 						value, type, photo));
 			}
 			dList.setAdapter(new DiscountAdapter(data, getApplicationContext()));
-			Toast.makeText(getApplicationContext(), " loaded.",
-					Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -315,8 +294,7 @@ public class AddDiscountProductActivity extends Activity implements
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 
-		ActivityControl.changeActivity(this, itemId, position, rbmView,
-				"HomeActivity");
+		ActivityControl.changeActivity(this, itemId, "HomeActivity");
 	}
 
 }

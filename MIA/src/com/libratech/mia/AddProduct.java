@@ -299,8 +299,7 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 
-		ActivityControl.changeActivity(this, itemId, position, rbmView,
-				"HomeActivity");
+		ActivityControl.changeActivity(this, itemId, "HomeActivity");
 	}
 
 	// @Override

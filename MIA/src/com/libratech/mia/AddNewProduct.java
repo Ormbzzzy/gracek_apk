@@ -40,6 +40,7 @@ import android.widget.Toast;
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.libratech.mia.HomeActivity.getStoreInfo;
 
 public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 
@@ -64,6 +65,9 @@ public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_product);
 		// Show the Up button in the action bar.
+		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
+		rbmView.setMenuClickCallback(this);
+		rbmView.setMenuItems(R.menu.home);
 		image = (ImageView) findViewById(R.id.addPhoto);
 		upc = (EditText) findViewById(R.id.upc);
 		scan = (ImageButton) findViewById(R.id.scanButton);
@@ -201,7 +205,7 @@ public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 	private void setupMenu() {
 		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 		rbmView.setMenuClickCallback(this);
-		rbmView.setMenuItems(R.menu.manager_menu);
+		rbmView.setMenuItems(R.menu.home);
 	}
 
 	private void setupActionBar() {
@@ -302,19 +306,29 @@ public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+
 		switch (item.getItemId()) {
+
 		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
+			rbmView.toggleMenu();
 			return true;
+
+		case R.id.logout:
+			EasyTracker.getInstance(this).activityStop(this);
+			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(i);
+			return true;
+
+		default:
+			return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 
-		ActivityControl.changeActivity(this, itemId, position, rbmView,
-				"HomeActivity");
+		ActivityControl.changeActivity(this, itemId, "HomeActivity");
 	}
 
 	// @Override

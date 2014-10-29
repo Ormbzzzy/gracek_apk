@@ -117,8 +117,7 @@ public class AddStore extends Activity implements iRibbonMenuCallback {
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 
-		ActivityControl.changeActivity(this, itemId, position, rbmView,
-				"StoreReviewActivity");
+		ActivityControl.changeActivity(this, itemId, "StoreReviewActivity");
 	}
 	// @Override
 	// public void RibbonMenuItemClick(int itemId, int position) {

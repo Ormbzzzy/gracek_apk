@@ -27,8 +27,7 @@ import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.libratech.mia.models.User;
 
-public class DeleteUser extends Activity implements
-iRibbonMenuCallback {
+public class DeleteUser extends Activity implements iRibbonMenuCallback {
 
 	ListView lv;
 	View details;
@@ -55,16 +54,18 @@ iRibbonMenuCallback {
 				idTv.setText(u.getId());
 				fName.setText(u.getfName());
 				lName.setText(u.getlName());
+				role.setText(u.getRole());
 			}
 
 		});
 		details = (View) findViewById(R.id.userDetails);
 		details.setVisibility(View.GONE);
-		idTv = (TextView) findViewById(R.id.userID);
-		fName = (TextView) findViewById(R.id.firstName);
-		lName = (TextView) findViewById(R.id.lastName);
-		role = (TextView) findViewById(R.id.userRole);
+		idTv = (TextView) details.findViewById(R.id.userID);
+		fName = (TextView) details.findViewById(R.id.firstName);
+		lName = (TextView) details.findViewById(R.id.lastName);
+		role = (TextView) details.findViewById(R.id.userRole);
 		cancel = (Button) findViewById(R.id.cancel);
+		confirm = (Button) findViewById(R.id.deleteUser);
 		confirm.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -92,7 +93,6 @@ iRibbonMenuCallback {
 												+ idTv.getText());
 								details.setVisibility(View.GONE);
 								lv.setVisibility(View.VISIBLE);
-								
 
 							}
 						});
@@ -119,6 +119,7 @@ iRibbonMenuCallback {
 		rbmView.setMenuClickCallback(this);
 		rbmView.setMenuItems(R.menu.manager_menu);
 	}
+
 	private class deleteUser extends AsyncTask<String, Void, Boolean> {
 
 		@Override
@@ -145,23 +146,24 @@ iRibbonMenuCallback {
 		protected void onPostExecute(JSONArray result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			String id, fName, lName;
-			id = fName = lName = "";
+			String id, fName, lName, role;
+			id = fName = lName = role = "";
 			emp.clear();
 			for (int i = 0; i < result.length(); i++) {
 				try {
 					id = result.getJSONArray(i).getString(0);
 					fName = result.getJSONArray(i).getString(1);
 					lName = result.getJSONArray(i).getString(2);
+					role = result.getJSONArray(i).getString(3);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				emp.add(new User(id, fName, lName));
+				emp.add(new User(id, fName, lName,role));
 			}
 			lv.setAdapter(new UserAdapter(DeleteUser.this, emp));
 		}
 	}
-	
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -202,8 +204,7 @@ iRibbonMenuCallback {
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 
-		ActivityControl.changeActivity(this, itemId, position, rbmView,
-				"StoreReviewActivity");
+		ActivityControl.changeActivity(this, itemId, "StoreReviewActivity");
 	}
 	// @Override
 	// public void RibbonMenuItemClick(int itemId, int position) {

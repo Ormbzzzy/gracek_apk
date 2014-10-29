@@ -47,7 +47,7 @@ public class DeleteStore extends Activity implements iRibbonMenuCallback {
 		setContentView(R.layout.activity_delete_store);
 		dg = new AlertDialog.Builder(this);
 		dg.setTitle("Are you sure?");
-		dg.setMessage("Doing this will permanently remove all data related to this store from the database!");
+		dg.setMessage("Doing this will remove all data related to this store from the application!");
 		dg.setPositiveButton("Yes, I'm Sure.",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialogInterface, int i) {
@@ -229,8 +229,7 @@ public class DeleteStore extends Activity implements iRibbonMenuCallback {
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 
-		ActivityControl.changeActivity(this, itemId, position, rbmView,
-				"StoreReviewActivity");
+		ActivityControl.changeActivity(this, itemId, "StoreReviewActivity");
 	}
 	// @Override
 	// public void RibbonMenuItemClick(int itemId, int position) {
