@@ -373,8 +373,8 @@ public class UpdateProductActivity extends Activity {
 			if (result == null) {
 				img.setImageDrawable(getResources().getDrawable(
 						R.drawable.no_image));
-				Toast.makeText(getApplicationContext(), "Image not found.",
-						Toast.LENGTH_SHORT).show();
+				// Toast.makeText(getApplicationContext(), "Image not found.",
+				//			Toast.LENGTH_SHORT).show();
 			} else {
 				img.setImageBitmap(result);
 				int nh = (int) (result.getHeight() / (result.getWidth() / 200));

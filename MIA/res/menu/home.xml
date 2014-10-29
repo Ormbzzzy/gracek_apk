@@ -19,49 +19,52 @@
         android:orderInCategory="5"
         android:title="All Products">
     </item>
-    <item
-        android:id="@+id/AddBanded"
-        android:icon="@drawable/ic_action_new"
-        android:orderInCategory="3"
-        android:title="Banded Offers">
-    </item>
-    <item
-        android:id="@+id/AddDiscount"
-        android:icon="@drawable/ic_action_new"
-        android:orderInCategory="4"
-        android:title="Discounted Products">
-    </item>
-    <item
-        android:id="@+id/Sample"
-        android:icon="@drawable/ic_action_select_all"
-        android:orderInCategory="5"
-        android:title="Samples">
-    </item>
-    <item
-        android:id="@+id/newProd"
-        android:icon="@drawable/ic_action_select_all"
-        android:orderInCategory="5"
-        android:title="New Product">
-    </item>
-    <item
-        android:id="@+id/Suggestion"
-        android:icon="@drawable/ic_action_select_all"
-        android:orderInCategory="5"
-        android:title="Add Suggestion">
-    </item>
-    
-    <item
-        android:id="@+id/SuggestionView"
-        android:icon="@drawable/ic_action_select_all"
-        android:orderInCategory="5"
-        android:title="View Suggestions">
-    </item>
-    <item
-        android:id="@+id/Feedback"
-        android:icon="@drawable/ic_action_select_all"
-        android:orderInCategory="5"
-        android:title="Feedback">
-    </item>
+    <!-- <item -->
+    <!-- android:id="@+id/AddBanded" -->
+    <!-- android:icon="@drawable/ic_action_new" -->
+    <!-- android:orderInCategory="3" -->
+    <!-- android:title="Banded Offers"> -->
+    <!-- </item> -->
+    <!-- <item -->
+    <!-- android:id="@+id/AddDiscount" -->
+    <!-- android:icon="@drawable/ic_action_new" -->
+    <!-- android:orderInCategory="4" -->
+    <!-- android:title="Discounted Products"> -->
+    <!-- </item> -->
+    <!-- <item -->
+    <!-- android:id="@+id/Sample" -->
+    <!-- android:icon="@drawable/ic_action_select_all" -->
+    <!-- android:orderInCategory="5" -->
+    <!-- android:title="Samples"> -->
+    <!-- </item> -->
+    <!-- <item -->
+    <!-- android:id="@+id/newProd" -->
+    <!-- android:icon="@drawable/ic_action_select_all" -->
+    <!-- android:orderInCategory="5" -->
+    <!-- android:title="New Product"> -->
+    <!-- </item> -->
+    <!-- <item -->
+    <!-- android:id="@+id/Suggestion" -->
+    <!-- android:icon="@drawable/ic_action_select_all" -->
+    <!-- android:orderInCategory="5" -->
+    <!-- android:title="Add Suggestion"> -->
+    <!-- </item> -->
+
+
+    <!-- <item -->
+    <!-- android:id="@+id/SuggestionView" -->
+    <!-- android:icon="@drawable/ic_action_select_all" -->
+    <!-- android:orderInCategory="5" -->
+    <!-- android:title="View Suggestions"> -->
+    <!-- </item> -->
+
+
+    <!-- <item -->
+    <!-- android:id="@+id/Feedback" -->
+    <!-- android:icon="@drawable/ic_action_select_all" -->
+    <!-- android:orderInCategory="5" -->
+    <!-- android:title="Feedback"> -->
+    <!-- </item> -->
     <!-- <item -->
     <!-- android:id="@+id/PromoNav" -->
     <!-- android:icon="@drawable/ic_action_select_all" -->
