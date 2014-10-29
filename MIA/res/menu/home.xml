@@ -38,10 +38,23 @@
         android:title="Samples">
     </item>
     <item
+        android:id="@+id/newProd"
+        android:icon="@drawable/ic_action_select_all"
+        android:orderInCategory="5"
+        android:title="New Product">
+    </item>
+    <item
         android:id="@+id/Suggestion"
         android:icon="@drawable/ic_action_select_all"
         android:orderInCategory="5"
-        android:title="Suggestions">
+        android:title="Add Suggestion">
+    </item>
+    
+    <item
+        android:id="@+id/SuggestionView"
+        android:icon="@drawable/ic_action_select_all"
+        android:orderInCategory="5"
+        android:title="View Suggestions">
     </item>
     <item
         android:id="@+id/Feedback"
@@ -71,12 +84,5 @@
     <!-- android:orderInCategory="6" -->
     <!-- android:title="Suggestion Box"> -->
     <!-- </item><item -->
-
-        android:id="@+id/Feedback"
-        android:icon="@drawable/ic_launcher"
-        android:orderInCategory="3"
-        android:title="Feedback">
-    <item>
-    </item>
 
 </menu>

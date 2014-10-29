@@ -47,8 +47,8 @@
 
                 <ImageButton
                     android:id="@+id/sampleScan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="45dp"
+                    android:layout_height="35dp"
                     android:src="@drawable/ic_action_camera" />
             </LinearLayout>
 
@@ -96,86 +96,86 @@
                     android:inputType="number"
                     android:text="Brand"
                     android:textSize="20sp" />
+            </LinearLayout>
 
-                <LinearLayout
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="horizontal" >
+                    android:text="Date of Sampling: "
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Date of Sampling: "
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                <Button
+                    android:id="@+id/DateButton"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:text="Set Date" />
+            </LinearLayout>
 
-                    <Button
-                        android:id="@+id/DateButton"
-                        android:layout_width="100dp"
-                        android:layout_height="50dp"
-                        android:text="Set Date" />
-                </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal" >
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="horizontal" >
+                    android:text="Coments: "
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Coments: "
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/comments"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Comments"
-                        android:inputType="text"
-                        android:maxLength="160"
-                        android:textSize="20sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <EditText
+                    android:id="@+id/comments"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal"
-                    android:weightSum="100" >
+                    android:layout_weight="1"
+                    android:hint="Comments"
+                    android:inputType="text"
+                    android:maxLength="160"
+                    android:textSize="20sp" />
+            </LinearLayout>
 
-                    <Button
-                        android:id="@+id/cancel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="40"
-                        android:text="Cancel"
-                        android:textSize="20sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:weightSum="100" >
 
-                    <Button
-                        android:id="@+id/add"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="40"
-                        android:text="Add   "
-                        android:textSize="20sp" />
-                </LinearLayout>
+                <Button
+                    android:id="@+id/cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:text="Cancel"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:text="Add   "
+                    android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>
-
-        <com.darvds.ribbonmenu.RibbonMenuView
-            android:id="@+id/ribbonMenuView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-        </com.darvds.ribbonmenu.RibbonMenuView>
     </LinearLayout>
+
+    <com.darvds.ribbonmenu.RibbonMenuView
+        android:id="@+id/ribbonMenuView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </com.darvds.ribbonmenu.RibbonMenuView>
 
 </FrameLayout>
