@@ -19,75 +19,77 @@
         android:orderInCategory="2"
         android:title="All Products">
     </item>
-    <item
-        android:id="@+id/AddBanded"
-        android:icon="@drawable/ic_action_new"
-        android:orderInCategory="3"
-        android:title="Banded Offers"
-        android:visible="false">
-    </item>
-    <item
-        android:id="@+id/AddDiscount"
-        android:icon="@drawable/ic_action_new"
-        android:orderInCategory="4"
-        android:title="Discounted Products"
-        android:visible="false">
-    </item>
-    <item
-        android:id="@+id/Sample"
-        android:icon="@drawable/ic_action_select_all"
-        android:orderInCategory="5"
-        android:title="Samples"
-        android:visible="false">
-    </item>
-    <item
-        android:id="@+id/newProd"
-        android:icon="@drawable/ic_action_select_all"
-        android:orderInCategory="6"
-        android:title="New Product"
-        android:visible="false">
-    </item>
-    <item
-        android:id="@+id/Suggestion"
-        android:icon="@drawable/ic_action_select_all"
-        android:orderInCategory="7"
-        android:title="Suggestions"
-        android:visible="false">
-    </item>
-    <item
-        android:id="@+id/SuggestionView"
-        android:icon="@drawable/ic_action_select_all"
-        android:orderInCategory="8"
-        android:title="View Suggestions"
-        android:visible="false">
-    </item>
-    <item
-        android:id="@+id/Feedback"
-        android:icon="@drawable/ic_action_select_all"
-        android:orderInCategory="9"
-        android:title="Feedback"
-        android:visible="false">
-    </item>
-    <item
-        android:id="@+id/PromoNav"
-        android:icon="@drawable/ic_action_select_all"
-        android:orderInCategory="10"
-        android:title="Promotions"
-        android:visible="false">
-    </item>
-    <item
-        android:id="@+id/ExpiryNav"
-        android:icon="@drawable/ic_action_select_all"
-        android:orderInCategory="11"
-        android:title="Expired Products"
-        android:visible="false">
-    </item>
-    <item
-        android:id="@+id/SuggestionNav"
-        android:icon="@drawable/ic_action_select_all"
-        android:orderInCategory="6"
-        android:title="Suggestion Box"
-        android:visible="false">
-    </item>
+    <!-- <item -->
+    <!-- android:id="@+id/AddBanded" -->
+    <!-- android:icon="@drawable/ic_action_new" -->
+    <!-- android:orderInCategory="3" -->
+    <!-- android:title="Banded Offers" -->
+    <!-- android:visible="false"> -->
+    <!-- </item> -->
+    <!-- <item -->
+    <!-- android:id="@+id/AddDiscount" -->
+    <!-- android:icon="@drawable/ic_action_new" -->
+    <!-- android:orderInCategory="4" -->
+    <!-- android:title="Discounted Products" -->
+    <!-- android:visible="false"> -->
+    <!-- </item> -->
+    <!-- <item -->
+    <!-- android:id="@+id/Sample" -->
+    <!-- android:icon="@drawable/ic_action_select_all" -->
+    <!-- android:orderInCategory="5" -->
+    <!-- android:title="Samples" -->
+    <!-- android:visible="false"> -->
+    <!-- </item> -->
+    <!-- <item -->
+    <!-- android:id="@+id/newProd" -->
+    <!-- android:icon="@drawable/ic_action_select_all" -->
+    <!-- android:orderInCategory="6" -->
+    <!-- android:title="New Product" -->
+    <!-- android:visible="false"> -->
+    <!-- </item> -->
+    <!-- <item -->
+    <!-- android:id="@+id/Suggestion" -->
+    <!-- android:icon="@drawable/ic_action_select_all" -->
+    <!-- android:orderInCategory="7" -->
+    <!-- android:title="Suggestions" -->
+    <!-- android:visible="false"> -->
+    <!-- </item> -->
+    <!-- <item -->
+    <!-- android:id="@+id/SuggestionView" -->
+    <!-- android:icon="@drawable/ic_action_select_all" -->
+    <!-- android:orderInCategory="8" -->
+    <!-- android:title="View Suggestions" -->
+    <!-- android:visible="false"> -->
+    <!-- </item> -->
+
+    <!-- <item -->
+    <!-- android:id="@+id/Feedback" -->
+    <!-- android:icon="@drawable/ic_action_select_all" -->
+    <!-- android:orderInCategory="9" -->
+    <!-- android:title="Feedback" -->
+    <!-- android:visible="false"> -->
+    <!-- </item> -->
+    <!-- <item -->
+    <!-- android:id="@+id/PromoNav" -->
+    <!-- android:icon="@drawable/ic_action_select_all" -->
+    <!-- android:orderInCategory="10" -->
+    <!-- android:title="Promotions" -->
+    <!-- android:visible="false"> -->
+    <!-- </item> -->
+    <!-- <item -->
+    <!-- android:id="@+id/ExpiryNav" -->
+    <!-- android:icon="@drawable/ic_action_select_all" -->
+    <!-- android:orderInCategory="11" -->
+    <!-- android:title="Expired Products" -->
+    <!-- android:visible="false"> -->
+    <!-- </item> -->
+    <!-- <item -->
+    <!-- android:id="@+id/SuggestionNav" -->
+    <!-- android:icon="@drawable/ic_action_select_all" -->
+    <!-- android:orderInCategory="6" -->
+    <!-- android:title="Suggestion Box" -->
+    <!-- android:visible="false"> -->
+    <!-- </item> -->
+
 
 </menu>
