@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!-- <item -->
-    <!-- android:id="@+id/AllProducts" -->
-    <!-- android:title="Sort By" -->
-    <!-- android:showAsAction="always" -->
-    <!-- android:icon="@drawable/ic_action_sort_by_size"> -->
-    <!-- <menu> -->
-    <!-- <item android:id="@+id/name" -->
-    <!-- android:title="Sort by Name" /> -->
-    <!-- <item android:id="@+id/brand" -->
-    <!-- android:title="Sort by Brand" /> -->
-    <!-- <item android:id="@+id/category" -->
-    <!-- android:title="Sort by Category" /> -->
-    <!-- </menu> -->
-    <!-- </item> -->
+<!--     <item -->
+<!--     android:id="@+id/AllProducts" -->
+<!--     android:title="Sort By" -->
+<!--     android:showAsAction="always" -->
+<!--     android:icon="@drawable/ic_action_sort_by_size"> -->
+<!--     <menu> -->
+<!--     <item android:id="@+id/name" -->
+<!--     android:title="Sort by Name" /> -->
+<!--     <item android:id="@+id/brand" -->
+<!--     android:title="Sort by Brand" /> -->
+<!--     <item android:id="@+id/category" -->
+<!--     android:title="Sort by Category" /> -->
+<!--     </menu> -->
+<!--     </item> -->
 
     
    <item

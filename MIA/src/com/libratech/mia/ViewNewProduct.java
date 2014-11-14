@@ -25,6 +25,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,17 +44,22 @@ public class ViewNewProduct extends Activity implements iRibbonMenuCallback {
 	boolean updated = false;
 	ImageView img;
 	boolean nSort, bSort, cSort;
-	TextView name, brand, upc, uom, weight;
+	TextView name, brand, upc, uom, weight, price;
+	CheckBox gctBox;
 	String compId = HomeActivity.storeID;
 	String dateString = "";
 	Button cancel, delete;
 	Builder dg;
+	MenuItem add, del;
+	boolean prodSelected = false;
+	boolean newProd = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_new_product);
 		Date date = new Date();
+		dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
 		details = (View) findViewById(R.id.newDetails);
 		lv = (View) findViewById(R.id.newList);
 		details.setVisibility(View.GONE);
@@ -62,22 +68,27 @@ public class ViewNewProduct extends Activity implements iRibbonMenuCallback {
 		brand = (TextView) details.findViewById(R.id.Brand);
 		name = (TextView) details.findViewById(R.id.Name);
 		weight = (TextView) details.findViewById(R.id.weight);
+		price = (TextView) details.findViewById(R.id.price);
+		gctBox = (CheckBox) details.findViewById(R.id.gct);
 		uom = (TextView) details.findViewById(R.id.uom);
 		cancel = (Button) details.findViewById(R.id.cancel);
 		delete = (Button) details.findViewById(R.id.delete);
-		dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
 		nSort = bSort = cSort = true;
 		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 		rbmView.setMenuClickCallback(this);
 		dg = new AlertDialog.Builder(this);
 		dg.setTitle("Are you sure?");
-		dg.setMessage("Doing this will permanently remove all data related to this store from the database!");
+		dg.setMessage("Doing this will permanently remove this entry from the application!");
 		dg.setPositiveButton("Yes, I'm Sure.",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialogInterface, int i) {
+						Date date = new Date();
+						dateString = new SimpleDateFormat("yyyy-MM-dd")
+								.format(date);
 						new Delete()
-								.execute("http://holycrosschurchjm.com/MIA_mysql.php?deleteStore=yes&comp_id="
-										+ compId);
+								.execute("http://holycrosschurchjm.com/MIA_mysql.php?deleteNewProduct=yes&comp_id=comp-00001&rec_date="
+										+ dateString.replace(" ", "%20")
+										+ "&upc_code=" + upc.getText());
 					}
 				});
 		dg.setNegativeButton("Cancel", null);
@@ -89,7 +100,6 @@ public class ViewNewProduct extends Activity implements iRibbonMenuCallback {
 			rbmView.setMenuItems(R.menu.home);
 		}
 		listview = (ListView) lv.findViewById(R.id.alllistview);
-		listview.setFastScrollEnabled(true);
 		listview.setOnItemClickListener(new OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -97,12 +107,18 @@ public class ViewNewProduct extends Activity implements iRibbonMenuCallback {
 				// TODO Auto-generated method stub
 				lv.setVisibility(View.GONE);
 				details.setVisibility(View.VISIBLE);
+				prodSelected = true;
 				Product p = products.get(position);
 				upc.setText(p.getUpcCode());
 				name.setText(p.getProductName());
 				brand.setText(p.getBrand());
 				weight.setText(p.getWeight());
+				price.setText("" + p.getPrice());
 				uom.setText(p.getUom());
+				if (p.getGct().equals("yes")) {
+					gctBox.setChecked(true);
+				} else
+					gctBox.setChecked(false);
 			}
 		});
 		cancel.setOnClickListener(new OnClickListener() {
@@ -145,6 +161,11 @@ public class ViewNewProduct extends Activity implements iRibbonMenuCallback {
 			if (result) {
 				Toast.makeText(getApplicationContext(), "Item deleted",
 						Toast.LENGTH_SHORT).show();
+				details.setVisibility(View.GONE);
+				lv.setVisibility(View.VISIBLE);
+				new getProducts()
+						.execute("http://holycrosschurchjm.com/MIA_mysql.php?newProducts=yes&comp_id="
+								+ compId + "&rec_date=" + dateString);
 			} else {
 				Toast.makeText(getApplicationContext(), "An error occured.",
 						Toast.LENGTH_SHORT).show();
@@ -160,8 +181,9 @@ public class ViewNewProduct extends Activity implements iRibbonMenuCallback {
 		@Override
 		protected void onPostExecute(JSONArray result) {
 			String upc, name, desc, brand, category, uom, gct, photo, weight;
-			name = desc = brand = category = uom = gct = photo = upc = weight = "";
+			name = desc = brand = category = uom = gct = photo = upc = weight = gct = "";
 			float price = (float) 0.00;
+			products.clear();
 			for (int i = 0; i < result.length(); i++) {
 				try {
 					upc = result.getJSONArray(i).getString(0);
@@ -171,7 +193,9 @@ public class ViewNewProduct extends Activity implements iRibbonMenuCallback {
 					category = result.getJSONArray(i).getString(4);
 					weight = result.getJSONArray(i).getString(5);
 					uom = result.getJSONArray(i).getString(6);
-					photo = result.getJSONArray(i).getString(7);// price
+					price = (float) result.getJSONArray(i).getDouble(7);
+					gct = result.getJSONArray(i).getString(8);
+					photo = result.getJSONArray(i).getString(9);// price
 				} catch (JSONException e1) {
 					e1.printStackTrace();
 				}
@@ -191,6 +215,14 @@ public class ViewNewProduct extends Activity implements iRibbonMenuCallback {
 
 		switch (item.getItemId()) {
 
+		case R.id.newProd:
+			newProd = true;
+			startActivity(new Intent(getApplicationContext(),
+					AddNewProduct.class));
+			break;
+		case R.id.removeProd:
+			dg.show();
+			break;
 		case android.R.id.home:
 			rbmView.toggleMenu();
 			return true;
@@ -253,10 +285,23 @@ public class ViewNewProduct extends Activity implements iRibbonMenuCallback {
 		super.onResume();
 	}
 
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		del = menu.findItem(R.id.removeDiscount);
+		add = menu.findItem(R.id.newDiscount);
+		del.setVisible(prodSelected);
+		add.setVisible(!prodSelected);
+		if (newProd) {
+			del.setVisible(false);
+			add.setVisible(false);
+		}
+
+		return super.onPrepareOptionsMenu(menu);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.allprod_actionbar, menu);
+		inflater.inflate(R.menu.new_products_control, menu);
 		return true;
 	}
 }

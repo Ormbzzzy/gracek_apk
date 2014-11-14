@@ -1,6 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/newProd"
+        android:icon="@drawable/ic_action_new"
+        android:showAsAction="always"
+        android:title="Add"/>
+    <item
+        android:id="@+id/removeProd"
+        android:icon="@drawable/ic_action_discard"
+        android:showAsAction="always"
+        android:title="Remove"/>
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never"

@@ -11,6 +11,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -48,7 +51,7 @@ public class AddDiscountProductActivity extends Activity implements
 	EditText price, value;
 	Product p;
 	CheckBox gct;
-	Button confirm, cancel, add;
+	Button confirm, cancel;
 	Spinner sp;
 	RibbonMenuView rbmView;
 	ArrayList<Product> products = HomeActivity.aProducts;
@@ -58,11 +61,34 @@ public class AddDiscountProductActivity extends Activity implements
 	String compID = HomeActivity.storeID;
 	String empID = HomeActivity.empID;
 	Scanned s;
+	MenuItem add, del;
+	public boolean itemSelected = false;
+	public boolean discountSelected = false;
+	Builder dg;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_discount_product);
+		dg = new AlertDialog.Builder(this);
+		dg.setTitle("Are you sure?");
+		dg.setMessage("Doing this will remove the record of this discount");
+		dg.setPositiveButton("Yes, I'm Sure.",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialogInterface, int i) {
+						Date date = new Date();
+						String dateString = new SimpleDateFormat(
+								"yyyy-MM-dd HH:mm:ss").format(date);
+						new delDiscount()
+								.execute(("http://holycrosschurchjm.com/MIA_mysql.php?deleteDiscountedProduct=yes&comp_id="
+										+ compID
+										+ "&rec_date="
+										+ dateString
+										+ "&upc_code=" + upc.getText())
+										.replace(" ", "%20"));
+					}
+				});
+		dg.setNegativeButton("Cancel", null);
 		listView = (View) findViewById(R.id.AllDiscountListView);
 		list = (ExpandableListView) listView.findViewById(R.id.AllDiscountList);
 		listView.setVisibility(View.GONE);
@@ -79,7 +105,6 @@ public class AddDiscountProductActivity extends Activity implements
 		weight = (TextView) details.findViewById(R.id.weight);
 		uom = (TextView) details.findViewById(R.id.uom);
 		gct = (CheckBox) details.findViewById(R.id.gct);
-		add = (Button) discounts.findViewById(R.id.addDiscount);
 		value = (EditText) details.findViewById(R.id.Value);
 		sp = (Spinner) details.findViewById(R.id.discSpinner);
 		cancel = (Button) details.findViewById(R.id.cancel);
@@ -92,16 +117,16 @@ public class AddDiscountProductActivity extends Activity implements
 		dataAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		sp.setAdapter(dataAdapter);
-		add.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				discounts.setVisibility(View.GONE);
-				listView.setVisibility(View.VISIBLE);
-			}
-
-		});
+		// add.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// // TODO Auto-generated method stub
+		// discounts.setVisibility(View.GONE);
+		// listView.setVisibility(View.VISIBLE);
+		// }
+		//
+		// });
 		list.setOnChildClickListener(new OnChildClickListener() {
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v,
@@ -111,13 +136,15 @@ public class AddDiscountProductActivity extends Activity implements
 						.getProduct(groupPosition, childPosition);
 				listView.setVisibility(View.GONE);
 				details.setVisibility(View.VISIBLE);
+				itemSelected = true;
+				invalidateOptionsMenu();
 				upc.setText(p.getUpcCode());
 				weight.setText(p.getWeight());
 				name.setText(p.getProductName());
 				brand.setText(p.getBrand());
 				uom.setText(p.getUom());
 				for (Scanned sc : scanned) {
-					if (p.getUpcCode().equals(s.getUpcCode())) {
+					if (p.getUpcCode().equals(sc.getUpcCode())) {
 						s = sc;
 						break;
 					}
@@ -143,8 +170,13 @@ public class AddDiscountProductActivity extends Activity implements
 							"yyyy-MM-dd HH:mm:ss").format(date);
 
 					ArrayList<NameValuePair> nvp = new ArrayList<NameValuePair>();
-					nvp.add(new BasicNameValuePair("addDiscountedProduct",
-							"yes"));
+					if (confirm.getText().equals("Update")) {
+						nvp.add(new BasicNameValuePair(
+								"updateDiscountedProduct", "yes"));
+					} else {
+						nvp.add(new BasicNameValuePair("addDiscountedProduct",
+								"yes"));
+					}
 					nvp.add(new BasicNameValuePair("merch_id", empID));
 					nvp.add(new BasicNameValuePair("comp_id", compID));
 					nvp.add(new BasicNameValuePair("rec_date", dateString));
@@ -170,6 +202,9 @@ public class AddDiscountProductActivity extends Activity implements
 				// TODO Auto-generated method stub
 				discounts.setVisibility(View.GONE);
 				details.setVisibility(View.VISIBLE);
+				discountSelected = true;
+				invalidateOptionsMenu();
+				confirm.setText("Update");
 				DiscountedProduct d = data.get(position);
 				upc.setText(d.getUpc());
 				weight.setText(d.getWeight());
@@ -190,9 +225,10 @@ public class AddDiscountProductActivity extends Activity implements
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				listView.setVisibility(View.VISIBLE);
 				details.setVisibility(View.GONE);
-
+				discounts.setVisibility(View.VISIBLE);
+				discountSelected = false;
+				invalidateOptionsMenu();
 			}
 		});
 		Date date = new Date();
@@ -224,12 +260,52 @@ public class AddDiscountProductActivity extends Activity implements
 
 	}
 
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		// super.onPrepareOptionsMenu(menu);
+		del = menu.findItem(R.id.removeDiscount);
+		add = menu.findItem(R.id.newDiscount);
+		del.setVisible(discountSelected);
+		add.setVisible(!discountSelected);
+		if (itemSelected) {
+			del.setVisible(false);
+			add.setVisible(false);
+		}
+		return true;
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.add_discount_product, menu);
 
 		return true;
+	}
+
+	class delDiscount extends AsyncTask<String, Void, Boolean> {
+		protected Boolean doInBackground(String... url) {
+			return new DatabaseConnector().DBPush(url[0]);
+		}
+
+		@Override
+		protected void onPreExecute() {
+
+			Toast.makeText(getApplicationContext(), "Loading discounts.",
+					Toast.LENGTH_SHORT).show();
+			super.onPreExecute();
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			if (result) {
+				Toast.makeText(getApplicationContext(),
+						"An error has occured.", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getApplicationContext(),
+						"Item Successfully Deleted.", Toast.LENGTH_SHORT)
+						.show();
+				finish();
+			}
+		}
 	}
 
 	class getDiscounts extends AsyncTask<String, Void, JSONArray> {
@@ -279,6 +355,17 @@ public class AddDiscountProductActivity extends Activity implements
 			rbmView.toggleMenu();
 			return true;
 
+		case R.id.newDiscount:
+			itemSelected = true;
+			invalidateOptionsMenu();
+			discounts.setVisibility(View.GONE);
+			listView.setVisibility(View.VISIBLE);
+			return true;
+
+		case R.id.removeDiscount:
+			dg.show();
+			return true;
+
 		case R.id.logout:
 			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -289,6 +376,19 @@ public class AddDiscountProductActivity extends Activity implements
 			return super.onOptionsItemSelected(item);
 		}
 		return true;
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (discountSelected || itemSelected) {
+			discountSelected = false;
+			itemSelected = false;
+			details.setVisibility(View.GONE);
+			discounts.setVisibility(View.VISIBLE);
+			confirm.setText("Add");
+		} else {
+			super.onBackPressed();
+		}
 	}
 
 	@Override

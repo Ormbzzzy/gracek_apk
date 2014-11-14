@@ -61,7 +61,7 @@ public class InStoreSampling extends Activity implements iRibbonMenuCallback {
 		name = (TextView) findViewById(R.id.name);
 		scan = (ImageButton) findViewById(R.id.sampleScan);
 		brand = (TextView) findViewById(R.id.brand);
-		dp = (DatePicker) dg.findViewById(R.id.DateButton);
+		dp = (DatePicker) dg.findViewById(R.id.sampleDate);
 		dpb = (Button) findViewById(R.id.DateButton);
 		xDate = (Button) dg.findViewById(R.id.cancelDate);
 		cDate = (Button) dg.findViewById(R.id.confirmDate);

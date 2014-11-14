@@ -124,12 +124,12 @@ public class ActivityControl extends Activity {
 		// i.putExtras(b);
 		// ctx.startActivity(i);
 		// break;
-		// case R.id.PromoNav:
-		// i = new Intent(ctx.getApplicationContext(), Promotions.class);
-		// b.putString("parent", parent);
-		// i.putExtras(b);
-		// ctx.startActivity(i);
-		// break;
+		case R.id.PromoNav:
+			i = new Intent(ctx.getApplicationContext(), Promotions.class);
+			b.putString("parent", parent);
+			i.putExtras(b);
+			ctx.startActivity(i);
+			break;
 		// case R.id.ExpiryNav:
 		// i = new Intent(ctx.getApplicationContext(), DeleteStore.class);
 		// b.putString("parent", parent);

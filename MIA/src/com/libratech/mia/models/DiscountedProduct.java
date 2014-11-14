@@ -22,7 +22,7 @@ public class DiscountedProduct {
 	private String photo;
 
 	public DiscountedProduct(String upc, String name, String brand,
-			String weight, String uom, String photo, String value, String type) {
+			String weight, String uom, String value, String type, String photo) {
 		this.discValue = value;
 		this.discType = type;
 		this.upc = upc;

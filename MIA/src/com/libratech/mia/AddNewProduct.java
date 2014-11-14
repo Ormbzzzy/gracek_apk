@@ -21,7 +21,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -32,6 +31,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -40,23 +42,24 @@ import android.widget.Toast;
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.libratech.mia.HomeActivity.getStoreInfo;
 
 public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 
 	ImageView image;
-	EditText upc, name, desc, brand, cat, weight, uom;
+	EditText upc, name, desc, brand, cat, weight, uom, price;
 	Button edit, update;
 	ImageButton scan;
 	RibbonMenuView rbmView;
 	String path = "";
 	File img;
+	CheckBox gctBox;
 	static final int REQUEST_IMAGE_CAPTURE = 3;
 	static final int REQUEST_TAKE_PHOTO = 4;
 	String timeStamp = "";
 	Boolean imageSet = false;
 	File photoFile = null;
 	Bitmap bmp, scaled;
+	String gct = "no";
 	String empId = HomeActivity.empID;
 	String compId = HomeActivity.storeID;
 
@@ -80,6 +83,9 @@ public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 		uom = (EditText) findViewById(R.id.uom);
 		edit = (Button) findViewById(R.id.edit);
 		update = (Button) findViewById(R.id.update);
+		price = (EditText) findViewById(R.id.price);
+		gctBox = (CheckBox) findViewById(R.id.gctCheck);
+		price.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(8, 2) });
 		scan.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -92,6 +98,19 @@ public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 			}
 		});
 		String s = "";
+		gctBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				// TODO Auto-generated method stub
+				if (gctBox.isChecked()) {
+					gct = "yes";
+				} else {
+					gct = "no";
+				}
+			}
+		});
 		image.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -162,6 +181,10 @@ public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 									+ brand.getText()
 									+ "&category="
 									+ cat.getText()
+									+ "&price="
+									+ price.getText()
+									+ "&gct="
+									+ gct
 									+ "&weight="
 									+ weight.getText()
 									+ "&uom="

@@ -41,6 +41,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 
 public class AddProduct extends Activity implements iRibbonMenuCallback {
 
+	View price;
 	ImageView image;
 	EditText upc, name, desc, brand, cat, weight, uom;
 	Button edit, update;
@@ -60,6 +61,8 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_product);
 		// Show the Up button in the action bar.
+		price = (View) findViewById(R.id.priceSection);
+		price.setVisibility(View.GONE);
 		image = (ImageView) findViewById(R.id.addPhoto);
 		upc = (EditText) findViewById(R.id.upc);
 		scan = (ImageButton) findViewById(R.id.scanButton);

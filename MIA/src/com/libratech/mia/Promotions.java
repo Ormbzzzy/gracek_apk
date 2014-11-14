@@ -36,8 +36,10 @@ public class Promotions extends Activity implements iRibbonMenuCallback {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				startActivity(new Intent(getApplicationContext(),
+						ViewNewProduct.class));
 				// ActivityControl.changeActivity(Promotions.this, R.id.newProd,
-				//		getIntent().getStringExtra("parent"));
+				// getIntent().getStringExtra("parent"));
 			}
 
 		});
@@ -46,8 +48,10 @@ public class Promotions extends Activity implements iRibbonMenuCallback {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-//				ActivityControl.changeActivity(Promotions.this,
-//						R.id.AddDiscount, getIntent().getStringExtra("parent"));
+				startActivity(new Intent(getApplicationContext(),
+						AddDiscountProductActivity.class));
+				// ActivityControl.changeActivity(Promotions.this,
+				// R.id.AddDiscount, getIntent().getStringExtra("parent"));
 			}
 
 		});
@@ -56,8 +60,10 @@ public class Promotions extends Activity implements iRibbonMenuCallback {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-//				ActivityControl.changeActivity(Promotions.this, R.id.Sample,
-//						getIntent().getStringExtra("parent"));
+				startActivity(new Intent(getApplicationContext(),
+						InStoreSampling.class));
+				// ActivityControl.changeActivity(Promotions.this, R.id.Sample,
+				// getIntent().getStringExtra("parent"));
 			}
 
 		});

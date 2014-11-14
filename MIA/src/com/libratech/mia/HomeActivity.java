@@ -105,10 +105,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
 					LoginActivity.storeID = storeID;
 					LoginActivity.storeName = storeName;
 					aProducts.clear();
-					sAdapter = uAdapter = new HomeAdapter(HomeActivity.this,
-							new ArrayList<Scanned>());
-					sAdapter.notifyDataSetChanged();
-					uAdapter.notifyDataSetChanged();
+					listview.setVisibility(View.GONE);
 					listLoad.setVisibility(View.VISIBLE);
 					new getProducts()
 							.execute("http://holycrosschurchjm.com/MIA_mysql.php?allproducts=yes");

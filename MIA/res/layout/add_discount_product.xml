@@ -32,11 +32,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <Button
-                android:id="@+id/addDiscount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Add Discount Product" />
+            <!-- <Button -->
+            <!-- android:id="@+id/addDiscount" -->
+            <!-- android:layout_width="match_parent" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:text="Add Discount Product" /> -->
         </LinearLayout>
 
         <LinearLayout

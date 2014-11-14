@@ -69,13 +69,13 @@
     <!-- android:title="Feedback" -->
     <!-- android:visible="false"> -->
     <!-- </item> -->
-    <!-- <item -->
-    <!-- android:id="@+id/PromoNav" -->
-    <!-- android:icon="@drawable/ic_action_select_all" -->
-    <!-- android:orderInCategory="10" -->
-    <!-- android:title="Promotions" -->
-    <!-- android:visible="false"> -->
-    <!-- </item> -->
+    <item
+    android:id="@+id/PromoNav"
+    android:icon="@drawable/ic_action_select_all"
+    android:orderInCategory="10"
+    android:title="Promotions"
+    android:visible="false">
+    </item>
     <!-- <item -->
     <!-- android:id="@+id/ExpiryNav" -->
     <!-- android:icon="@drawable/ic_action_select_all" -->
