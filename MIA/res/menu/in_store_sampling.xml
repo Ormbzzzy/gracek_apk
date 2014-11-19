@@ -6,6 +6,11 @@
         android:showAsAction="always"
         android:title="Add"/>
     <item
+        android:id="@+id/issScan"
+        android:icon="@drawable/ic_action_camera"
+        android:showAsAction="always"
+        android:title="Scan"/>
+    <item
         android:id="@+id/removeIss"
         android:icon="@drawable/ic_action_discard"
         android:showAsAction="always"

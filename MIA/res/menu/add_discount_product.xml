@@ -1,6 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/discountScan"
+        android:icon="@drawable/ic_action_camera"
+        android:showAsAction="always"
+        android:title="Scan"/>
+    <item
         android:id="@+id/newDiscount"
         android:icon="@drawable/ic_action_new"
         android:showAsAction="always"

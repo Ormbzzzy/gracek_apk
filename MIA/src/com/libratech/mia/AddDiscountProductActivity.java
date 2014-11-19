@@ -61,7 +61,7 @@ public class AddDiscountProductActivity extends Activity implements
 	String compID = HomeActivity.storeID;
 	String empID = HomeActivity.empID;
 	Scanned s;
-	MenuItem add, del;
+	MenuItem add, del, scan;
 	public boolean itemSelected = false;
 	public boolean discountSelected = false;
 	Builder dg;
@@ -264,9 +264,12 @@ public class AddDiscountProductActivity extends Activity implements
 		// super.onPrepareOptionsMenu(menu);
 		del = menu.findItem(R.id.removeDiscount);
 		add = menu.findItem(R.id.newDiscount);
+		scan = menu.findItem(R.id.discountScan);
 		del.setVisible(discountSelected);
 		add.setVisible(!discountSelected);
+		scan.setVisible(itemSelected);
 		if (itemSelected) {
+			scan.setVisible(true);
 			del.setVisible(false);
 			add.setVisible(false);
 		}
@@ -296,7 +299,7 @@ public class AddDiscountProductActivity extends Activity implements
 
 		@Override
 		protected void onPostExecute(Boolean result) {
-			if (result) {
+			if (!result) {
 				Toast.makeText(getApplicationContext(),
 						"An error has occured.", Toast.LENGTH_SHORT).show();
 			} else {
@@ -355,6 +358,14 @@ public class AddDiscountProductActivity extends Activity implements
 			rbmView.toggleMenu();
 			return true;
 
+		case R.id.discountScan:
+			Bundle b = new Bundle();
+			b.putString("parent", "AddProduct");
+			Intent n = new Intent(AddDiscountProductActivity.this,
+					ScanActivity.class);
+			n.putExtras(b);
+			startActivityForResult(n, 1);
+			return true;
 		case R.id.newDiscount:
 			itemSelected = true;
 			invalidateOptionsMenu();
@@ -388,6 +399,30 @@ public class AddDiscountProductActivity extends Activity implements
 			confirm.setText("Add");
 		} else {
 			super.onBackPressed();
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		try {
+			if (data.hasExtra("code"))
+				upc.setText(data.getStringExtra("code"));
+			listView.setVisibility(View.GONE);
+			details.setVisibility(View.VISIBLE);
+			String s = upc.getText().toString();
+			upc.setText("");
+			upc.setText(s);
+			for (Product p : products) {
+				if (p.getUpcCode().equals(s)) {
+					brand.setText(p.getBrand());
+					name.setText(p.getProductName());
+					weight.setText(p.getWeight());
+					uom.setText(p.getUom());
+				}
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

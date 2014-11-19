@@ -24,7 +24,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,15 +38,15 @@ import com.libratech.mia.models.Product;
 
 public class InStoreSampling extends Activity implements iRibbonMenuCallback {
 
-	View list, details;
+	View list, details, all;
 	ImageView img;
 	TextView name, weight, brand;
 	DatePicker dp;
 	ListView lv;
+	ExpandableListView exlv;
 	EditText cmt, upc;
 	Button cancel, submit, dpb, xDate, cDate;
 	Dialog dg;
-	ImageButton scan;
 	ArrayList<Product> aProd = HomeActivity.aProducts;
 	String empID = HomeActivity.empID;
 	String compID = HomeActivity.storeID;
@@ -55,18 +56,15 @@ public class InStoreSampling extends Activity implements iRibbonMenuCallback {
 	RibbonMenuView rbmView;
 	boolean issSelected = false;
 	boolean newIss = false;
-	MenuItem add, del;
+	MenuItem add, del, scan;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_in_store_sampling);
-		img = (ImageView) findViewById(R.id.updateImage);
-		upc = (EditText) findViewById(R.id.upc);
 		dg = new Dialog(InStoreSampling.this);
 		dg.setContentView(R.layout.date_picker);
 		dg.setTitle("Select Date");
-
 		delDg = new AlertDialog.Builder(this);
 		delDg.setTitle("Are you sure?");
 		delDg.setMessage("Doing this will remove the record of this discount");
@@ -89,13 +87,17 @@ public class InStoreSampling extends Activity implements iRibbonMenuCallback {
 		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 		rbmView.setMenuClickCallback(this);
 		rbmView.setMenuItems(R.menu.home);
+		all = (View) findViewById(R.id.issAllListView);
+		exlv = (ExpandableListView) all.findViewById(R.id.issAllList);
+		all.setVisibility(View.GONE);
 		list = (View) findViewById(R.id.issListView);
 		details = (View) findViewById(R.id.issDetails);
 		details.setVisibility(View.GONE);
 		lv = (ListView) list.findViewById(R.id.issList);
 		dg.setCanceledOnTouchOutside(true);
+		img = (ImageView) details.findViewById(R.id.updateImage);
+		upc = (EditText) details.findViewById(R.id.upc);
 		name = (TextView) details.findViewById(R.id.name);
-		scan = (ImageButton) details.findViewById(R.id.sampleScan);
 		brand = (TextView) details.findViewById(R.id.brand);
 		dp = (DatePicker) dg.findViewById(R.id.sampleDate);
 		dpb = (Button) details.findViewById(R.id.DateButton);
@@ -117,18 +119,18 @@ public class InStoreSampling extends Activity implements iRibbonMenuCallback {
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
 				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
 				for (Product p : aProd) {
 					if (upc.getText().equals(p.getUpcCode())) {
 						name.setText(p.getProductName());
 						brand.setText(p.getBrand());
 					}
 				}
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+
 			}
 
 		});
@@ -179,18 +181,22 @@ public class InStoreSampling extends Activity implements iRibbonMenuCallback {
 			}
 
 		});
-		scan.setOnClickListener(new OnClickListener() {
+		exlv.setOnChildClickListener(new OnChildClickListener() {
 
 			@Override
-			public void onClick(View v) {
-				Bundle b = new Bundle();
-				b.putString("parent", "AddProduct");
-				Intent i = new Intent(InStoreSampling.this, ScanActivity.class);
-				i.putExtras(b);
-				startActivityForResult(i, 1);
+			public boolean onChildClick(ExpandableListView parent, View v,
+					int groupPosition, int childPosition, long id) {
+				// TODO Auto-generated method stub
+				all.setVisibility(View.GONE);
+				details.setVisibility(View.VISIBLE);
+				Product p = ((AllAdapter) exlv.getExpandableListAdapter())
+						.getProduct(groupPosition, childPosition);
+				name.setText(p.getProductName());
+				brand.setText(p.getBrand());
+				return false;
 			}
-		});
 
+		});
 		submit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -231,6 +237,7 @@ public class InStoreSampling extends Activity implements iRibbonMenuCallback {
 				}
 			}
 		});
+		exlv.setAdapter(new AllAdapter(InStoreSampling.this, aProd));
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
@@ -281,11 +288,17 @@ public class InStoreSampling extends Activity implements iRibbonMenuCallback {
 
 		switch (item.getItemId()) {
 
+		case R.id.issScan:
+			Bundle b = new Bundle();
+			b.putString("parent", "AddProduct");
+			Intent n = new Intent(InStoreSampling.this, ScanActivity.class);
+			n.putExtras(b);
+			startActivityForResult(n, 1);
+			return true;
 		case R.id.newIss:
 			newIss = true;
 			list.setVisibility(View.GONE);
-			details.setVisibility(View.VISIBLE);
-			submit.setText("Add");
+			all.setVisibility(View.VISIBLE);
 			invalidateOptionsMenu();
 			break;
 		case R.id.removeIss:
@@ -313,6 +326,8 @@ public class InStoreSampling extends Activity implements iRibbonMenuCallback {
 		try {
 			if (data.hasExtra("code"))
 				upc.setText(data.getStringExtra("code"));
+			all.setVisibility(View.GONE);
+			details.setVisibility(View.VISIBLE);
 			String s = upc.getText().toString();
 			upc.setText("");
 			upc.setText(s);
@@ -331,8 +346,8 @@ public class InStoreSampling extends Activity implements iRibbonMenuCallback {
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
-		finish();
 		super.onPause();
+		finish();
 	}
 
 	@Override
@@ -346,9 +361,12 @@ public class InStoreSampling extends Activity implements iRibbonMenuCallback {
 		// super.onPrepareOptionsMenu(menu);
 		del = menu.findItem(R.id.removeIss);
 		add = menu.findItem(R.id.newIss);
+		scan = menu.findItem(R.id.issScan);
 		del.setVisible(issSelected);
 		add.setVisible(!issSelected);
+		scan.setVisible(newIss);
 		if (newIss) {
+			scan.setVisible(true);
 			del.setVisible(false);
 			add.setVisible(false);
 		}
