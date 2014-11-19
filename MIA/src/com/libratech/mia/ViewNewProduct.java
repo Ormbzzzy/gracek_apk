@@ -86,9 +86,9 @@ public class ViewNewProduct extends Activity implements iRibbonMenuCallback {
 						dateString = new SimpleDateFormat("yyyy-MM-dd")
 								.format(date);
 						new Delete()
-								.execute("http://holycrosschurchjm.com/MIA_mysql.php?deleteNewProduct=yes&comp_id=comp-00001&rec_date="
-										+ dateString.replace(" ", "%20")
-										+ "&upc_code=" + upc.getText());
+								.execute(("http://holycrosschurchjm.com/MIA_mysql.php?deleteNewProduct=yes&comp_id=comp-00001&rec_date="
+										+ dateString + "&upc_code=" + upc
+										.getText()).replace(" ", "%20"));
 					}
 				});
 		dg.setNegativeButton("Cancel", null);
@@ -99,7 +99,7 @@ public class ViewNewProduct extends Activity implements iRibbonMenuCallback {
 		} else {
 			rbmView.setMenuItems(R.menu.home);
 		}
-		listview = (ListView) lv.findViewById(R.id.alllistview);
+		listview = (ListView) lv.findViewById(R.id.newlistview);
 		listview.setOnItemClickListener(new OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -108,6 +108,7 @@ public class ViewNewProduct extends Activity implements iRibbonMenuCallback {
 				lv.setVisibility(View.GONE);
 				details.setVisibility(View.VISIBLE);
 				prodSelected = true;
+				invalidateOptionsMenu();
 				Product p = products.get(position);
 				upc.setText(p.getUpcCode());
 				name.setText(p.getProductName());
@@ -286,8 +287,8 @@ public class ViewNewProduct extends Activity implements iRibbonMenuCallback {
 	}
 
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		del = menu.findItem(R.id.removeDiscount);
-		add = menu.findItem(R.id.newDiscount);
+		del = menu.findItem(R.id.removeProd);
+		add = menu.findItem(R.id.newProd);
 		del.setVisible(prodSelected);
 		add.setVisible(!prodSelected);
 		if (newProd) {

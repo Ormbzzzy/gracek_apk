@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,6 +43,7 @@ import android.widget.Toast;
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.libratech.mia.models.Product;
 
 public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 
@@ -55,6 +57,7 @@ public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 	CheckBox gctBox;
 	static final int REQUEST_IMAGE_CAPTURE = 3;
 	static final int REQUEST_TAKE_PHOTO = 4;
+	ArrayList<Product> aProd = HomeActivity.aProducts;
 	String timeStamp = "";
 	Boolean imageSet = false;
 	File photoFile = null;
@@ -84,8 +87,34 @@ public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 		edit = (Button) findViewById(R.id.edit);
 		update = (Button) findViewById(R.id.update);
 		price = (EditText) findViewById(R.id.price);
-		gctBox = (CheckBox) findViewById(R.id.gctCheck);
+		gctBox = (CheckBox) findViewById(R.id.gct);
 		price.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(8, 2) });
+		upc.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence cs, int arg1, int arg2,
+					int arg3) {
+				for (Product p : aProd) {
+					if (upc.getText().equals(p.getUpcCode())) {
+						Toast.makeText(getApplicationContext(),
+								"That product is already in the system.",
+								Toast.LENGTH_SHORT).show();
+						upc.setText("");
+					}
+				}
+			}
+
+			@Override
+			public void afterTextChanged(Editable arg0) {
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1,
+					int arg2, int arg3) {
+
+			}
+
+		});
 		scan.setOnClickListener(new OnClickListener() {
 
 			@Override
