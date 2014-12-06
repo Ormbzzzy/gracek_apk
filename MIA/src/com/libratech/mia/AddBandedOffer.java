@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
@@ -44,16 +45,22 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 	ArrayList<Product> bandedProd = new ArrayList<Product>();
 	ArrayList<Product> allProd = HomeActivity.aProducts;
 	ArrayList<BandedProduct> bList = new ArrayList<BandedProduct>();
-	Button add, remove, submit, addB;
+	ArrayList<BandedProduct> temp = new ArrayList<BandedProduct>();
+	BandedProduct currentBanded = new BandedProduct();
+	Button remove, submit, addB;
 	Product p = new Product();;
 	String compID = HomeActivity.storeID;
 	String empID = HomeActivity.empID;
-	boolean all, banded, mod;
+	boolean newBanded = false;
+	boolean bandedSelected = false;
+	boolean bandedItemSelected = false;
+	BandedAdapter adapter;
+	MenuItem add, del, scan;
+	BandedProduct bp = new BandedProduct();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		all = banded = mod = false;
 		setContentView(R.layout.add_banded_offer);
 		allList = (View) findViewById(R.id.AllbandedListView);
 		exlv = (ExpandableListView) allList.findViewById(R.id.AllBandedList);
@@ -64,63 +71,63 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 		details = (View) findViewById(R.id.bandedDetail);
 		bandedList = (View) findViewById(R.id.bandedOffers);
 		blv = (ListView) bandedList.findViewById(R.id.banded);
-		addB = (Button) bandedList.findViewById(R.id.newBandedOffer);
-		banded = true;
 		name = (TextView) details.findViewById(R.id.name);
 		brand = (TextView) details.findViewById(R.id.brand);
 		upc = (TextView) details.findViewById(R.id.upc);
 		uom = (TextView) details.findViewById(R.id.uom);
-		add = (Button) details.findViewById(R.id.addProd);
 		remove = (Button) details.findViewById(R.id.cancel);
-
+		lv.setAdapter(adapter);
 		exlv.setOnChildClickListener(new OnChildClickListener() {
-
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v,
 					int groupPosition, int childPosition, long id) {
 				// TODO Auto-generated method stub
 				p = ((AllAdapter) exlv.getExpandableListAdapter()).getProduct(
 						groupPosition, childPosition);
-				all = false;
-				mod = true;
 				Toast.makeText(getApplicationContext(), p.getProductName(),
 						Toast.LENGTH_SHORT).show();
 				allList.setVisibility(View.GONE);
-				details.setVisibility(View.VISIBLE);
-				name.setText(p.getProductName());
-				brand.setText(p.getBrand());
-				uom.setText(p.getUom());
+				list.setVisibility(View.VISIBLE);
+				if (newBanded) {
+					currentBanded.getProducts().add(p);
+					adapter = new BandedAdapter(getApplicationContext(),
+							currentBanded.getProducts());
+					lv.setAdapter(adapter);
+					adapter.notifyDataSetChanged();
+				} else {
+					currentBanded.getProducts().add(p);
+					adapter = new BandedAdapter(getApplicationContext(),
+							currentBanded.getProducts());
+					lv.setAdapter(adapter);
+					adapter.notifyDataSetChanged();
+				}
+
 				return false;
 			}
 
 		});
 
-		addB.setOnClickListener(new OnClickListener() {
+		lv.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
 				// TODO Auto-generated method stub
-				banded = false;
-				all = true;
-				bandedList.setVisibility(View.GONE);
-				allList.setVisibility(View.VISIBLE);
-			}
-		});
-
-		add.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mod = true;
+				bandedItemSelected = true;
+				invalidateOptionsMenu();
 				list.setVisibility(View.GONE);
 				details.setVisibility(View.VISIBLE);
-				if (p != null) {
-					bandedProd.add(p);
-				} else {
-					Toast.makeText(getApplicationContext(),
-							"No product selected", Toast.LENGTH_SHORT).show();
-				}
+				Product p = currentBanded.getProducts().get(position);
+				name.setText(p.getProductName());
+				upc.setText(p.getUpcCode());
+				uom.setText(p.getUom());
+				brand.setText(p.getBrand());
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+
 			}
 		});
 		remove.setOnClickListener(new OnClickListener() {
@@ -134,15 +141,6 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 					details.setVisibility(View.GONE);
 					allList.setVisibility(View.VISIBLE);
 				}
-			}
-		});
-		imgB.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				list.setVisibility(View.GONE);
-				allList.setVisibility(View.VISIBLE);
 			}
 		});
 		submit.setOnClickListener(new OnClickListener() {
@@ -319,11 +317,47 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 		return true;
 	}
 
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		// super.onPrepareOptionsMenu(menu);
+		del = menu.findItem(R.id.removeBanded);
+		add = menu.findItem(R.id.newBanded);
+		scan = menu.findItem(R.id.bandedScan);
+		scan.setVisible(false);
+		del.setVisible(bandedSelected);
+		add.setVisible(!bandedSelected);
+		if (newBanded) {
+			if (list.getVisibility() == View.VISIBLE) {
+				scan.setVisible(false);
+				add.setVisible(true);
+				del.setVisible(false);
+			} else {
+				scan.setVisible(true);
+				del.setVisible(false);
+				add.setVisible(false);
+			}
+		}
+		return true;
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
 
+		case R.id.newBanded:
+			if (newBanded) {
+				allList.setVisibility(View.VISIBLE);
+			} else {
+				newBanded = true;
+				invalidateOptionsMenu();
+				bandedList.setVisibility(View.GONE);
+				list.setVisibility(View.VISIBLE);
+			}
+			return true;
+		case R.id.removeBanded:
+			return true;
+		case R.id.bandedScan:
+			return true;
 		case android.R.id.home:
 			rbmView.toggleMenu();
 			return true;
@@ -348,79 +382,4 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 		ActivityControl.changeActivity(this, itemId, "HomeActivity");
 	}
 
-	// @Override
-	// public void RibbonMenuItemClick(int itemId, int position) {
-	//
-	// Bundle b = new Bundle();
-	// Intent i = new Intent();
-	// switch (itemId) {
-	// case R.id.HomeActivity:
-	// i = new Intent(this, HomeActivity.class);
-	// b.putString("parent", "HomeActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// case R.id.AllProducts:
-	// i = new Intent(this, AllProductsActivity.class);
-	// b.putString("parent", "HomeActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// case R.id.ScanItemActivity:
-	// i = new Intent(this, ScanActivity.class);
-	// b.putString("parent", "HomeActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// // case R.id.Feedback:
-	// // i = new Intent(this, FeedbackActivity.class);
-	// // break;
-	// case R.id.delProduct:
-	// i = new Intent(this, DeleteProduct.class);
-	// b.putString("parent", "HomeActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// case R.id.addUser:
-	// i = new Intent(this, AddUser.class);
-	// b.putString("parent", "HomeActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// case R.id.addProduct:
-	// i = new Intent(this, AddProduct.class);
-	// b.putString("parent", "HomeActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// case R.id.delUser:
-	// i = new Intent(this, DeleteUser.class);
-	// b.putString("parent", "HomeActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// case R.id.addStore:
-	// i = new Intent(this, AddStore.class);
-	// b.putString("parent", "HomeActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	//
-	// case R.id.delStore:
-	// i = new Intent(this, DeleteStore.class);
-	// b.putString("parent", "HomeActivity");
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// break;
-	// case R.id.AddBanded:
-	// i = new Intent(this, AddBandedOffer.class);
-	// rbmView.toggleMenu();
-	// // b.putString("parent", "HomeActivity");
-	// // i.putExtras(b);
-	// // startActivityForResult(i, 1);
-	// break;
-	// default:
-	// break;
-	// }
-	// }
 }

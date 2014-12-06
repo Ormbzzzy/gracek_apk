@@ -30,13 +30,12 @@ public class ActivityControl extends Activity {
 			i.putExtras(b);
 			ctx.startActivity(i);
 			break;
-		// case R.id.Feedback:
-		// i = new Intent(ctx.getApplicationContext(),
-		// FeedbackActivity.class);
-		// b.putString("parent", parent);
-		// i.putExtras(b);
-		// ctx.startActivity(i);
-		// break;
+		case R.id.ExpiryNav:
+			i = new Intent(ctx.getApplicationContext(), FeedbackActivity.class);
+			b.putString("parent", parent);
+			i.putExtras(b);
+			ctx.startActivity(i);
+			break;
 		case R.id.StoreReviewActivity:
 			i = new Intent(ctx.getApplicationContext(),
 					StoreReviewActivity.class);
@@ -73,7 +72,7 @@ public class ActivityControl extends Activity {
 		// b.putString("parent", parent);
 		// i.putExtras(b);
 		// ctx.startActivity(i);
-		//	break;
+		// break;
 		case R.id.addStore:
 			i = new Intent(ctx.getApplicationContext(), AddStore.class);
 			b.putString("parent", parent);
@@ -86,7 +85,7 @@ public class ActivityControl extends Activity {
 		// b.putString("parent", parent);
 		// i.putExtras(b);
 		// ctx.startActivity(i);
-		//	break;
+		// break;
 		// case R.id.AddDiscount:
 		// i = new Intent(ctx.getApplicationContext(),
 		// AddDiscountProductActivity.class);
@@ -112,12 +111,12 @@ public class ActivityControl extends Activity {
 		// i.putExtras(b);
 		// ctx.startActivity(i);
 		// break;
-		// case R.id.SuggestionView:
-		// i = new Intent(ctx.getApplicationContext(), ViewSuggestion.class);
-		// b.putString("parent", parent);
-		// i.putExtras(b);
-		// ctx.startActivity(i);
-		// break;
+		case R.id.SuggestionNav:
+			i = new Intent(ctx.getApplicationContext(), SuggestionBox.class);
+			b.putString("parent", parent);
+			i.putExtras(b);
+			ctx.startActivity(i);
+			break;
 		// case R.id.newProd:
 		// i = new Intent(ctx.getApplicationContext(), AddNewProduct.class);
 		// b.putString("parent", parent);

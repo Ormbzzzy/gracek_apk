@@ -9,6 +9,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,39 +19,73 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.libratech.mia.HomeActivity.getStoreInfo;
+import com.libratech.mia.models.Suggestion;
 
 public class SuggestionBox extends Activity implements iRibbonMenuCallback {
 
-	TextView title;
+	TextView title, viewTitle, viewComment;
 	EditText comment;
 	View lv, dv, addV;
 	Button submit, cancel;
+	ListView list;
 	RibbonMenuView rbmView;
+	ArrayList<Suggestion> suggs = new ArrayList<Suggestion>();
 	String empID = HomeActivity.empID;
 	String compID = HomeActivity.storeID;
+	MenuItem add, del;
+	boolean sugSelected = false;
+	boolean newSug = false;
+	Builder dg;
+	Suggestion s;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_suggestion_box);
+		dg = new AlertDialog.Builder(this);
+		dg.setTitle("Are you sure?");
+		dg.setMessage("Doing this will permanently remove this entry from the application!");
+		dg.setPositiveButton("Yes, I'm Sure.",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialogInterface, int i) {
+						Date date = new Date();
+						String dateString = new SimpleDateFormat("yyyy-MM-dd")
+								.format(date);
+						new Delete()
+								.execute(("http://holycrosschurchjm.com/MIA_mysql.php?deleteSuggestions=yes&merch_id="
+										+ empID
+										+ "&comp_id="
+										+ compID
+										+ "&rec_date="
+										+ dateString
+										+ "&stored_rec_date=" + s.getDate())
+										.replace(" ", "%20"));
+					}
+				});
+		dg.setNegativeButton("Cancel", null);
 		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 		rbmView.setMenuClickCallback(this);
 		rbmView.setMenuItems(R.menu.home);
 		lv = (View) findViewById(R.id.sListView);
+		list = (ListView) lv.findViewById(R.id.suggList);
 		dv = (View) findViewById(R.id.viewSugg);
 		dv.setVisibility(View.GONE);
 		addV = (View) findViewById(R.id.sugEntry);
-		lv.setVisibility(View.GONE);
-		addV.setVisibility(View.VISIBLE);
+		lv.setVisibility(View.VISIBLE);
+		addV.setVisibility(View.GONE);
+		viewTitle = (TextView) dv.findViewById(R.id.title);
+		viewComment = (TextView) dv.findViewById(R.id.comment);
 		title = (TextView) addV.findViewById(R.id.title);
 		comment = (EditText) addV.findViewById(R.id.comments);
 		cancel = (Button) addV.findViewById(R.id.cancel);
@@ -67,8 +104,8 @@ public class SuggestionBox extends Activity implements iRibbonMenuCallback {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (title.getText().length() == 0
-						|| comment.getText().length() == 0) {
+				if (title.getText().length() > 0
+						|| comment.getText().length() > 0) {
 					Date date = new Date();
 					String dateString = new SimpleDateFormat(
 							"yyyy-MM-dd HH:mm:ss").format(date);
@@ -85,6 +122,30 @@ public class SuggestionBox extends Activity implements iRibbonMenuCallback {
 				}
 			}
 		});
+
+		list.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				lv.setVisibility(View.GONE);
+				dv.setVisibility(View.VISIBLE);
+				sugSelected = true;
+				invalidateOptionsMenu();
+				s = suggs.get(position);
+				viewTitle.setText(s.getTitle());
+				viewComment.setText(s.getComment());
+			}
+
+		});
+		Date date = new Date();
+		String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+				.format(date);
+		new GetSuggestion()
+				.execute(("http://holycrosschurchjm.com/MIA_mysql.php?merchSuggestions=yes&merch_id="
+						+ empID + "&comp_id=" + compID + "&rec_date=" + dateString)
+						.replace(" ", "%20"));
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
@@ -116,6 +177,52 @@ public class SuggestionBox extends Activity implements iRibbonMenuCallback {
 		}
 	}
 
+	public class GetSuggestion extends AsyncTask<String, Void, JSONArray> {
+
+		protected JSONArray doInBackground(String... params) {
+			return new DatabaseConnector().dbPull(params[0]);
+		}
+
+		protected void onPostExecute(JSONArray result) {
+			String title, content, date;
+			title = content = date = "";
+			suggs.clear();
+			for (int i = 0; i < result.length(); i++) {
+				try {
+
+					title = result.getJSONArray(i).getString(0);
+					content = result.getJSONArray(i).getString(1);
+					date = result.getJSONArray(i).getString(2);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				suggs.add(new Suggestion(title, content, date));
+			}
+			list.setAdapter(new SuggestionAdapter(getApplicationContext(),
+					suggs));
+		}
+	}
+
+	public class Delete extends AsyncTask<String, Void, Boolean> {
+
+		protected Boolean doInBackground(String... params) {
+			return new DatabaseConnector().DBPush(params[0]);
+		}
+
+		protected void onPostExecute(Boolean result) {
+			if (result) {
+				Toast.makeText(getApplicationContext(),
+						"Item successfully deleted.", Toast.LENGTH_SHORT)
+						.show();
+				finish();
+			} else {
+				Toast.makeText(getApplicationContext(),
+						"An error has occured.", Toast.LENGTH_SHORT).show();
+			}
+		}
+
+	}
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -130,10 +237,34 @@ public class SuggestionBox extends Activity implements iRibbonMenuCallback {
 		return true;
 	}
 
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		// super.onPrepareOptionsMenu(menu);
+		del = menu.findItem(R.id.removeSug);
+		add = menu.findItem(R.id.newSug);
+		del.setVisible(sugSelected);
+		add.setVisible(!sugSelected);
+		if (newSug) {
+			del.setVisible(false);
+			add.setVisible(false);
+		}
+		return true;
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
+
+		case R.id.newSug:
+			lv.setVisibility(View.GONE);
+			addV.setVisibility(View.VISIBLE);
+			invalidateOptionsMenu();
+			return true;
+
+		case R.id.removeSug:
+			dg.show();
+			invalidateOptionsMenu();
+			return true;
 
 		case android.R.id.home:
 			rbmView.toggleMenu();
@@ -149,12 +280,13 @@ public class SuggestionBox extends Activity implements iRibbonMenuCallback {
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+
 	}
 
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 
-		ActivityControl.changeActivity(this, itemId, getIntent().getStringExtra("parent"));
+		ActivityControl.changeActivity(this, itemId, getIntent()
+				.getStringExtra("parent"));
 	}
-
 }

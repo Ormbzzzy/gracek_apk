@@ -65,6 +65,7 @@ public class AddDiscountProductActivity extends Activity implements
 	public boolean itemSelected = false;
 	public boolean discountSelected = false;
 	Builder dg;
+	AllAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +137,7 @@ public class AddDiscountProductActivity extends Activity implements
 						.getProduct(groupPosition, childPosition);
 				listView.setVisibility(View.GONE);
 				details.setVisibility(View.VISIBLE);
-				itemSelected = true;
+				itemSelected = false;
 				invalidateOptionsMenu();
 				upc.setText(p.getUpcCode());
 				weight.setText(p.getWeight());
@@ -238,8 +239,16 @@ public class AddDiscountProductActivity extends Activity implements
 				.execute(("http://holycrosschurchjm.com/MIA_mysql.php?discountedProducts=yes&comp_id="
 						+ compID + "&rec_date=" + dateString).replace(" ",
 						"%20"));
-		list.setAdapter(new AllAdapter(AddDiscountProductActivity.this,
-				products));
+
+		adapter = new AllAdapter(AddDiscountProductActivity.this, products);
+		try {
+			if (list.getAdapter() == null) {
+				list.setAdapter(adapter);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			list.setAdapter(adapter);
+		}
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
@@ -265,9 +274,9 @@ public class AddDiscountProductActivity extends Activity implements
 		del = menu.findItem(R.id.removeDiscount);
 		add = menu.findItem(R.id.newDiscount);
 		scan = menu.findItem(R.id.discountScan);
+		scan.setVisible(false);
 		del.setVisible(discountSelected);
 		add.setVisible(!discountSelected);
-		scan.setVisible(itemSelected);
 		if (itemSelected) {
 			scan.setVisible(true);
 			del.setVisible(false);
@@ -391,14 +400,22 @@ public class AddDiscountProductActivity extends Activity implements
 
 	@Override
 	public void onBackPressed() {
-		if (discountSelected || itemSelected) {
-			discountSelected = false;
-			itemSelected = false;
+		if (details.getVisibility() == View.VISIBLE) {
 			details.setVisibility(View.GONE);
-			discounts.setVisibility(View.VISIBLE);
-			confirm.setText("Add");
+			listView.setVisibility(View.VISIBLE);
+			itemSelected = true;
+			discountSelected = false;
+			invalidateOptionsMenu();
+
 		} else {
-			super.onBackPressed();
+			if (listView.getVisibility() == View.VISIBLE) {
+				listView.setVisibility(View.GONE);
+				discounts.setVisibility(View.VISIBLE);
+				itemSelected = false;
+				invalidateOptionsMenu();
+			} else {
+				super.onBackPressed();
+			}
 		}
 	}
 

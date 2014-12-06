@@ -2,26 +2,23 @@ package com.libratech.mia;
 
 import java.util.ArrayList;
 
-import com.libratech.mia.models.Suggestion;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
-public class SuggestionAdapter extends BaseAdapter implements ListAdapter {
+import com.libratech.mia.models.InStoreSample;
 
+public class ISSAdapter extends BaseAdapter {
+
+	ArrayList<InStoreSample> data;
 	Context ctx;
-	ArrayList<Suggestion> data;
 
-	public SuggestionAdapter(Context ctx, ArrayList<Suggestion> data) {
-		// TODO Auto-generated constructor stub
-		this.ctx = ctx;
+	public ISSAdapter(ArrayList<InStoreSample> data, Context ctx) {
 		this.data = data;
+		this.ctx = ctx;
 	}
 
 	@Override
@@ -33,7 +30,7 @@ public class SuggestionAdapter extends BaseAdapter implements ListAdapter {
 	@Override
 	public Object getItem(int position) {
 		// TODO Auto-generated method stub
-		return data.get(position-1);
+		return data.get(position);
 	}
 
 	@Override
@@ -49,16 +46,10 @@ public class SuggestionAdapter extends BaseAdapter implements ListAdapter {
 		if (vi == null) {
 			LayoutInflater inflater = (LayoutInflater) ctx
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			vi = inflater.inflate(R.layout.suggestion, null);
+			vi = inflater.inflate(R.layout.iss_adapter, null);
 		}
-		TextView title = (TextView) vi.findViewById(R.id.title);
-		TextView comment = (TextView) vi.findViewById(R.id.comment);
-		TextView date = (TextView) vi.findViewById(R.id.date);
-		String d = data.get(position).getDate();
-		d = d.substring(0, d.indexOf(" ") + 1);
-		date.setText(d);
-		title.setText(data.get(position).getTitle());
-		comment.setText(data.get(position).getComment());
+		TextView name = (TextView) vi.findViewById(R.id.issLabel);
+		name.setText(data.get(position).getProductName());
 		return vi;
 	}
 }

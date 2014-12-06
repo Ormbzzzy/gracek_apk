@@ -285,47 +285,6 @@ public class AllProductsActivity extends Activity implements
 		ActivityControl.changeActivity(this, itemId, getIntent().getStringExtra("parent"));
 	}
 
-	// @Override
-	// public void RibbonMenuItemClick(int itemId, int position) {
-	//
-	// Bundle b = new Bundle();
-	// Intent i = new Intent();
-	// switch (itemId) {
-	// case R.id.HomeActivity:
-	// i = new Intent(this, HomeActivity.class);
-	// break;
-	// case R.id.AllProducts:
-	// i = new Intent(this, AllProductsActivity.class);
-	// break;
-	// case R.id.ScanItemActivity:
-	// i = new Intent(this, ScanActivity.class);
-	// break;
-	// // case R.id.Feedback:
-	// // i = new Intent(this, FeedbackActivity.class);
-	// // break;
-	// case R.id.StoreReviewActivity:
-	// i = new Intent(this, StoreReviewActivity.class);
-	// break;
-	// case R.id.delProduct:
-	// i = new Intent(this, DeleteProduct.class);
-	// break;
-	// case R.id.addUser:
-	// i = new Intent(this, AddUser.class);
-	// break;
-	// case R.id.addProduct:
-	// i = new Intent(this, AddProduct.class);
-	// break;
-	// // case R.id.delUser:
-	// // i = new Intent(this, DeleteUser.class);
-	// // break;
-	//
-	// default:
-	// break;
-	// }
-	// b.putString("parent", getIntent().getStringExtra("parent"));
-	// i.putExtras(b);
-	// startActivityForResult(i, 1);
-	// }
 
 	@Override
 	protected void onPause() {

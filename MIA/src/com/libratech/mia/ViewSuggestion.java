@@ -8,6 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,11 +24,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.libratech.mia.HomeActivity.getStoreInfo;
+import com.libratech.mia.ViewNewProduct.Delete;
 import com.libratech.mia.models.Suggestion;
 
 public class ViewSuggestion extends Activity implements iRibbonMenuCallback {
@@ -39,6 +43,8 @@ public class ViewSuggestion extends Activity implements iRibbonMenuCallback {
 	ArrayList<Suggestion> suggs = new ArrayList<Suggestion>();
 	String empID = HomeActivity.empID;
 	String compID = HomeActivity.storeID;
+	Builder dg;
+	Suggestion s;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +58,16 @@ public class ViewSuggestion extends Activity implements iRibbonMenuCallback {
 		rbmView.setMenuItems(R.menu.home);
 		addV = (View) findViewById(R.id.sugEntry);
 		addV.setVisibility(View.GONE);
-		add = (Button) lv.findViewById(R.id.addSugg);
 		list = (ListView) lv.findViewById(R.id.suggList);
 		rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView);
 		title = (TextView) addV.findViewById(R.id.title);
 		comment = (EditText) addV.findViewById(R.id.comment);
 		vtitle = (TextView) dv.findViewById(R.id.title);
 		vcomment = (TextView) dv.findViewById(R.id.comment);
-		dv.setFocusable(false);
 		cancel = (Button) addV.findViewById(R.id.cancel);
 		submit = (Button) addV.findViewById(R.id.add);
 		submit.setText("Delete");
+		add = (Button) addV.findViewById(R.id.add);
 		add.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -90,8 +95,9 @@ public class ViewSuggestion extends Activity implements iRibbonMenuCallback {
 				// TODO Auto-generated method stub
 				lv.setVisibility(View.GONE);
 				dv.setVisibility(View.VISIBLE);
-				vtitle.setText(suggs.get(position).getTitle());
-				vcomment.setText(suggs.get(position).getComment());
+				s = suggs.get(position);
+				vtitle.setText(s.getTitle());
+				vcomment.setText(s.getComment());
 			}
 
 		});
@@ -106,37 +112,11 @@ public class ViewSuggestion extends Activity implements iRibbonMenuCallback {
 		Date date = new Date();
 		String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 				.format(date);
-		new GetSuggestion()
-				.execute(("http://holycrosschurchjm.com/MIA_mysql.php?merchSuggestions=yes&merch_id="
-						+ empID + "&comp_id=" + compID + "&rec_date=" + dateString)
-						.replace(" ", "%20"));
+		// new GetSuggestion()
+		// .execute(("http://holycrosschurchjm.com/MIA_mysql.php?merchSuggestions=yes&merch_id="
+		// + empID + "&comp_id=" + compID + "&rec_date=" + dateString)
+		// .replace(" ", "%20"));
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-	}
-
-	public class GetSuggestion extends AsyncTask<String, Void, JSONArray> {
-
-		protected JSONArray doInBackground(String... params) {
-			return new DatabaseConnector().dbPull(params[0]);
-		}
-
-		protected void onPostExecute(JSONArray result) {
-			String title, comment, date;
-			title = comment = date = "";
-			float price = (float) 0.00;
-			for (int i = 0; i < result.length(); i++) {
-				try {
-					title = result.getJSONArray(i).getString(0);
-					comment = result.getJSONArray(i).getString(1);
-					date = result.getJSONArray(i).getString(2);
-
-				} catch (JSONException e1) {
-					e1.printStackTrace();
-				}
-				suggs.add(new Suggestion(title, comment, date));
-				list.setAdapter(new SuggestionAdapter(getApplicationContext(),
-						suggs));
-			}
-		}
 	}
 
 	@Override
@@ -178,7 +158,8 @@ public class ViewSuggestion extends Activity implements iRibbonMenuCallback {
 	@Override
 	public void RibbonMenuItemClick(int itemId, int position) {
 
-		ActivityControl.changeActivity(this, itemId, getIntent().getStringExtra("parent"));
+		ActivityControl.changeActivity(this, itemId, getIntent()
+				.getStringExtra("parent"));
 	}
 
 }

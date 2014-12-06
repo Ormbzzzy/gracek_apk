@@ -16,7 +16,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 
 public class Promotions extends Activity implements iRibbonMenuCallback {
 
-	Button newProd, discount, sample;
+	Button newProd, discount, sample, banded;
 	RibbonMenuView rbmView;
 
 	@Override
@@ -30,7 +30,7 @@ public class Promotions extends Activity implements iRibbonMenuCallback {
 		newProd = (Button) findViewById(R.id.newProducts);
 		discount = (Button) findViewById(R.id.discountedProducts);
 		sample = (Button) findViewById(R.id.instoreSampling);
-
+		banded = (Button) findViewById(R.id.bandedProducts);
 		newProd.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -62,6 +62,18 @@ public class Promotions extends Activity implements iRibbonMenuCallback {
 				// TODO Auto-generated method stub
 				startActivity(new Intent(getApplicationContext(),
 						InStoreSampling.class));
+				// ActivityControl.changeActivity(Promotions.this, R.id.Sample,
+				// getIntent().getStringExtra("parent"));
+			}
+
+		});
+		banded.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(getApplicationContext(),
+						AddBandedOffer.class));
 				// ActivityControl.changeActivity(Promotions.this, R.id.Sample,
 				// getIntent().getStringExtra("parent"));
 			}
