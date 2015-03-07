@@ -34,7 +34,7 @@ public class DeleteStore extends Activity implements iRibbonMenuCallback {
 	RibbonMenuView rbmView;
 	View list, details;
 	ListView lv;
-	TextView name, city, addr;
+	TextView name, city, addr, storeID;
 	Button delete, cancel;
 	ArrayList<Store> stores = new ArrayList<Store>();
 	DatabaseConnector db = new DatabaseConnector();
@@ -59,7 +59,7 @@ public class DeleteStore extends Activity implements iRibbonMenuCallback {
 		dg.setNegativeButton("Cancel", null);
 		setupMenu();
 		list = (View) findViewById(R.id.delListView);
-		details = (View) findViewById(R.id.rel);
+		details = (View) findViewById(R.id.details);
 		details.setVisibility(View.GONE);
 		setupDetails();
 		new getInfo()
@@ -81,6 +81,7 @@ public class DeleteStore extends Activity implements iRibbonMenuCallback {
 				name.setText(stores.get(position).getCompanyName());
 				city.setText(stores.get(position).getCity());
 				addr.setText(stores.get(position).getAddress());
+				storeID.setText(stores.get(position).getStoreID());
 			}
 
 		});
@@ -89,6 +90,7 @@ public class DeleteStore extends Activity implements iRibbonMenuCallback {
 	public void setupDetails() {
 		name = (TextView) details.findViewById(R.id.compName);
 		city = (TextView) details.findViewById(R.id.city);
+		storeID = (TextView) details.findViewById(R.id.compID);
 		addr = (TextView) details.findViewById(R.id.addressLine1);
 		delete = (Button) details.findViewById(R.id.addStore);
 		delete.setOnClickListener(new OnClickListener() {

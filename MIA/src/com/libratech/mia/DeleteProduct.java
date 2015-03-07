@@ -37,6 +37,7 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 	ArrayList<Product> pList = StoreReviewActivity.pList;
 	RibbonMenuView rbmView;
 	ExpandableListView listview;
+	View details, list;
 	AllAdapter ad = new AllAdapter(this, pList);
 	EditText search, price;
 	TextView upc, brand, name, weight, uom;
@@ -67,6 +68,7 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 	private void setupList() {
 		search = (EditText) findViewById(R.id.inputSearch);
 		listview = (ExpandableListView) findViewById(R.id.alllistview);
+		details = (View) findViewById(R.id.details);
 		listview.setFastScrollEnabled(true);
 		listview.setAdapter(ad);
 		listview.setOnChildClickListener(new OnChildClickListener() {
@@ -78,7 +80,8 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 						.getProduct(groupPosition, childPosition);
 				upc = (TextView) findViewById(R.id.upc);
 				update = (Button) findViewById(R.id.confirm);
-				cancel = (Button) findViewById(R.id.cancel);
+				cancel = (Button) findViewById(R.id.scan);
+				cancel.setText("Cancel");
 				update.setText("Delete");
 				brand = (TextView) findViewById(R.id.Brand);
 				name = (TextView) findViewById(R.id.Name);
@@ -200,9 +203,9 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 			name = desc = brand = category = uom = gct = photo = upc = weight = "";
 			float price = (float) 0.00;
 			pList.clear();
-			ad = new AllAdapter(DeleteProduct.this, pList);
-			listview.setAdapter(ad);
-			ad.notifyDataSetChanged();
+			// ad = new AllAdapter(DeleteProduct.this, pList);
+			// listview.setAdapter(ad);
+			// ad.notifyDataSetChanged();
 			for (int i = 0; i < result.length(); i++) {
 				try {
 					upc = result.getJSONArray(i).getString(0);
@@ -222,8 +225,8 @@ public class DeleteProduct extends Activity implements iRibbonMenuCallback {
 			Toast.makeText(DeleteProduct.this, "Products loaded.",
 					Toast.LENGTH_SHORT).show();
 			ad = new AllAdapter(DeleteProduct.this, pList);
-			ad.notifyDataSetChanged();
 			listview.setAdapter(ad);
+			// ad.notifyDataSetChanged();
 		}
 	}
 

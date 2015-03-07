@@ -65,6 +65,14 @@ public class DeleteUser extends Activity implements iRibbonMenuCallback {
 		lName = (TextView) details.findViewById(R.id.lastName);
 		role = (TextView) details.findViewById(R.id.userRole);
 		cancel = (Button) findViewById(R.id.cancel);
+		cancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+
 		confirm = (Button) findViewById(R.id.deleteUser);
 		confirm.setOnClickListener(new OnClickListener() {
 
@@ -108,7 +116,7 @@ public class DeleteUser extends Activity implements iRibbonMenuCallback {
 			}
 
 		});
-
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		new getUsers()
 				.execute("http://holycrosschurchjm.com/MIA_mysql.php?allUsers=yes");
 
@@ -159,7 +167,7 @@ public class DeleteUser extends Activity implements iRibbonMenuCallback {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				emp.add(new User(id, fName, lName,role));
+				emp.add(new User(id, fName, lName, role));
 			}
 			lv.setAdapter(new UserAdapter(DeleteUser.this, emp));
 		}

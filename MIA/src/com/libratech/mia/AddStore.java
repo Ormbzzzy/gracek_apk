@@ -1,5 +1,9 @@
 package com.libratech.mia;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.json.JSONArray;
 
 import android.app.Activity;
@@ -11,12 +15,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
@@ -24,11 +27,13 @@ import com.google.analytics.tracking.android.EasyTracker;
 
 public class AddStore extends Activity implements iRibbonMenuCallback {
 
-	EditText name, address;
+	EditText name, address, id;
 	Spinner city;
 	Button confirm, cancel;
 	RibbonMenuView rbmView;
-	ArrayAdapter<CharSequence> adapter;
+	ArrayList<String> CityArrayList = new ArrayList<String>();
+
+	// ArrayAdapter<CharSequence> adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +44,17 @@ public class AddStore extends Activity implements iRibbonMenuCallback {
 		city = (Spinner) findViewById(R.id.citySpinner);
 		cancel = (Button) findViewById(R.id.cancel);
 		confirm = (Button) findViewById(R.id.confirmaddStore);
-		adapter = ArrayAdapter.createFromResource(this, R.array.capitals_array,
-				android.R.layout.simple_spinner_item);
-		city.setAdapter(adapter);
+		id = (EditText) findViewById(R.id.compID);
+		// String[] myResArray = getResources().getStringArray(
+		// R.array.capitals_array);
+		Collections.addAll(CityArrayList,
+				getResources().getStringArray(R.array.capitals_array));
+		// adapter = new SpinnerAdapter(CityArrayList);
+		// adapter = ArrayAdapter.createFromResource(this,
+		// R.array.capitals_array,
+		// android.R.layout.simple_spinner_item);
+		city.setAdapter(new SpinnerAdapter(this,
+				android.R.layout.simple_spinner_item, CityArrayList));
 		cancel.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -55,15 +68,28 @@ public class AddStore extends Activity implements iRibbonMenuCallback {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new pushStore()
-						.execute(("http://holycrosschurchjm.com/MIA_mysql.php?addStore=yes&comp_id=COMP-00003&company_name="
-								+ name + "&address=" + address + "&city=" + city
-								.getItemIdAtPosition(city
-										.getSelectedItemPosition())).replace(
-								" ", "%20"));
+				if (name.getText().toString().matches("")
+						|| address.getText().toString().matches("")
+						|| id.getText().toString().matches("")) {
+					Toast.makeText(getApplicationContext(),
+							"Some information is missing.", Toast.LENGTH_SHORT)
+							.show();
+				} else {
+					new pushStore()
+							.execute(("http://holycrosschurchjm.com/MIA_mysql.php?addStore=yes&comp_id="
+									+ id.getText()
+									+ "&company_name="
+									+ name.getText()
+									+ "&address="
+									+ address.getText() + "&city=" + city
+									.getItemIdAtPosition(city
+											.getSelectedItemPosition()))
+									.replace(" ", "%20"));
+				}
 			}
 		});
 		setupMenu();
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	private void setupMenu() {

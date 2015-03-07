@@ -2,14 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minHeight="32dp" >
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:orientation="horizontal" >
 
     <TextView
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:id="@+id/deleteText"
-        android:layout_width="match_parent"
+        android:id="@+id/deleteID"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical" />
+        android:layout_gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" />
+
+    <TextView
+        android:id="@+id/deleteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" />
 
 </LinearLayout>

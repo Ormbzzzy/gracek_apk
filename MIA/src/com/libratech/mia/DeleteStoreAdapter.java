@@ -52,7 +52,9 @@ public class DeleteStoreAdapter extends BaseAdapter {
 			vi = inflater.inflate(R.layout.delete_row, null);
 		}
 		TextView storeName = (TextView) vi.findViewById(R.id.deleteText);
+		TextView storeID = (TextView) vi.findViewById(R.id.deleteID);
 		storeName.setText(data.get(position).getCompanyName());
+		storeID.setText(data.get(position).getStoreID() + " -");
 		return vi;
 	}
 

@@ -17,45 +17,51 @@
         android:orderInCategory="2"
         android:title="Scan Item"/>
     <!-- <item -->
-    <!-- android:id="@+id/addProduct" -->
-    <!-- android:icon="@drawable/ic_action_new" -->
-    <!-- android:orderInCategory="5" -->
-    <!-- android:title="Add Product"/> -->
-    <!-- <item -->
-    <!-- android:id="@+id/delProduct" -->
-    <!-- android:icon="@drawable/ic_action_discard" -->
-    <!-- android:orderInCategory="6" -->
-    <!-- android:title="Delete Product"/> -->
-    <!-- <item -->
-    <!-- android:id="@+id/addUser" -->
-    <!-- android:icon="@drawable/ic_launcher" -->
-    <!-- android:orderInCategory="7" -->
-    <!-- android:title="Add User"/> -->
-    <!-- <item -->
-    <!-- android:id="@+id/delUser" -->
-    <!-- android:icon="@drawable/ic_launcher" -->
-    <!-- android:orderInCategory="8" -->
-    <!-- android:title="Delete User"> -->
-    <!-- </item> -->
-    <!-- <item -->
-    <!-- android:id="@+id/addStore" -->
-    <!-- android:icon="@drawable/ic_launcher" -->
-    <!-- android:orderInCategory="7" -->
-    <!-- android:title="Add Store"/> -->
-    <!-- <item -->
-    <!-- android:id="@+id/delStore" -->
-    <!-- android:icon="@drawable/ic_launcher" -->
-    <!-- android:orderInCategory="8" -->
-    <!-- android:title="Delete Store"> -->
-    <!-- </item> -->
+    <!-- android:id="@+id/ViewBanded" -->
+    <!-- android:icon="@drawable/ic_action_select_all" -->
+    <!-- android:orderInCategory="2" -->
+    <!-- android:title="Banded Offers"/> -->
+    <item
+        android:id="@+id/addProduct"
+        android:icon="@drawable/ic_action_new"
+        android:orderInCategory="5"
+        android:title="Add Product"/>
+    <item
+        android:id="@+id/delProduct"
+        android:icon="@drawable/ic_action_discard"
+        android:orderInCategory="6"
+        android:title="Delete Product"/>
+    <item
+        android:id="@+id/addUser"
+        android:icon="@drawable/ic_launcher"
+        android:orderInCategory="7"
+        android:title="Add User"/>
+    <item
+        android:id="@+id/delUser"
+        android:icon="@drawable/ic_launcher"
+        android:orderInCategory="8"
+        android:title="Delete User">
+    </item>
+    <item
+        android:id="@+id/addStore"
+        android:icon="@drawable/ic_launcher"
+        android:orderInCategory="7"
+        android:title="Add Store"/>
+    <item
+        android:id="@+id/delStore"
+        android:icon="@drawable/ic_launcher"
+        android:orderInCategory="8"
+        android:title="Delete Store">
 
-    
-    <!-- <item -->
-    <!-- android:id="@+id/settings" -->
-    <!-- android:icon="@drawable/ic_launcher" -->
-    <!-- android:orderInCategory="9" -->
-    <!-- android:title="Settings"> -->
-    <!-- </item> -->
+        <!-- </item> -->
 
 
-</menu>
+        <!-- <item -->
+        <!-- android:id="@+id/settings" -->
+        <!-- android:icon="@drawable/ic_launcher" -->
+        <!-- android:orderInCategory="9" -->
+        <!-- android:title="Settings"> -->
+        <!-- </item> -->
+
+    </item>
+</menu>

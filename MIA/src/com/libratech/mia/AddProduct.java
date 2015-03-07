@@ -11,6 +11,7 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.jibble.simpleftp.SimpleFTP;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -44,7 +45,7 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 	View price;
 	ImageView image;
 	EditText upc, name, desc, brand, cat, weight, uom;
-	Button edit, update;
+	Button cancel, update;
 	ImageButton scan;
 	RibbonMenuView rbmView;
 	String path = "";
@@ -55,6 +56,7 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 	Boolean imageSet = false;
 	File photoFile = null;
 	Bitmap bmp, scaled;
+	ProgressDialog prog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +75,7 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 		weight = (EditText) findViewById(R.id.weight);
 		weight.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(6, 3) });
 		uom = (EditText) findViewById(R.id.uom);
-		edit = (Button) findViewById(R.id.edit);
+		cancel = (Button) findViewById(R.id.edit);
 		update = (Button) findViewById(R.id.update);
 		scan.setOnClickListener(new OnClickListener() {
 
@@ -87,6 +89,11 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 			}
 		});
 		String s = "";
+		cancel.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				finish();
+			}
+		});
 		image.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -205,12 +212,20 @@ public class AddProduct extends Activity implements iRibbonMenuCallback {
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
+			prog.dismiss();
 			Toast.makeText(getApplicationContext(),
 					"Product successfully added", Toast.LENGTH_LONG).show();
 			bmp.recycle();
 			scaled.recycle();
 			bmp = scaled = null;
 			AddProduct.this.finish();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			prog = ProgressDialog.show(AddProduct.this, "Wait",
+					"Uploading Image...");
 		}
 
 		@Override

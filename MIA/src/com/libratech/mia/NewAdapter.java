@@ -22,7 +22,7 @@ public class NewAdapter extends BaseAdapter implements ListAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return data.size();
 	}
 
 	@Override

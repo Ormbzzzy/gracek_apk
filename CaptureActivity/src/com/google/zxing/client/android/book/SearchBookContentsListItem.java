@@ -16,8 +16,6 @@
 
 package com.google.zxing.client.android.book;
 
-import com.google.zxing.client.android.R;
-
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.Spannable;
@@ -26,6 +24,8 @@ import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.zxing.client.android.R;
 
 import java.util.Locale;
 

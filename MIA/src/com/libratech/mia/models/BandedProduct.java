@@ -16,10 +16,29 @@ import java.util.ArrayList;
 public class BandedProduct {
 	private float totalPrice;
 	private ArrayList<Product> products;
+	private String bandedID;
 
-	public BandedProduct(float totalPrice, ArrayList<Product> products) {
+	public BandedProduct(String id, float totalPrice,
+			ArrayList<Product> products) {
+		bandedID = id;
 		this.totalPrice = totalPrice;
 		this.products = products;
+	}
+
+	public float getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(float totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public String getBandedID() {
+		return bandedID;
+	}
+
+	public void setBandedID(String bandedID) {
+		this.bandedID = bandedID;
 	}
 
 	public BandedProduct() {

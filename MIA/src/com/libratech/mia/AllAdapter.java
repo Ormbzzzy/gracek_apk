@@ -3,6 +3,7 @@ package com.libratech.mia;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,6 +122,7 @@ public class AllAdapter extends BaseExpandableListAdapter {
 
 		TextView tv = (TextView) vi.findViewById(R.id.allCat);
 		tv.setText(parentList.get(groupPosition));
+		tv.setTextColor(Color.BLACK);
 		return tv;
 	}
 

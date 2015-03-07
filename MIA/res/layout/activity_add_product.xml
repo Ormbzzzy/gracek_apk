@@ -75,7 +75,7 @@
 
                     <EditText
                         android:id="@+id/Name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Enter Product Name"
                         android:textSize="20sp" />
@@ -97,9 +97,10 @@
 
                     <EditText
                         android:id="@+id/Description"
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Description"
+                        android:maxLines="3"
                         android:textSize="20sp" />
                 </LinearLayout>
 
@@ -119,7 +120,7 @@
 
                     <EditText
                         android:id="@+id/Brand"
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Enter Brand of Product"
                         android:textSize="20sp" />

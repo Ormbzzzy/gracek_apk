@@ -2,10 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".AddStore" >
 
     <RelativeLayout
@@ -37,20 +33,22 @@
 
         <EditText
             android:id="@+id/addressLine1"
-            android:layout_width="200dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/addressLabel1"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@+id/addressLabel1"
-            android:hint="Enter Address" />
+            android:hint="Enter Address"
+            android:maxLines="2" />
 
         <EditText
             android:id="@+id/compName"
-            android:layout_width="200dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/compNameLabel"
             android:layout_alignLeft="@id/addressLine1"
-            android:hint="Enter Company&apos;s Name" />
+            android:hint="Enter Company&apos;s Name"
+            android:maxLines="2" />
 
         <TextView
             android:id="@+id/cityLabel"
@@ -65,10 +63,33 @@
 
         <Spinner
             android:id="@+id/citySpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/addressLine1"
             android:layout_alignTop="@id/cityLabel" />
+
+        <TextView
+            android:id="@+id/idLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/compNameLabel"
+            android:layout_below="@+id/cityLabel"
+            android:layout_marginTop="49dp"
+            android:text="CompanyID"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/compID"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/idLabel"
+            android:layout_below="@+id/citySpinner"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/idLabel"
+            android:hint="Enter Company ID"
+            android:inputType="number"
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"

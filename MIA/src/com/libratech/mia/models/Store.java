@@ -29,6 +29,13 @@ public class Store {
 		this.companyName = companyName;
 	}
 
+	public Store() {
+		this.storeID = "";
+		this.companyName = "";
+		this.addr = "";
+		this.city = "";
+	}
+
 	public String getStoreID() {
 		return storeID;
 	}

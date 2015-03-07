@@ -3,6 +3,8 @@ package com.libratech.mia;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,6 +15,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,9 +25,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +46,7 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 	ExpandableListView exlv;
 	Button imgB;
 	TextView name, price, weight, brand, uom, upc;
+	EditText bPrice;
 	ArrayList<Product> bandedProd = new ArrayList<Product>();
 	ArrayList<Product> allProd = HomeActivity.aProducts;
 	ArrayList<BandedProduct> bList = new ArrayList<BandedProduct>();
@@ -57,6 +62,7 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 	BandedAdapter adapter;
 	MenuItem add, del, scan;
 	BandedProduct bp = new BandedProduct();
+	Builder delDG;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,17 +72,43 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 		exlv = (ExpandableListView) allList.findViewById(R.id.AllBandedList);
 		list = (View) findViewById(R.id.bandedListView);
 		lv = (ListView) list.findViewById(R.id.bandedList);
+		bPrice = (EditText) list.findViewById(R.id.bandedPrice);
+		bPrice.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(8, 2) });
 		imgB = (Button) list.findViewById(R.id.add);
 		submit = (Button) list.findViewById(R.id.submit);
 		details = (View) findViewById(R.id.bandedDetail);
 		bandedList = (View) findViewById(R.id.bandedOffers);
 		blv = (ListView) bandedList.findViewById(R.id.banded);
+		blv.setFocusable(true);
 		name = (TextView) details.findViewById(R.id.name);
 		brand = (TextView) details.findViewById(R.id.brand);
+		weight = (TextView) details.findViewById(R.id.weight);
 		upc = (TextView) details.findViewById(R.id.upc);
 		uom = (TextView) details.findViewById(R.id.uom);
 		remove = (Button) details.findViewById(R.id.cancel);
 		lv.setAdapter(adapter);
+
+		delDG = new Builder(AddBandedOffer.this);
+		delDG.setTitle("Confirm Delete");
+		delDG.setMessage("Doing this will remove the banded offfer from the system!");
+		delDG.setPositiveButton("Confirm",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						Date date = new Date();
+						String dateString = new SimpleDateFormat(
+								"yyyy-MM-dd HH:mm:ss").format(date);
+						currentBanded = new BandedProduct();
+						new PushBanded()
+								.execute(("http://holycrosschurchjm.com/MIA_mysql.php?deleteBandedProduct=yes&comp_id="
+										+ compID
+										+ "&rec_date="
+										+ dateString
+										+ "&band_prods=" + currentBanded
+										.getBandedID()).replace(" ", "%20"));
+					}
+				});
 		exlv.setOnChildClickListener(new OnChildClickListener() {
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v,
@@ -84,8 +116,6 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 				// TODO Auto-generated method stub
 				p = ((AllAdapter) exlv.getExpandableListAdapter()).getProduct(
 						groupPosition, childPosition);
-				Toast.makeText(getApplicationContext(), p.getProductName(),
-						Toast.LENGTH_SHORT).show();
 				allList.setVisibility(View.GONE);
 				list.setVisibility(View.VISIBLE);
 				if (newBanded) {
@@ -121,6 +151,7 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 				name.setText(p.getProductName());
 				upc.setText(p.getUpcCode());
 				uom.setText(p.getUom());
+				weight.setText(p.getWeight());
 				brand.setText(p.getBrand());
 			}
 
@@ -134,12 +165,15 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (bandedProd.remove(p)) {
-					details.setVisibility(View.GONE);
-					list.setVisibility(View.VISIBLE);
-				} else {
-					details.setVisibility(View.GONE);
-					allList.setVisibility(View.VISIBLE);
+				for (Product p : allProd) {
+					if (p.getUpcCode().equals(upc.getText())) {
+						currentBanded.getProducts().remove(p);
+						adapter.notifyDataSetChanged();
+						details.setVisibility(View.GONE);
+						list.setVisibility(View.VISIBLE);
+						bandedItemSelected = false;
+						invalidateOptionsMenu();
+					}
 				}
 			}
 		});
@@ -148,12 +182,13 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Builder dg = new Builder(getApplicationContext());
+				Builder dg = new Builder(AddBandedOffer.this);
 				dg.setTitle("Confirm Submission");
-				String s = "Confirm bundle of:\n";
-				for (Product p : bandedProd) {
+				String s = "Confirm banded offer of:\n\n";
+				for (Product p : currentBanded.getProducts()) {
 					s += p.getProductName() + "\n";
 				}
+				s += "\nFor $" + bPrice.getText();
 				dg.setMessage(s);
 				dg.setPositiveButton("Confirm",
 						new DialogInterface.OnClickListener() {
@@ -162,13 +197,60 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								// TODO Auto-generated method stub
-								String s = bandedProd.get(0).getUpcCode();
-								for (int i = 1; i < bandedProd.size(); i++) {
-									s += "-" + bandedProd.get(i).getUpcCode();
+								String prods = currentBanded.getProducts()
+										.get(0).getUpcCode();
+								for (int i = 1; i < currentBanded.getProducts()
+										.size(); i++) {
+									prods += "-"
+											+ currentBanded.getProducts()
+													.get(i).getUpcCode();
 								}
-								new PushBanded().execute("");
+								Date date = new Date();
+								String dateString = new SimpleDateFormat(
+										"yyyy-MM-dd HH:mm:ss").format(date);
+								if (submit.getText().equals("Update")) {
+									new PushBanded()
+											.execute(("http://holycrosschurchjm.com/MIA_mysql.php?updateBandedProduct=yes&merch_id="
+													+ empID
+													+ "&comp_id="
+													+ compID
+													+ "&rec_date="
+													+ dateString
+													+ "&band_prods="
+													+ prods
+													+ "&band_price=" + bPrice
+													.getText()).replace(" ",
+													"%20"));
+									submit.setText("Submit");
+								} else {
+									new PushBanded()
+											.execute(("http://holycrosschurchjm.com/MIA_mysql.php?addBandedProduct=yes&merch_id="
+													+ empID
+													+ "&comp_id="
+													+ compID
+													+ "&rec_date="
+													+ dateString
+													+ "&band_prods="
+													+ prods
+													+ "&band_price=" + bPrice
+													.getText()).replace(" ",
+													"%20"));
+								}
 							}
 						});
+				try {
+					if (Float.parseFloat(bPrice.getText().toString()) <= 0.00) {
+						Toast.makeText(getApplicationContext(),
+								"That price is not valid.", Toast.LENGTH_SHORT)
+								.show();
+					} else {
+						dg.show();
+					}
+				} catch (Exception e) {
+					Toast.makeText(getApplicationContext(),
+							"That price is not valid.", Toast.LENGTH_SHORT)
+							.show();
+				}
 			}
 		});
 		blv.setOnItemClickListener(new OnItemClickListener() {
@@ -177,8 +259,10 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				bandedProd = bList.get(position).getProducts();
-				lv.setAdapter(new BandedAdapter(AddBandedOffer.this, bandedProd));
+				bandedSelected = true;
+				invalidateOptionsMenu();
+				submit.setText("Update");
+				currentBanded = bList.get(position);
 				bandedList.setVisibility(View.GONE);
 				list.setVisibility(View.VISIBLE);
 			}
@@ -191,7 +275,7 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 				// TODO Auto-generated method stub
 				list.setVisibility(View.GONE);
 				details.setVisibility(View.VISIBLE);
-				p = bandedProd.get(position);
+				p = currentBanded.getProducts().get(position);
 				name.setText(p.getProductName());
 				brand.setText(p.getBrand());
 				uom.setText(p.getUom());
@@ -216,7 +300,33 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 
 		@Override
 		protected void onPostExecute(Boolean result) {
-			// TODO Auto-generated method stub
+			if (result) {
+				if (del.isVisible()) {
+					Toast.makeText(getApplicationContext(),
+							"Offer successfully removed.", Toast.LENGTH_SHORT)
+							.show();
+				} else {
+					Toast.makeText(getApplicationContext(),
+							"Offer successfully submitted.", Toast.LENGTH_SHORT)
+							.show();
+				}
+			} else {
+				Toast.makeText(getApplicationContext(), "An error as occurred",
+						Toast.LENGTH_SHORT).show();
+			}
+			list.setVisibility(View.GONE);
+			bandedList.setVisibility(View.VISIBLE);
+			newBanded = false;
+			bandedSelected = false;
+			bandedItemSelected = false;
+			invalidateOptionsMenu();
+			Date date = new Date();
+			String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+					.format(date);
+			new getBandedProducts()
+					.execute(("http://holycrosschurchjm.com/MIA_mysql.php?bandedProducts=yes&comp_id="
+							+ compID + "&rec_date=" + dateString).replace(" ",
+							"%20"));
 			super.onPostExecute(result);
 		}
 
@@ -237,25 +347,24 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 
 		@Override
 		protected void onPostExecute(JSONArray result) {
-			String upc, name, desc, brand, category, uom, gct, photo, weight;
-			name = desc = brand = category = uom = gct = photo = upc = weight = "";
+			String prods, name, desc, brand, category, uom, gct, photo, weight;
+			name = desc = brand = category = uom = gct = photo = prods = weight = "";
 			float price = (float) 0.00;
+			bList.clear();
 			try {
-
 				for (int i = 0; i < result.length(); i++) {
 					BandedProduct b = new BandedProduct();
-					for (int j = 0; j < result.getJSONArray(i).length(); j++) {
-						price = Float.parseFloat(result.getJSONArray(i)
-								.getJSONArray(j).getString(0));
-						upc = result.getJSONArray(i).getJSONArray(j)
-								.getString(0);
+					price = Float.parseFloat(result.getJSONArray(i)
+							.getString(1));
+					prods = result.getJSONArray(i).getString(0);
+					for (String upc : prods.split("[-]")) {
 						for (Product p : allProd) {
 							if (p.getUpcCode().equals(upc))
 								b.getProducts().add(p);
 						}
-						b.settotalPrice(price);
-
 					}
+					b.setBandedID(prods);
+					b.settotalPrice(price);
 					bList.add(b);
 				}
 			} catch (JSONException e1) {
@@ -325,7 +434,7 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 		scan.setVisible(false);
 		del.setVisible(bandedSelected);
 		add.setVisible(!bandedSelected);
-		if (newBanded) {
+		if (newBanded && !bandedItemSelected) {
 			if (list.getVisibility() == View.VISIBLE) {
 				scan.setVisible(false);
 				add.setVisible(true);
@@ -335,6 +444,9 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 				del.setVisible(false);
 				add.setVisible(false);
 			}
+		}
+		if (bandedItemSelected) {
+			del.setVisible(true);
 		}
 		return true;
 	}
@@ -355,6 +467,8 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 			}
 			return true;
 		case R.id.removeBanded:
+			delDG.show();
+
 			return true;
 		case R.id.bandedScan:
 			return true;
@@ -372,6 +486,29 @@ public class AddBandedOffer extends Activity implements iRibbonMenuCallback {
 
 		default:
 			return super.onOptionsItemSelected(item);
+		}
+
+	}
+
+	public class DecimalDigitsInputFilter implements InputFilter {
+
+		Pattern mPattern;
+
+		public DecimalDigitsInputFilter(int digitsBeforeZero,
+				int digitsAfterZero) {
+			mPattern = Pattern.compile("[0-9]{0," + (digitsBeforeZero - 1)
+					+ "}+((\\.[0-9]{0," + (digitsAfterZero - 1)
+					+ "})?)||(\\.)?");
+		}
+
+		@Override
+		public CharSequence filter(CharSequence source, int start, int end,
+				Spanned dest, int dstart, int dend) {
+
+			Matcher matcher = mPattern.matcher(dest);
+			if (!matcher.matches())
+				return "";
+			return null;
 		}
 
 	}

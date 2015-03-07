@@ -43,36 +43,36 @@ public class ActivityControl extends Activity {
 			i.putExtras(b);
 			ctx.startActivity(i);
 			break;
-		// case R.id.delProduct:
-		// i = new Intent(ctx.getApplicationContext(), DeleteProduct.class);
-		// b.putString("parent", parent);
-		// i.putExtras(b);
-		// ctx.startActivity(i);
-		// break;
-		// case R.id.addUser:
-		// i = new Intent(ctx.getApplicationContext(), AddUser.class);
-		// b.putString("parent", parent);
-		// i.putExtras(b);
-		// ctx.startActivity(i);
-		// break;
-		// case R.id.addProduct:
-		// i = new Intent(ctx.getApplicationContext(), AddProduct.class);
-		// b.putString("parent", parent);
-		// i.putExtras(b);
-		// ctx.startActivity(i);
-		// break;
+		case R.id.delProduct:
+			i = new Intent(ctx.getApplicationContext(), DeleteProduct.class);
+			b.putString("parent", parent);
+			i.putExtras(b);
+			ctx.startActivity(i);
+			break;
+		case R.id.addUser:
+			i = new Intent(ctx.getApplicationContext(), AddUser.class);
+			b.putString("parent", parent);
+			i.putExtras(b);
+			ctx.startActivity(i);
+			break;
+		case R.id.addProduct:
+			i = new Intent(ctx.getApplicationContext(), AddProduct.class);
+			b.putString("parent", parent);
+			i.putExtras(b);
+			ctx.startActivity(i);
+			break;
 		case R.id.addNewProduct:
 			i = new Intent(ctx.getApplicationContext(), AddProduct.class);
 			b.putString("parent", parent);
 			i.putExtras(b);
 			ctx.startActivity(i);
 			break;
-		// case R.id.delUser:
-		// i = new Intent(ctx.getApplicationContext(), DeleteUser.class);
-		// b.putString("parent", parent);
-		// i.putExtras(b);
-		// ctx.startActivity(i);
-		// break;
+		case R.id.delUser:
+			i = new Intent(ctx.getApplicationContext(), DeleteUser.class);
+			b.putString("parent", parent);
+			i.putExtras(b);
+			ctx.startActivity(i);
+			break;
 		case R.id.addStore:
 			i = new Intent(ctx.getApplicationContext(), AddStore.class);
 			b.putString("parent", parent);
@@ -80,12 +80,12 @@ public class ActivityControl extends Activity {
 			ctx.startActivity(i);
 			break;
 
-		// case R.id.delStore:
-		// i = new Intent(ctx.getApplicationContext(), DeleteStore.class);
-		// b.putString("parent", parent);
-		// i.putExtras(b);
-		// ctx.startActivity(i);
-		// break;
+		case R.id.delStore:
+			i = new Intent(ctx.getApplicationContext(), DeleteStore.class);
+			b.putString("parent", parent);
+			i.putExtras(b);
+			ctx.startActivity(i);
+			break;
 		// case R.id.AddDiscount:
 		// i = new Intent(ctx.getApplicationContext(),
 		// AddDiscountProductActivity.class);
@@ -129,6 +129,12 @@ public class ActivityControl extends Activity {
 			i.putExtras(b);
 			ctx.startActivity(i);
 			break;
+		// case R.id.ViewBanded:
+		// i = new Intent(ctx.getApplicationContext(), ViewBanded.class);
+		// b.putString("parent", parent);
+		// i.putExtras(b);
+		// ctx.startActivity(i);
+		// break;
 		// case R.id.ExpiryNav:
 		// i = new Intent(ctx.getApplicationContext(), DeleteStore.class);
 		// b.putString("parent", parent);
@@ -150,7 +156,6 @@ public class ActivityControl extends Activity {
 		default:
 			break;
 		}
-
 	}
 
 	@Override

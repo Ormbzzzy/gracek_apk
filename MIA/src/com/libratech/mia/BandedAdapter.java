@@ -51,9 +51,7 @@ public class BandedAdapter extends BaseAdapter implements ListAdapter {
 			vi = inflater.inflate(R.layout.banded_row, null);
 		}
 		TextView itemName = (TextView) vi.findViewById(R.id.itemName);
-		TextView itemBrand = (TextView) vi.findViewById(R.id.itemBrand);
 		itemName.setText(data.get(position).getProductName());
-		itemBrand.setText(data.get(position).getBrand());
 		return vi;
 	}
 

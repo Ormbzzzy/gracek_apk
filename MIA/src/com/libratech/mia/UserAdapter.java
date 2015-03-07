@@ -54,8 +54,8 @@ public class UserAdapter extends BaseAdapter {
 		TextView userID = (TextView) vi.findViewById(R.id.delID);
 		TextView fName = (TextView) vi.findViewById(R.id.delFname);
 		TextView lName = (TextView) vi.findViewById(R.id.delLname);
-		userID.setText(emp.get(position).getId());
-		fName.setText(emp.get(position).getfName());
+		userID.setText(emp.get(position).getId() + " - ");
+		fName.setText(emp.get(position).getfName() + " ");
 		lName.setText(emp.get(position).getlName());
 		return vi;
 	}

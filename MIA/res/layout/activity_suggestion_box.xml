@@ -14,12 +14,6 @@
             android:id="@+id/suggList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/addSugg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Suggestion" />
     </LinearLayout>
 
     <LinearLayout
@@ -68,16 +62,16 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/fbCanel"
+                android:id="@+id/sugCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Cancel" />
 
             <Button
-                android:id="@+id/fbDelete"
+                android:id="@+id/sugDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Delete" />
+                android:text="Update" />
         </LinearLayout>
     </LinearLayout>
 

@@ -2,8 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".DeleteStore" >
 
     <LinearLayout
@@ -18,9 +16,10 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/rel"
+        android:id="@+id/details"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:paddingLeft="5dp" >
 
         <TextView
             android:id="@+id/compNameLabel"
@@ -82,6 +81,27 @@
             android:layout_alignLeft="@+id/addressLine1"
             android:layout_marginTop="60dp"
             android:text="city"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/idLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/compNameLabel"
+            android:layout_below="@+id/cityLabel"
+            android:layout_marginTop="49dp"
+            android:text="Company ID:"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/compID"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/idLabel"
+            android:layout_alignLeft="@+id/addressLine1"
+            android:layout_below="@+id/citySpinner"
+            android:hint="Enter Company ID"
             android:textSize="20sp" />
 
         <LinearLayout

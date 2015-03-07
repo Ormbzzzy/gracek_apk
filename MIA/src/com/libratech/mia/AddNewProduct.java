@@ -12,8 +12,10 @@ import java.util.regex.Pattern;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.jibble.simpleftp.SimpleFTP;
+import org.json.JSONArray;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -65,7 +67,7 @@ public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 	String gct = "no";
 	String empId = HomeActivity.empID;
 	String compId = HomeActivity.storeID;
-
+	ProgressDialog prog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -252,6 +254,12 @@ public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 		});
 		setupMenu();
 		setupActionBar();
+		Date date = new Date();
+		String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+				.format(date);
+		new GetNewProducts()
+				.execute("http://holycrosschurchjm.com/MIA_mysql.php?newProducts=yes&comp_id=comp-00001&rec_date="
+						+ dateString);
 		EasyTracker.getInstance(this).activityStart(this);
 	}
 
@@ -267,18 +275,49 @@ public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 
 	}
 
+	private class GetNewProducts extends AsyncTask<String, Void, JSONArray> {
+
+		@Override
+		protected JSONArray doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			return new DatabaseConnector().dbPull(params[0]);
+
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+		}
+
+		@Override
+		protected void onPostExecute(JSONArray result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+		}
+
+	}
+
 	private class addProduct extends AsyncTask<String, Void, String> {
 
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
+			prog.dismiss();
 			Toast.makeText(getApplicationContext(),
 					"Product successfully added", Toast.LENGTH_LONG).show();
 			bmp.recycle();
 			scaled.recycle();
 			bmp = scaled = null;
 			AddNewProduct.this.finish();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			prog = ProgressDialog.show(AddNewProduct.this, "Wait",
+					"Uploading Image...");
 		}
 
 		@Override
@@ -319,7 +358,6 @@ public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 		getMenuInflater().inflate(R.menu.add_product, menu);
 		return true;
 	}
-
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
