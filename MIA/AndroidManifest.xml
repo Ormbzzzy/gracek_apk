@@ -40,7 +40,6 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -51,7 +50,7 @@
         </activity>
         <activity
             android:name="com.libratech.mia.FeedbackActivity"
-            android:label="Feedback"
+            android:label="Expired Products"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.libratech.mia.ViewProductActivity"
@@ -68,7 +67,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.libratech.mia.ViewNewProduct"
-            android:label="All Products"
+            android:label="New Products"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -82,7 +81,6 @@
         </activity>
         <activity
             android:name="com.libratech.mia.UserControl"
-            android:label="@string/title_activity_user_control"
             android:parentActivityName="com.libratech.mia.Settings" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -120,7 +118,7 @@
         </activity>
         <activity
             android:name="com.libratech.mia.AddNewProduct"
-            android:label="Add New Product"
+            android:label="New Product Details"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -145,17 +143,17 @@
         </activity>
         <activity
             android:name="com.libratech.mia.AddDiscountProductActivity"
-            android:label="@string/title_activity_add_discount_product"
+            android:label="Discounted Products"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.libratech.mia.AddBandedOffer"
-            android:label="@string/title_activity_add_banded_offer"
+            android:label="Banded Offers"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.libratech.mia.InStoreSampling"
-            android:label="@string/title_activity_in_store_sampling"
+            android:label="Product Samples"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -215,7 +213,7 @@
         </activity>
         <activity
             android:name="com.libratech.mia.ViewSuggestion"
-            android:label="View Suggestions"
+            android:label="Suggestions"
             android:screenOrientation="portrait" >
         </activity>
         <activity

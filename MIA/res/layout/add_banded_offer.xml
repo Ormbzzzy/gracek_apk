@@ -24,7 +24,15 @@
         <LinearLayout
             android:id="@+id/AllbandedListView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/inputSearch"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Search products.."
+                android:inputType="textVisiblePassword" />
 
             <ExpandableListView
                 android:id="@+id/AllBandedList"
