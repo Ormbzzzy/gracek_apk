@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/gracek_apk.iml" filepath="$PROJECT_DIR$/.idea/gracek_apk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CaptureActivity/CaptureActivity.iml" filepath="$PROJECT_DIR$/CaptureActivity/CaptureActivity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MIA/MIA.iml" filepath="$PROJECT_DIR$/MIA/MIA.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com_ribbonmenu/com_ribbonmenu.iml" filepath="$PROJECT_DIR$/com_ribbonmenu/com_ribbonmenu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gracek_apk.iml" filepath="$PROJECT_DIR$/gracek_apk.iml" />
     </modules>
   </component>
 </project>
-

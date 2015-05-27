@@ -1,9 +1,5 @@
 package com.darvds.ribbonmenu;
 
-import java.util.ArrayList;
-
-import org.xmlpull.v1.XmlPullParser;
-
 import android.content.Context;
 import android.content.res.XmlResourceParser;
 import android.os.Parcel;
@@ -21,7 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.darvds.ribbonmenu.RibbonMenuView.SavedState;
+import org.xmlpull.v1.XmlPullParser;
+
+import java.util.ArrayList;
 
 public class RibbonMenuView extends LinearLayout {
 

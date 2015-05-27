@@ -12,7 +12,7 @@
     <!-- android:text="Please select your location" /> -->
 
 
-    <com.libratech.mia.MySpinner
+    <com.libratech.mia.utilities.MySpinner
         android:id="@+id/storeSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

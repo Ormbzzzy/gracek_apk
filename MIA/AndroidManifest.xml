@@ -13,7 +13,6 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
@@ -34,7 +33,7 @@
         android:largeHeap="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.libratech.mia.LoginActivity"
+            android:name="com.libratech.mia.activities.LoginActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
@@ -44,50 +43,50 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.libratech.mia.HomeActivity"
+            android:name="com.libratech.mia.activities.HomeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.FeedbackActivity"
+            android:name="com.libratech.mia.activities.FeedbackActivity"
             android:label="Expired Products"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="com.libratech.mia.ViewProductActivity"
+       <!-- <activity
+            android:name="com.libratech.mia.activities.ViewProductActivity"
             android:label="View Product"
-            android:screenOrientation="portrait" />
+        -->    android:screenOrientation="portrait" />
         <activity
-            android:name="com.libratech.mia.ScanActivity"
+            android:name=".utilities.ScanActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Black.NoTitleBar" />
         <activity
-            android:name="com.libratech.mia.UpdateProductActivity"
+            android:name="com.libratech.mia.activities.UpdateProductActivity"
             android:label="Update Product"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.libratech.mia.ViewNewProduct"
+            android:name="com.libratech.mia.activities.ViewNewProduct"
             android:label="New Products"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.libratech.mia.Settings"
+        <!--<activity
+            android:name="com.libratech.mia.activities.Settings"
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name="com.libratech.mia.StoreReviewActivity"
+            android:name="com.libratech.mia.activities.StoreReviewActivity"
             android:label="Store Review"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.UserControl"
+            android:name="com.libratech.mia.activities.UserControl"
             android:parentActivityName="com.libratech.mia.Settings" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.libratech.mia.Settings" />
         </activity>
         <activity
-            android:name="com.libratech.mia.ProductControl"
+            android:name="com.libratech.mia.activities.ProductControl"
             android:label="@string/title_activity_product_control"
             android:parentActivityName="com.libratech.mia.Settings" >
             <meta-data
@@ -95,7 +94,7 @@
                 android:value="com.libratech.mia.Settings" />
         </activity>
         <activity
-            android:name="com.libratech.mia.StoreControl"
+            android:name="com.libratech.mia.activities.StoreControl"
             android:label="@string/title_activity_store_control"
             android:parentActivityName="com.libratech.mia.Settings" >
             <meta-data
@@ -103,131 +102,131 @@
                 android:value="com.libratech.mia.Settings" />
         </activity>
         <activity
-            android:name="com.libratech.mia.AddProduct"
+            android:name="com.libratech.mia.activities.AddProduct"
             android:label="@string/title_activity_add_product"
             android:parentActivityName="com.libratech.mia.ProductControl"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.libratech.mia.ProductControl" />
-        </activity>
+        </activity>-->
         <activity
-            android:name="com.libratech.mia.DeleteProduct"
+            android:name="com.libratech.mia.activities.DeleteProduct"
             android:label="@string/title_activity_delete_product"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.AddNewProduct"
+            android:name="com.libratech.mia.activities.AddNewProduct"
             android:label="New Product Details"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.AddStore"
+            android:name="com.libratech.mia.activities.AddStore"
             android:label="@string/title_activity_add_store"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.AddUser"
+            android:name="com.libratech.mia.activities.AddUser"
             android:label="@string/create_user"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.DeleteUser"
+            android:name="com.libratech.mia.activities.DeleteUser"
             android:label="@string/delete_user"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.DeleteStore"
+            android:name="com.libratech.mia.activities.DeleteStore"
             android:label="@string/delete_store"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.AddDiscountProductActivity"
+            android:name="com.libratech.mia.activities.AddDiscountProductActivity"
             android:label="Discounted Products"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.AddBandedOffer"
+            android:name="com.libratech.mia.activities.AddBandedOffer"
             android:label="Banded Offers"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.InStoreSampling"
+            android:name="com.libratech.mia.activities.InStoreSampling"
             android:label="Product Samples"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.SuggestionBox"
+            android:name="com.libratech.mia.activities.SuggestionBox"
             android:label="@string/title_activity_suggestion_box"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.DeleteInStoreSample"
+            android:name="com.libratech.mia.activities.DeleteInStoreSample"
             android:label="@string/title_activity_delete_in_store_sample"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.DeleteDiscountProduct"
+            android:name="com.libratech.mia.activities.DeleteDiscountProduct"
             android:label="@string/title_activity_delete_discount_product"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.DeleteSuggestionBox"
+            android:name="com.libratech.mia.activities.DeleteSuggestionBox"
             android:label="@string/title_activity_delete_suggestion_box"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.Promotions"
+            android:name="com.libratech.mia.activities.Promotions"
             android:label="@string/title_activity_promotions"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.NewProductsControl"
+            android:name="com.libratech.mia.activities.NewProductsControl"
             android:label="@string/title_activity_new_products_control"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.DiscountedProductsControl"
+            android:name="com.libratech.mia.activities.DiscountedProductsControl"
             android:label="@string/title_activity_discounted_products_control"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.BandedProductsControl"
+            android:name="com.libratech.mia.activities.BandedProductsControl"
             android:label="@string/title_activity_banded_products_control"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.InstoreSamplingControl"
+            android:name="com.libratech.mia.activities.InstoreSamplingControl"
             android:label="@string/title_activity_instore_sampling_control"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.FeedbackControl"
+            android:name="com.libratech.mia.activities.FeedbackControl"
             android:label="@string/title_activity_feedback_control"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.SuggestionControl"
+            android:name="com.libratech.mia.activities.SuggestionControl"
             android:label="@string/title_activity_suggestion_control"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.ViewSuggestion"
+            android:name="com.libratech.mia.activities.ViewSuggestion"
             android:label="Suggestions"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.ActivityControl"
+            android:name=".utilities.ActivityControl"
             android:label="View Suggestions"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.AllProductsActivity"
+            android:name="com.libratech.mia.activities.AllProductsActivity"
             android:label="All Products"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.libratech.mia.ViewBanded"
+            android:name="com.libratech.mia.activities.ViewBanded"
             android:label="View Banded"
             android:screenOrientation="portrait" >
         </activity>

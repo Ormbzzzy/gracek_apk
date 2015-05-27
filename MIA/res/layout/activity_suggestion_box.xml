@@ -34,7 +34,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/title_view"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
@@ -105,7 +105,7 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/comments"
+            android:id="@+id/AddComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="50dp"
