@@ -271,7 +271,7 @@ public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 		new GetNewProducts()
 				.execute((DatabaseConnector.getDomain()+"/MIA_mysql.php?newProducts=yes&comp_id=comp-00001&rec_date=" + dateString)
 						.replace(" ", "%20"));
-		EasyTracker.getInstance(this).activityStart(this);
+		
 	}
 
 	private void setupMenu() {
@@ -496,7 +496,7 @@ public class AddNewProduct extends Activity implements iRibbonMenuCallback {
 			return true;
 
 		case R.id.logout:
-			EasyTracker.getInstance(this).activityStop(this);
+			
 			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(i);

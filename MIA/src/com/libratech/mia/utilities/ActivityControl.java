@@ -6,16 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.libratech.mia.R;
-import com.libratech.mia.activities.AddProduct;
-import com.libratech.mia.activities.AddStore;
-import com.libratech.mia.activities.AddUser;
-import com.libratech.mia.activities.AllProductsActivity;
-import com.libratech.mia.activities.DeleteProduct;
-import com.libratech.mia.activities.DeleteStore;
-import com.libratech.mia.activities.DeleteUser;
-import com.libratech.mia.activities.FeedbackActivity;
-import com.libratech.mia.activities.HomeActivity;
-import com.libratech.mia.activities.StoreReviewActivity;
+
+import com.libratech.mia.activities.*;
 
 public class ActivityControl extends Activity {
 
@@ -99,74 +91,55 @@ public class ActivityControl extends Activity {
                 ctx.startActivity(i);
                 break;
 
-            //NOT YET IMPLIMENTED
-            // case R.id.AddDiscount:
-            // i = new Intent(ctx.getApplicationContext(),
-            // AddDiscountProductActivity.class);
-            // b.putString("parent", parent);
-            // i.putExtras(b);
-            // ctx.startActivity(i);
-            // break;
-            // case R.id.AddBanded:
-            // i = new Intent(ctx.getApplicationContext(), AddBandedOffer.class);
-            // b.putString("parent", parent);
-            // i.putExtras(b);
-            // ctx.startActivity(i);
-            // break;
-            // case R.id.Suggestion:
-            // i = new Intent(ctx.getApplicationContext(), SuggestionBox.class);
-            // b.putString("parent", parent);
-            // i.putExtras(b);
-            // ctx.startActivity(i);
-            // break;
-            // case R.id.Sample:
-            // i = new Intent(ctx.getApplicationContext(), InStoreSampling.class);
-            // b.putString("parent", parent);
-            // i.putExtras(b);
-            // ctx.startActivity(i);
-            // break;
-            // case R.id.SuggestionNav:
-            // i = new Intent(ctx.getApplicationContext(), SuggestionBox.class);
-            // b.putString("parent", parent);
-            // i.putExtras(b);
-            // ctx.startActivity(i);
-            // break;
-            // case R.id.newProd:
-            // i = new Intent(ctx.getApplicationContext(), AddNewProduct.class);
-            // b.putString("parent", parent);
-            // i.putExtras(b);
-            // ctx.startActivity(i);
-            // break;
-            // case R.id.PromoNav:
-            // i = new Intent(ctx.getApplicationContext(), Promotions.class);
-            // b.putString("parent", parent);
-            // i.putExtras(b);
-            // ctx.startActivity(i);
-            // break;
-            // case R.id.ViewBanded:
-            // i = new Intent(ctx.getApplicationContext(), ViewBanded.class);
-            // b.putString("parent", parent);
-            // i.putExtras(b);
-            // ctx.startActivity(i);
-            // break;
-            // case R.id.ExpiryNav:
-            // i = new Intent(ctx.getApplicationContext(), DeleteStore.class);
-            // b.putString("parent", parent);
-            // i.putExtras(b);
-            // ctx.startActivity(i);
-            // break;
-            // case R.id.SuggestionNav:
-            // i = new Intent(ctx.getApplicationContext(), DeleteStore.class);
-            // b.putString("parent", parent);
-            // i.putExtras(b);
-            // ctx.startActivity(i);
-            // break;
-            // case R.id.settings:
-            // i = new Intent(ctx.getApplicationContext(), DeleteStore.class);
-            // b.putString("parent", parent);
-            // i.putExtras(b);
-            // ctx.startActivity(i);
-            // break;
+           /* case R.id.AddDiscount:
+                i = new Intent(ctx.getApplicationContext(),
+                        AddDiscountProductActivity.class);
+                b.putString("parent", parent);
+                i.putExtras(b);
+                ctx.startActivity(i);
+                break;
+            case R.id.AddBanded:
+                i = new Intent(ctx.getApplicationContext(), AddBandedOffer.class);
+                b.putString("parent", parent);
+                i.putExtras(b);
+                ctx.startActivity(i);
+                break;*/
+           /* case R.id.Sample:
+                i = new Intent(ctx.getApplicationContext(), InStoreSampling.class);
+                b.putString("parent", parent);
+                i.putExtras(b);
+                ctx.startActivity(i);
+                break;*/
+            case R.id.SuggestionNav:
+                i = new Intent(ctx.getApplicationContext(), SuggestionBox.class);
+                b.putString("parent", parent);
+                i.putExtras(b);
+                ctx.startActivity(i);
+                break;
+            case R.id.newProd:
+                i = new Intent(ctx.getApplicationContext(), AddNewProduct.class);
+                b.putString("parent", parent);
+                i.putExtras(b);
+                ctx.startActivity(i);
+                break;
+            case R.id.PromoNav:
+                i = new Intent(ctx.getApplicationContext(), Promotions.class);
+                b.putString("parent", parent);
+                i.putExtras(b);
+                ctx.startActivity(i);
+                break;
+            /*case R.id.ViewBanded:
+                i = new Intent(ctx.getApplicationContext(), ViewBanded.class);
+                b.putString("parent", parent);
+                i.putExtras(b);
+                ctx.startActivity(i);
+                break;*/
+            case R.id.settings:
+                i = new Intent(ctx.getApplicationContext(), DeleteStore.class);
+                b.putString("parent", parent);
+                i.putExtras(b);
+                ctx.startActivity(i);
+                break;
             default:
                 break;
         }

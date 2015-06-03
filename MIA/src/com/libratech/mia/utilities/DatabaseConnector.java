@@ -1,5 +1,8 @@
 package com.libratech.mia.utilities;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import org.apache.http.HttpEntity;
@@ -19,123 +22,137 @@ import java.util.ArrayList;
 
 public class DatabaseConnector {
 
-	private static final String domain = "http://www.holycrosschurchjm.com";
-	InputStream is;
-	String result;
-	JSONArray jArray;
+    private static final String domain = "http://www.holycrosschurchjm.com";
+    InputStream is;
+    String result;
+    JSONArray jArray;
 
-	public DatabaseConnector() {
-		is = null;
-		result = "";
-		jArray = new JSONArray();
-	}
+    public DatabaseConnector() {
+        is = null;
+        result = "";
+        jArray = new JSONArray();
+    }
 
-	public void clear() {
-		is = null;
-		result = "";
-		jArray = new JSONArray();
-	}
+    public void clear() {
+        is = null;
+        result = "";
+        jArray = new JSONArray();
+    }
 
-	public static String getDomain() {
-		return domain;
-	}
+    public static String getDomain() {
+        return domain;
+    }
 
-	public JSONArray dbPull(String url) {
-		// Download JSON data from URLs
-		try {
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost(url);
-			HttpResponse response = httpclient.execute(httppost);
-			HttpEntity entity = response.getEntity();
-			is = entity.getContent();
+    public static boolean isConnected(Context ctx) {
+        ConnectivityManager connectivity = (ConnectivityManager) ctx
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null)
+                for (int i = 0; i < info.length; i++)
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                        return true;
+                    }
+        }
+        return false;
+    }
 
-		} catch (Exception e) {
-			Log.e("log_tag", "Error in http connection" + e.toString());
-		}
+    public JSONArray dbPull(String url) {
+        // Download JSON data from URLs
+        try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(url);
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+            is = entity.getContent();
 
-		// Convert response to string
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					is, "iso-8859-1"), 8);
-			StringBuilder sb = new StringBuilder();
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				sb.append(line + "\n");
-			}
-			is.close();
-			result = sb.toString();
-		} catch (Exception e) {
-			Log.e("log_tag", "Error converting result " + e.toString());
-			return new JSONArray();
-		}
+        } catch (Exception e) {
+            Log.e("log_tag", "Error in http connection" + e.toString());
+        }
 
-		try {
+        // Convert response to string
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    is, "iso-8859-1"), 8);
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            is.close();
+            result = sb.toString();
+        } catch (Exception e) {
+            Log.e("log_tag", "Error converting result " + e.toString());
+            return new JSONArray();
+        }
 
-			jArray = new JSONArray(result);
-		} catch (JSONException e) {
-			Log.e("log_tag", "Error parsing data " + e.toString());
-			return new JSONArray();
-		}
+        try {
 
-		return jArray;
-	}
+            jArray = new JSONArray(result);
+        } catch (JSONException e) {
+            Log.e("log_tag", "Error parsing data " + e.toString());
+            return new JSONArray();
+        }
 
-	public boolean DBPush(String url) {
+        return jArray;
+    }
 
-		DefaultHttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost(url);
-		// HttpPost httppost = new HttpPost(
-		// "http://www.holycrosschurchjm.com/MIA_mysql.php");
-		try {
-			// httppost.setEntity(new UrlEncodedFormEntity(fields));
-			httpclient.execute(httppost);
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+    public boolean DBPush(String url) {
 
-	public JSONArray DBSubmit(ArrayList<NameValuePair> nvp) {
-		// Download JSON data from URLs
+        DefaultHttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(url);
+        // HttpPost httppost = new HttpPost(
+        // "http://www.holycrosschurchjm.com/MIA_mysql.php");
+        try {
+            // httppost.setEntity(new UrlEncodedFormEntity(fields));
+            httpclient.execute(httppost);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
-		try {
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost(domain + "/MIA_mysql.php");
-			httppost.setEntity(new UrlEncodedFormEntity(nvp));
-			HttpResponse response = httpclient.execute(httppost);
-			HttpEntity entity = response.getEntity();
-			is = entity.getContent();
+    public JSONArray DBSubmit(ArrayList<NameValuePair> nvp) {
+        // Download JSON data from URLs
 
-		} catch (Exception e) {
-			Log.e("log_tag", "Error in http connection" + e.toString());
-		}
+        try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(domain + "/MIA_mysql.php");
+            httppost.setEntity(new UrlEncodedFormEntity(nvp));
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+            is = entity.getContent();
 
-		// Convert response to string
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					is, "iso-8859-1"), 8);
-			StringBuilder sb = new StringBuilder();
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				sb.append(line + "\n");
-			}
-			is.close();
-			result = sb.toString();
-		} catch (Exception e) {
-			Log.e("log_tag", "Error converting result " + e.toString());
-			return new JSONArray();
-		}
-		if (result != null && result.equals("false")) {
+        } catch (Exception e) {
+            Log.e("log_tag", "Error in http connection" + e.toString());
+        }
 
-		} else {
-			try {
-				jArray = new JSONArray(result);
-			} catch (JSONException e) {
-				Log.e("log_tag", "Error parsing data " + e.toString());
-				return new JSONArray();
-			}
-		}
-		return jArray;
-	}
+        // Convert response to string
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    is, "iso-8859-1"), 8);
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            is.close();
+            result = sb.toString();
+        } catch (Exception e) {
+            Log.e("log_tag", "Error converting result " + e.toString());
+            return new JSONArray();
+        }
+        if (result != null && result.equals("false")) {
+
+        } else {
+            try {
+                jArray = new JSONArray(result);
+            } catch (JSONException e) {
+                Log.e("log_tag", "Error parsing data " + e.toString());
+                return new JSONArray();
+            }
+        }
+        return jArray;
+    }
 }

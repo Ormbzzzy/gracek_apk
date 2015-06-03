@@ -229,7 +229,7 @@ public class SuggestionBox extends Activity implements iRibbonMenuCallback {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		EasyTracker.getInstance(this).activityStop(this);
+		
 		finish();
 	}
 
@@ -274,7 +274,7 @@ public class SuggestionBox extends Activity implements iRibbonMenuCallback {
 			return true;
 
 		case R.id.logout:
-			EasyTracker.getInstance(this).activityStop(this);
+			
 			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(i);

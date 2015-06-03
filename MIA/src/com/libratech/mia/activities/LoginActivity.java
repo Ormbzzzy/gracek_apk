@@ -72,14 +72,14 @@ public class LoginActivity extends Activity {
     private Dialog dg;
     private Button confirm;
     private Button cancel;
-    private MySpinner sp;
+    private CustomSpinner sp;
 
     private LocationManager locMan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EasyTracker.getInstance(this).activityStart(this);
+        
         setContentView(R.layout.login_activity);
         startUp();
     }
@@ -121,7 +121,7 @@ public class LoginActivity extends Activity {
         dg.setContentView(R.layout.dialog);
         dg.setTitle("Select Store");
         dg.setCanceledOnTouchOutside(false);
-        sp = (MySpinner) dg.findViewById(R.id.storeSpinner);
+        sp = (CustomSpinner) dg.findViewById(R.id.storeSpinner);
         confirm = (Button) dg.findViewById(R.id.spinnerButton);
         confirm.setOnClickListener(new OnClickListener() {
             @Override
@@ -185,7 +185,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onPause() {
         dg.dismiss();
-        EasyTracker.getInstance(this).activityStop(this);
+        
         pass.setText("");
         super.onPause();
     }
@@ -221,9 +221,6 @@ public class LoginActivity extends Activity {
             try {
                 String[] s = {empID, empPass};
                 new UserLoginTask().execute(s);
-                // new UserLoginTask()
-                // .execute("http://www.holycrosschurchjm.com/MIA_mysql.php?userLogin=yes&username="
-                // + empID + "&password=" + empPass);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -295,17 +292,16 @@ public class LoginActivity extends Activity {
                 String[] user = {id, fName, lName, role};
                 b.putStringArray("user", user);
                 Toast.makeText(getApplicationContext(), "Login successful",
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
                 db.clear();
                 showProgress(false);
                 id = fName = lName = role = "";
                 if (user[3].equals("manager")) {
                     try {
                         startActivity(new Intent(
-                                LoginActivity.this,
-                                Class.forName("com.libratech.mia.StoreReviewActivity"))
+                                getApplicationContext(), StoreReviewActivity.class)
                                 .putExtras(b));
-                    } catch (ClassNotFoundException e) {
+                    } catch (Exception e) {
 
                         e.printStackTrace();
                     }
@@ -314,8 +310,6 @@ public class LoginActivity extends Activity {
                             .execute(DatabaseConnector.getDomain() + "/MIA_mysql.php?workLoc=yes&merch_id="
                                     + user[0]);
                     dg.show();
-                    // new getStores()
-                    // .execute(DatabaseConnector.getDomain()+"/MIA_mysql.php?allStores=yes");
                 }
             } else {
                 pass.setError("Invalid username or password.");
@@ -328,102 +322,102 @@ public class LoginActivity extends Activity {
             showProgress(false);
         }
     }
-
-    class getStores extends AsyncTask<String, Void, JSONArray> {
-        protected JSONArray doInBackground(String... url) {
-            return db.dbPull(url[0]);
-        }
-
-        @Override
-        protected void onPostExecute(JSONArray result) {
-            String code, name, addr, city;
-            code = name = addr = city = "";
-            if (result != null) {
-                for (int i = 0; i < result.length(); i++) {
-                    try {
-                        code = result.getJSONArray(i).getString(0);
-                        name = result.getJSONArray(i).getString(1);
-                        addr = result.getJSONArray(i).getString(2);
-                        city = result.getJSONArray(i).getString(3);
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
-                    tempStores.add(new Store(code, name, addr, city));
-                }
-                new getLocation().execute(tempStores);
-            }
-        }
-    }
-
-    class getLocation extends
-            AsyncTask<ArrayList<Store>, Void, ArrayList<Store>> {
-        protected ArrayList<Store> doInBackground(ArrayList<Store>... store) {
-
-            List<Address> addresses;
-            Geocoder geocoder = new Geocoder(LoginActivity.this);
-            spinList.clear();
-            stores.clear();
-            try {
-                for (int i = 0; i < store[0].size(); i++) {
-                    Store s = store[0].get(i);
-                    addresses = geocoder.getFromLocationName(s.getAddress()
-                            + "," + s.getCity() + ", jamaica", 1);
-                    if (addresses.size() > 0) {
-                        double latitude = addresses.get(0).getLatitude();
-                        double longitude = addresses.get(0).getLongitude();
-                        storeLoc.setLatitude(latitude);
-                        storeLoc.setLongitude(longitude);
-                        Log.d("Store Location",
-                                s.getCompanyName() + " "
-                                        + storeLoc.getLatitude() + " "
-                                        + storeLoc.getLongitude()
-                                        + "Distance: "
-                                        + curLoc.distanceTo(storeLoc) + "m "
-                                        + "addr + city");
-                        if (curLoc.distanceTo(storeLoc) < 40000) {
-                            Log.d("Added", s.getCompanyName());
-                            spinList.add(s.getCompanyName());
-                            stores.add(s);
-                        }
-                    } else {
-                        addresses = geocoder.getFromLocationName(s.getAddress()
-                                + ",jamaica", 1);
-                        if (addresses.size() > 0) {
-                            double latitude = addresses.get(0).getLatitude();
-                            double longitude = addresses.get(0).getLongitude();
-                            storeLoc.setLatitude(latitude);
-                            storeLoc.setLongitude(longitude);
-                            Log.d("Store Location",
-                                    s.getCompanyName() + " "
-                                            + storeLoc.getLatitude() + " "
-                                            + storeLoc.getLongitude()
-                                            + "Distance: "
-                                            + curLoc.distanceTo(storeLoc)
-                                            + "m " + "addr");
-                            if (curLoc.distanceTo(storeLoc) < 40000) {
-                                Log.d("Added", s.getCompanyName());
-                                spinList.add(s.getCompanyName());
-                                stores.add(s);
-                            }
-                        }
-                    }
-                }
-            } catch (IOException e) {
-
-                e.printStackTrace();
-                new getLocation().execute(tempStores);
-            }
-            // spinList.add(0, "- Please select a store -");
-            return store[0];
-        }
-
-        protected void onPostExecute(ArrayList<Store> store) {
-            // adapter = new SpinnerAdapter(LoginActivity.this,
-            // android.R.layout.simple_spinner_item, spinList);
-            // sp.setAdapter(adapter);
-            // adapter.notifyDataSetChanged();
-        }
-    }
+    // GPS SERVICES (REMOVED UNTTIL A POSSIBLE FUTURE VERSION)
+//    class getStores extends AsyncTask<String, Void, JSONArray> {
+//        protected JSONArray doInBackground(String... url) {
+//            return db.dbPull(url[0]);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(JSONArray result) {
+//            String code, name, addr, city;
+//            code = name = addr = city = "";
+//            if (result != null) {
+//                for (int i = 0; i < result.length(); i++) {
+//                    try {
+//                        code = result.getJSONArray(i).getString(0);
+//                        name = result.getJSONArray(i).getString(1);
+//                        addr = result.getJSONArray(i).getString(2);
+//                        city = result.getJSONArray(i).getString(3);
+//                    } catch (JSONException e1) {
+//                        e1.printStackTrace();
+//                    }
+//                    tempStores.add(new Store(code, name, addr, city));
+//                }
+//                new getLocation().execute(tempStores);
+//            }
+//        }
+//    }
+//
+//    class getLocation extends
+//            AsyncTask<ArrayList<Store>, Void, ArrayList<Store>> {
+//        protected ArrayList<Store> doInBackground(ArrayList<Store>... store) {
+//
+//            List<Address> addresses;
+//            Geocoder geocoder = new Geocoder(LoginActivity.this);
+//            spinList.clear();
+//            stores.clear();
+//            try {
+//                for (int i = 0; i < store[0].size(); i++) {
+//                    Store s = store[0].get(i);
+//                    addresses = geocoder.getFromLocationName(s.getAddress()
+//                            + "," + s.getCity() + ", jamaica", 1);
+//                    if (addresses.size() > 0) {
+//                        double latitude = addresses.get(0).getLatitude();
+//                        double longitude = addresses.get(0).getLongitude();
+//                        storeLoc.setLatitude(latitude);
+//                        storeLoc.setLongitude(longitude);
+//                        Log.d("Store Location",
+//                                s.getCompanyName() + " "
+//                                        + storeLoc.getLatitude() + " "
+//                                        + storeLoc.getLongitude()
+//                                        + "Distance: "
+//                                        + curLoc.distanceTo(storeLoc) + "m "
+//                                        + "addr + city");
+//                        if (curLoc.distanceTo(storeLoc) < 40000) {
+//                            Log.d("Added", s.getCompanyName());
+//                            spinList.add(s.getCompanyName());
+//                            stores.add(s);
+//                        }
+//                    } else {
+//                        addresses = geocoder.getFromLocationName(s.getAddress()
+//                                + ",jamaica", 1);
+//                        if (addresses.size() > 0) {
+//                            double latitude = addresses.get(0).getLatitude();
+//                            double longitude = addresses.get(0).getLongitude();
+//                            storeLoc.setLatitude(latitude);
+//                            storeLoc.setLongitude(longitude);
+//                            Log.d("Store Location",
+//                                    s.getCompanyName() + " "
+//                                            + storeLoc.getLatitude() + " "
+//                                            + storeLoc.getLongitude()
+//                                            + "Distance: "
+//                                            + curLoc.distanceTo(storeLoc)
+//                                            + "m " + "addr");
+//                            if (curLoc.distanceTo(storeLoc) < 40000) {
+//                                Log.d("Added", s.getCompanyName());
+//                                spinList.add(s.getCompanyName());
+//                                stores.add(s);
+//                            }
+//                        }
+//                    }
+//                }
+//            } catch (IOException e) {
+//
+//                e.printStackTrace();
+//                new getLocation().execute(tempStores);
+//            }
+//            // spinList.add(0, "- Please select a store -");
+//            return store[0];
+//        }
+//
+//        protected void onPostExecute(ArrayList<Store> store) {
+//            // adapter = new SpinnerAdapter(LoginActivity.this,
+//            // android.R.layout.simple_spinner_item, spinList);
+//            // sp.setAdapter(adapter);
+//            // adapter.notifyDataSetChanged();
+//        }
+//    }
 
     class getStoreInfo extends AsyncTask<String, Void, JSONArray> {
         protected JSONArray doInBackground(String... url) {
@@ -460,14 +454,12 @@ public class LoginActivity extends Activity {
     private void setupLoginForm() {
         id = (EditText) findViewById(R.id.empID);
         pass = (EditText) findViewById(R.id.password);
-        // id.setText("MAN-00001");
-        // pass.setText("boss1");
         pass.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id,
                                           KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    if (!isConnected()) {
+                    if (!DatabaseConnector.isConnected(getApplicationContext())) {
                         Toast.makeText(
                                 LoginActivity.this,
                                 "No network connection. Please check your connection and try again.",
@@ -490,7 +482,7 @@ public class LoginActivity extends Activity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (!isConnected()) {
+                        if (!DatabaseConnector.isConnected(getApplicationContext())) {
                             Toast.makeText(
                                     LoginActivity.this,
                                     "No network connection. Please check your connection and try again.",
@@ -501,20 +493,6 @@ public class LoginActivity extends Activity {
                         }
                     }
                 });
-    }
-
-    public boolean isConnected() {
-        ConnectivityManager connectivity = (ConnectivityManager) this
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity != null) {
-            NetworkInfo[] info = connectivity.getAllNetworkInfo();
-            if (info != null)
-                for (int i = 0; i < info.length; i++)
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-                        return true;
-                    }
-        }
-        return false;
     }
 
     private Location getBestLocation() {

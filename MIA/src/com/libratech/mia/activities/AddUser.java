@@ -129,29 +129,33 @@ public class AddUser extends Activity implements iRibbonMenuCallback {
 					pw2.setError("Passowrds do not match");
 					pw2.requestFocus();
 				} else {
-					if (!userRole.equalsIgnoreCase("manager")) {
-						new pushUser()
-								.execute((DatabaseConnector.getDomain()+"/MIA_mysql.php?addMerchUser=yes&emp_id="
-										+ id.getText()
-										+ "&fname="
-										+ fName.getText()
-										+ "&lname="
-										+ lName.getText()
-										+ "&role=merchandiser&password="
-										+ pw.getText() + "&comp_id=" + assignedStore)
-										.replace(" ", "%20"));
-					} else {
-						new pushUser()
-								.execute((DatabaseConnector.getDomain()+"/MIA_mysql.php?addUser=yes&emp_id="
-										+ id.getText()
-										+ "&fname="
-										+ fName.getText()
-										+ "&lname="
-										+ lName.getText()
-										+ "&role="
-										+ userRole
-										+ "&password=" + pw.getText()).replace(
-										" ", "%20"));
+					if(DatabaseConnector.isConnected(getApplicationContext())) {
+						if (!userRole.equalsIgnoreCase("manager")) {
+							new pushUser()
+									.execute((DatabaseConnector.getDomain() + "/MIA_mysql.php?addMerchUser=yes&emp_id="
+											+ id.getText()
+											+ "&fname="
+											+ fName.getText()
+											+ "&lname="
+											+ lName.getText()
+											+ "&role=merchandiser&password="
+											+ pw.getText() + "&comp_id=" + assignedStore)
+											.replace(" ", "%20"));
+						} else {
+							new pushUser()
+									.execute((DatabaseConnector.getDomain() + "/MIA_mysql.php?addUser=yes&emp_id="
+											+ id.getText()
+											+ "&fname="
+											+ fName.getText()
+											+ "&lname="
+											+ lName.getText()
+											+ "&role="
+											+ userRole
+											+ "&password=" + pw.getText()).replace(
+											" ", "%20"));
+						}
+					}else{
+						Toast.makeText(getApplicationContext(), "Please check your connection and try again.", Toast.LENGTH_SHORT).show();
 					}
 				}
 			}
@@ -264,7 +268,7 @@ public class AddUser extends Activity implements iRibbonMenuCallback {
 			return true;
 
 		case R.id.logout:
-			EasyTracker.getInstance(this).activityStop(this);
+			
 			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(i);
@@ -280,7 +284,7 @@ public class AddUser extends Activity implements iRibbonMenuCallback {
 	@Override
 	public void onPause() {
 		super.onPause();
-		EasyTracker.getInstance(this).activityStop(this);
+		
 		finish();
 	}
 

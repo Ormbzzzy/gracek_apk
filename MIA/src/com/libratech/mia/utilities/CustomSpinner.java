@@ -14,17 +14,17 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import com.libratech.mia.R;
-public class MySpinner extends Spinner {
+public class CustomSpinner extends Spinner {
 
-	public MySpinner(Context context) {
+	public CustomSpinner(Context context) {
 		super(context);
 	}
 
-	public MySpinner(Context context, AttributeSet attrs) {
+	public CustomSpinner(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public MySpinner(Context context, AttributeSet attrs, int defStyle) {
+	public CustomSpinner(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 

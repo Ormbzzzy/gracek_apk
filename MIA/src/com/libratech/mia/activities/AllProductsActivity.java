@@ -141,7 +141,7 @@ public class AllProductsActivity extends Activity implements
             new getProducts()
                     .execute(DatabaseConnector.getDomain() + "/MIA_mysql.php?allproducts=yes");
         }
-        EasyTracker.getInstance(this).activityStart(this);
+        
         getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -294,7 +294,7 @@ public class AllProductsActivity extends Activity implements
 
     @Override
     protected void onPause() {
-        EasyTracker.getInstance(this).activityStop(this);
+        
         super.onPause();
     }
 

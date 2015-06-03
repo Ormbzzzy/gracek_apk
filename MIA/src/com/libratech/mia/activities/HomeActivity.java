@@ -94,7 +94,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
         dg.setCanceledOnTouchOutside(false);
         adapter = new SpinnerAdapter(HomeActivity.this,
                 android.R.layout.simple_spinner_item, spinList);
-        sp = (MySpinner) dg.findViewById(R.id.storeSpinner);
+        sp = (CustomSpinner) dg.findViewById(R.id.storeSpinner);
         confirm = (Button) dg.findViewById(R.id.spinnerButton);
         confirm.setOnClickListener(new OnClickListener() {
             @Override
@@ -258,7 +258,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
                     "No network connection, please check your connection and reload the application",
                     Toast.LENGTH_LONG).show();
         }
-        EasyTracker.getInstance(this).activityStart(this);
+        
         getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -365,7 +365,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
             listLoad.setVisibility(View.GONE);
             // listview.setVisibility(View.VISIBLE);
         }
-        // EasyTracker.getInstance(this).activityStart(this);
+        // 
     }
 
     class getStoreInfo extends AsyncTask<String, Void, JSONArray> {
@@ -412,7 +412,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        EasyTracker.getInstance(this).activityStop(this);
+        
         startActivity(intent);
     }
 
@@ -433,7 +433,7 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
                 return true;
 
             case R.id.logout:
-                EasyTracker.getInstance(this).activityStop(this);
+                
                 Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
@@ -472,26 +472,6 @@ public class HomeActivity extends Activity implements iRibbonMenuCallback {
                         .show();
             }
         }
-        // try {
-        // if (data.hasExtra("updated")) {
-        // if (isConnected()) {
-        // all = true;
-        // aProducts.clear();
-        // listLoad.setVisibility(View.VISIBLE);
-        // listview.setVisibility(View.GONE);
-        // Toast.makeText(getApplicationContext(), "That one",
-        // Toast.LENGTH_SHORT).show();
-        // new getProducts()
-        // .execute(DatabaseConnector.getDomain()+"/MIA_mysql.php?allproducts=yes");
-        // } else {
-        // Toast.makeText(getApplicationContext(),
-        // "Please check your connection.", Toast.LENGTH_SHORT)
-        // .show();
-        // }
-        // }
-        // } catch (NullPointerException e) {
-        // e.printStackTrace();
-        // }
     }
 
     public boolean isConnected() {

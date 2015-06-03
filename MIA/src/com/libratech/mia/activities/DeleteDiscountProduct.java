@@ -57,7 +57,7 @@ public class DeleteDiscountProduct extends Activity implements
 		discounts = (View) findViewById(R.id.discounts);
 		discounts.setVisibility(View.VISIBLE);
 		upc = (TextView) details.findViewById(R.id.upc);
-		dList = (ListView) discounts.findViewById(R.id.delDiscounts);
+		dList = (ListView) discounts.findViewById(R.id.discountList);
 		name = (TextView) details.findViewById(R.id.Name);
 		brand = (TextView) details.findViewById(R.id.Brand);
 		weight = (TextView) details.findViewById(R.id.weight);

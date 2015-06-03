@@ -247,7 +247,7 @@ public class ViewNewProduct extends Activity implements iRibbonMenuCallback {
 					.execute(DatabaseConnector.getDomain()+"/MIA_mysql.php?newProducts=yes&comp_id="
 							+ compId + "&rec_date=" + dateString);
 		}
-		EasyTracker.getInstance(this).activityStart(this);
+		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
@@ -481,7 +481,7 @@ public class ViewNewProduct extends Activity implements iRibbonMenuCallback {
 
 	@Override
 	protected void onPause() {
-		EasyTracker.getInstance(this).activityStop(this);
+		
 		super.onPause();
 	}
 

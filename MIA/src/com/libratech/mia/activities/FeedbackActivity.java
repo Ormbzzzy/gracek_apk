@@ -358,7 +358,7 @@ public class FeedbackActivity extends Activity implements iRibbonMenuCallback {
 
 		case R.id.logout:
 
-			EasyTracker.getInstance(this).activityStop(this);
+			
 			Intent j = new Intent(getApplicationContext(), LoginActivity.class);
 			j.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(j);

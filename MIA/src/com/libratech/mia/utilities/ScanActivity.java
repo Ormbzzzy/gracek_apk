@@ -55,8 +55,7 @@ public class ScanActivity extends CaptureActivity {
                 }
             } else {
                 startActivity(new Intent(
-                        ScanActivity.this,
-                        Class.forName("com.libratech.mia.UpdateProductActivity"))
+                        getApplicationContext(), UpdateProductActivity.class)
                         .putExtras(b));
             }
         } catch (Exception e) {
